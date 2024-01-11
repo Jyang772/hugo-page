@@ -2,37 +2,37 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Number Theory on Algorithmica</title>
-    <link>https://en.algorithmica.org/hpc/number-theory/</link>
+    <link>https://jyang772.github.io/hugo-page/hpc/number-theory/</link>
     <description>Recent content in Number Theory on Algorithmica</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <atom:link href="https://en.algorithmica.org/hpc/number-theory/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="https://jyang772.github.io/hugo-page/hpc/number-theory/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Modular Arithmetic</title>
-      <link>https://en.algorithmica.org/hpc/number-theory/modular/</link>
+      <link>https://jyang772.github.io/hugo-page/hpc/number-theory/modular/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      <guid>https://en.algorithmica.org/hpc/number-theory/modular/</guid>
+      <guid>https://jyang772.github.io/hugo-page/hpc/number-theory/modular/</guid>
       <description>Computers usually store time as the number of seconds that have passed since the 1st of January, 1970 — the start of the &amp;ldquo;Unix era&amp;rdquo; — and use these timestamps in all computations that have to do with time.&#xA;We humans also keep track of time relative to some point in the past, which usually has a political or religious significance. For example, at the moment of writing, approximately 63882260594 seconds have passed since 1 AD — 6th century Eastern Roman monks&amp;rsquo; best estimate of the day Jesus Christ was born.</description>
     </item>
     <item>
       <title>Binary Exponentiation</title>
-      <link>https://en.algorithmica.org/hpc/number-theory/exponentiation/</link>
+      <link>https://jyang772.github.io/hugo-page/hpc/number-theory/exponentiation/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      <guid>https://en.algorithmica.org/hpc/number-theory/exponentiation/</guid>
+      <guid>https://jyang772.github.io/hugo-page/hpc/number-theory/exponentiation/</guid>
       <description>In modular arithmetic (and computational algebra in general), you often need to raise a number to the $n$-th power — to do modular division, perform primality tests, or compute some combinatorial values — ­and you usually want to spend fewer than $\Theta(n)$ operations calculating it.&#xA;Binary exponentiation, also known as exponentiation by squaring, is a method that allows for computation of the $n$-th power using $O(\log n)$ multiplications, relying on the following observation:</description>
     </item>
     <item>
       <title>Extended Euclidean Algorithm</title>
-      <link>https://en.algorithmica.org/hpc/number-theory/euclid-extended/</link>
+      <link>https://jyang772.github.io/hugo-page/hpc/number-theory/euclid-extended/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      <guid>https://en.algorithmica.org/hpc/number-theory/euclid-extended/</guid>
+      <guid>https://jyang772.github.io/hugo-page/hpc/number-theory/euclid-extended/</guid>
       <description>Fermat’s theorem allows us to calculate modular multiplicative inverses through binary exponentiation in $O(\log n)$ operations, but it only works with prime modula. There is a generalization of it, Euler&amp;rsquo;s theorem, stating that if $m$ and $a$ are coprime, then&#xA;$$ a^{\phi(m)} \equiv 1 \pmod m $$&#xA;where $\phi(m)$ is Euler&amp;rsquo;s totient function defined as the number of positive integers $x &amp;lt; m$ that are coprime with $m$. In the special case when $m$ is a prime, then all the $m - 1$ residues are coprime and $\phi(m) = m - 1$, yielding the Fermat&amp;rsquo;s theorem.</description>
     </item>
     <item>
       <title>Montgomery Multiplication</title>
-      <link>https://en.algorithmica.org/hpc/number-theory/montgomery/</link>
+      <link>https://jyang772.github.io/hugo-page/hpc/number-theory/montgomery/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      <guid>https://en.algorithmica.org/hpc/number-theory/montgomery/</guid>
+      <guid>https://jyang772.github.io/hugo-page/hpc/number-theory/montgomery/</guid>
       <description>Unsurprisingly, a large fraction of computation in modular arithmetic is often spent on calculating the modulo operation, which is as slow as general integer division and typically takes 15-20 cycles, depending on the operand size.&#xA;The best way to deal this nuisance is to avoid modulo operation altogether, delaying or replacing it with predication, which can be done, for example, when calculating modular sums:&#xA;const int M = 1e9 + 7; // input: array of n integers in the [0, M) range // output: sum modulo M int slow_sum(int *a, int n) { int s = 0; for (int i = 0; i &amp;lt; n; i++) s = (s + a[i]) % M; return s; } int fast_sum(int *a, int n) { int s = 0; for (int i = 0; i &amp;lt; n; i++) { s += a[i]; // s &amp;lt; 2 * M s = (s &amp;gt;= M ?</description>
     </item>
   </channel>

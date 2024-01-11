@@ -2,171 +2,171 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>https://en.algorithmica.org/hpc/architecture/isa/</loc>
+    <loc>https://jyang772.github.io/hugo-page/hpc/architecture/isa/</loc>
   </url><url>
-    <loc>https://en.algorithmica.org/hpc/architecture/assembly/</loc>
+    <loc>https://jyang772.github.io/hugo-page/hpc/architecture/assembly/</loc>
   </url><url>
-    <loc>https://en.algorithmica.org/hpc/algorithms/gcd/</loc>
+    <loc>https://jyang772.github.io/hugo-page/hpc/algorithms/gcd/</loc>
   </url><url>
-    <loc>https://en.algorithmica.org/hpc/data-structures/binary-search/</loc>
+    <loc>https://jyang772.github.io/hugo-page/hpc/data-structures/binary-search/</loc>
   </url><url>
-    <loc>https://en.algorithmica.org/hpc/complexity/</loc>
+    <loc>https://jyang772.github.io/hugo-page/hpc/complexity/</loc>
   </url><url>
-    <loc>https://en.algorithmica.org/hpc/arithmetic/float/</loc>
+    <loc>https://jyang772.github.io/hugo-page/hpc/arithmetic/float/</loc>
   </url><url>
-    <loc>https://en.algorithmica.org/hpc/profiling/instrumentation/</loc>
+    <loc>https://jyang772.github.io/hugo-page/hpc/profiling/instrumentation/</loc>
   </url><url>
-    <loc>https://en.algorithmica.org/hpc/simd/intrinsics/</loc>
+    <loc>https://jyang772.github.io/hugo-page/hpc/simd/intrinsics/</loc>
   </url><url>
-    <loc>https://en.algorithmica.org/hpc/cpu-cache/bandwidth/</loc>
+    <loc>https://jyang772.github.io/hugo-page/hpc/cpu-cache/bandwidth/</loc>
   </url><url>
-    <loc>https://en.algorithmica.org/hpc/external-memory/hierarchy/</loc>
+    <loc>https://jyang772.github.io/hugo-page/hpc/external-memory/hierarchy/</loc>
   </url><url>
-    <loc>https://en.algorithmica.org/hpc/complexity/hardware/</loc>
+    <loc>https://jyang772.github.io/hugo-page/hpc/complexity/hardware/</loc>
   </url><url>
-    <loc>https://en.algorithmica.org/hpc/number-theory/modular/</loc>
+    <loc>https://jyang772.github.io/hugo-page/hpc/number-theory/modular/</loc>
   </url><url>
-    <loc>https://en.algorithmica.org/hpc/pipelining/hazards/</loc>
+    <loc>https://jyang772.github.io/hugo-page/hpc/pipelining/hazards/</loc>
   </url><url>
-    <loc>https://en.algorithmica.org/hpc/compilation/stages/</loc>
+    <loc>https://jyang772.github.io/hugo-page/hpc/compilation/stages/</loc>
   </url><url>
-    <loc>https://en.algorithmica.org/hpc/number-theory/exponentiation/</loc>
+    <loc>https://jyang772.github.io/hugo-page/hpc/number-theory/exponentiation/</loc>
   </url><url>
-    <loc>https://en.algorithmica.org/hpc/architecture/</loc>
+    <loc>https://jyang772.github.io/hugo-page/hpc/architecture/</loc>
   </url><url>
-    <loc>https://en.algorithmica.org/hpc/compilation/flags/</loc>
+    <loc>https://jyang772.github.io/hugo-page/hpc/compilation/flags/</loc>
   </url><url>
-    <loc>https://en.algorithmica.org/hpc/arithmetic/ieee-754/</loc>
+    <loc>https://jyang772.github.io/hugo-page/hpc/arithmetic/ieee-754/</loc>
   </url><url>
-    <loc>https://en.algorithmica.org/hpc/architecture/loops/</loc>
+    <loc>https://jyang772.github.io/hugo-page/hpc/architecture/loops/</loc>
   </url><url>
-    <loc>https://en.algorithmica.org/hpc/cpu-cache/latency/</loc>
+    <loc>https://jyang772.github.io/hugo-page/hpc/cpu-cache/latency/</loc>
   </url><url>
-    <loc>https://en.algorithmica.org/hpc/simd/moving/</loc>
+    <loc>https://jyang772.github.io/hugo-page/hpc/simd/moving/</loc>
   </url><url>
-    <loc>https://en.algorithmica.org/hpc/complexity/languages/</loc>
+    <loc>https://jyang772.github.io/hugo-page/hpc/complexity/languages/</loc>
   </url><url>
-    <loc>https://en.algorithmica.org/hpc/arithmetic/errors/</loc>
+    <loc>https://jyang772.github.io/hugo-page/hpc/arithmetic/errors/</loc>
   </url><url>
-    <loc>https://en.algorithmica.org/hpc/data-structures/s-tree/</loc>
+    <loc>https://jyang772.github.io/hugo-page/hpc/data-structures/s-tree/</loc>
   </url><url>
-    <loc>https://en.algorithmica.org/hpc/profiling/events/</loc>
+    <loc>https://jyang772.github.io/hugo-page/hpc/profiling/events/</loc>
   </url><url>
-    <loc>https://en.algorithmica.org/hpc/pipelining/branching/</loc>
+    <loc>https://jyang772.github.io/hugo-page/hpc/pipelining/branching/</loc>
   </url><url>
-    <loc>https://en.algorithmica.org/hpc/external-memory/virtual/</loc>
+    <loc>https://jyang772.github.io/hugo-page/hpc/external-memory/virtual/</loc>
   </url><url>
-    <loc>https://en.algorithmica.org/hpc/pipelining/branchless/</loc>
+    <loc>https://jyang772.github.io/hugo-page/hpc/pipelining/branchless/</loc>
   </url><url>
-    <loc>https://en.algorithmica.org/hpc/cpu-cache/cache-lines/</loc>
+    <loc>https://jyang772.github.io/hugo-page/hpc/cpu-cache/cache-lines/</loc>
   </url><url>
-    <loc>https://en.algorithmica.org/hpc/number-theory/euclid-extended/</loc>
+    <loc>https://jyang772.github.io/hugo-page/hpc/number-theory/euclid-extended/</loc>
   </url><url>
-    <loc>https://en.algorithmica.org/hpc/external-memory/model/</loc>
+    <loc>https://jyang772.github.io/hugo-page/hpc/external-memory/model/</loc>
   </url><url>
-    <loc>https://en.algorithmica.org/hpc/architecture/functions/</loc>
+    <loc>https://jyang772.github.io/hugo-page/hpc/architecture/functions/</loc>
   </url><url>
-    <loc>https://en.algorithmica.org/hpc/pipelining/tables/</loc>
+    <loc>https://jyang772.github.io/hugo-page/hpc/pipelining/tables/</loc>
   </url><url>
-    <loc>https://en.algorithmica.org/hpc/pipelining/</loc>
+    <loc>https://jyang772.github.io/hugo-page/hpc/pipelining/</loc>
   </url><url>
-    <loc>https://en.algorithmica.org/hpc/algorithms/factorization/</loc>
+    <loc>https://jyang772.github.io/hugo-page/hpc/algorithms/factorization/</loc>
   </url><url>
-    <loc>https://en.algorithmica.org/hpc/cpu-cache/sharing/</loc>
+    <loc>https://jyang772.github.io/hugo-page/hpc/cpu-cache/sharing/</loc>
   </url><url>
-    <loc>https://en.algorithmica.org/hpc/arithmetic/newton/</loc>
+    <loc>https://jyang772.github.io/hugo-page/hpc/arithmetic/newton/</loc>
   </url><url>
-    <loc>https://en.algorithmica.org/hpc/profiling/simulation/</loc>
+    <loc>https://jyang772.github.io/hugo-page/hpc/profiling/simulation/</loc>
   </url><url>
-    <loc>https://en.algorithmica.org/hpc/simd/reduction/</loc>
+    <loc>https://jyang772.github.io/hugo-page/hpc/simd/reduction/</loc>
   </url><url>
-    <loc>https://en.algorithmica.org/hpc/data-structures/b-tree/</loc>
+    <loc>https://jyang772.github.io/hugo-page/hpc/data-structures/b-tree/</loc>
   </url><url>
-    <loc>https://en.algorithmica.org/hpc/compilation/situational/</loc>
+    <loc>https://jyang772.github.io/hugo-page/hpc/compilation/situational/</loc>
   </url><url>
-    <loc>https://en.algorithmica.org/hpc/compilation/</loc>
+    <loc>https://jyang772.github.io/hugo-page/hpc/compilation/</loc>
   </url><url>
-    <loc>https://en.algorithmica.org/hpc/external-memory/sorting/</loc>
+    <loc>https://jyang772.github.io/hugo-page/hpc/external-memory/sorting/</loc>
   </url><url>
-    <loc>https://en.algorithmica.org/hpc/arithmetic/rsqrt/</loc>
+    <loc>https://jyang772.github.io/hugo-page/hpc/arithmetic/rsqrt/</loc>
   </url><url>
-    <loc>https://en.algorithmica.org/hpc/architecture/indirect/</loc>
+    <loc>https://jyang772.github.io/hugo-page/hpc/architecture/indirect/</loc>
   </url><url>
-    <loc>https://en.algorithmica.org/hpc/profiling/mca/</loc>
+    <loc>https://jyang772.github.io/hugo-page/hpc/profiling/mca/</loc>
   </url><url>
-    <loc>https://en.algorithmica.org/hpc/simd/masking/</loc>
+    <loc>https://jyang772.github.io/hugo-page/hpc/simd/masking/</loc>
   </url><url>
-    <loc>https://en.algorithmica.org/hpc/number-theory/montgomery/</loc>
+    <loc>https://jyang772.github.io/hugo-page/hpc/number-theory/montgomery/</loc>
   </url><url>
-    <loc>https://en.algorithmica.org/hpc/data-structures/segment-trees/</loc>
+    <loc>https://jyang772.github.io/hugo-page/hpc/data-structures/segment-trees/</loc>
   </url><url>
-    <loc>https://en.algorithmica.org/hpc/pipelining/throughput/</loc>
+    <loc>https://jyang772.github.io/hugo-page/hpc/pipelining/throughput/</loc>
   </url><url>
-    <loc>https://en.algorithmica.org/hpc/</loc>
+    <loc>https://jyang772.github.io/hugo-page/hpc/</loc>
   </url><url>
-    <loc>https://en.algorithmica.org/hpc/arithmetic/integer/</loc>
+    <loc>https://jyang772.github.io/hugo-page/hpc/arithmetic/integer/</loc>
   </url><url>
-    <loc>https://en.algorithmica.org/hpc/external-memory/list-ranking/</loc>
+    <loc>https://jyang772.github.io/hugo-page/hpc/external-memory/list-ranking/</loc>
   </url><url>
-    <loc>https://en.algorithmica.org/hpc/cpu-cache/mlp/</loc>
+    <loc>https://jyang772.github.io/hugo-page/hpc/cpu-cache/mlp/</loc>
   </url><url>
-    <loc>https://en.algorithmica.org/hpc/profiling/</loc>
+    <loc>https://jyang772.github.io/hugo-page/hpc/profiling/</loc>
   </url><url>
-    <loc>https://en.algorithmica.org/hpc/arithmetic/</loc>
+    <loc>https://jyang772.github.io/hugo-page/hpc/arithmetic/</loc>
   </url><url>
-    <loc>https://en.algorithmica.org/hpc/profiling/benchmarking/</loc>
+    <loc>https://jyang772.github.io/hugo-page/hpc/profiling/benchmarking/</loc>
   </url><url>
-    <loc>https://en.algorithmica.org/hpc/compilation/contracts/</loc>
+    <loc>https://jyang772.github.io/hugo-page/hpc/compilation/contracts/</loc>
   </url><url>
-    <loc>https://en.algorithmica.org/hpc/external-memory/policies/</loc>
+    <loc>https://jyang772.github.io/hugo-page/hpc/external-memory/policies/</loc>
   </url><url>
-    <loc>https://en.algorithmica.org/hpc/simd/shuffling/</loc>
+    <loc>https://jyang772.github.io/hugo-page/hpc/simd/shuffling/</loc>
   </url><url>
-    <loc>https://en.algorithmica.org/hpc/arithmetic/division/</loc>
+    <loc>https://jyang772.github.io/hugo-page/hpc/arithmetic/division/</loc>
   </url><url>
-    <loc>https://en.algorithmica.org/hpc/cpu-cache/prefetching/</loc>
+    <loc>https://jyang772.github.io/hugo-page/hpc/cpu-cache/prefetching/</loc>
   </url><url>
-    <loc>https://en.algorithmica.org/hpc/algorithms/argmin/</loc>
+    <loc>https://jyang772.github.io/hugo-page/hpc/algorithms/argmin/</loc>
   </url><url>
-    <loc>https://en.algorithmica.org/hpc/external-memory/oblivious/</loc>
+    <loc>https://jyang772.github.io/hugo-page/hpc/external-memory/oblivious/</loc>
   </url><url>
-    <loc>https://en.algorithmica.org/hpc/number-theory/</loc>
+    <loc>https://jyang772.github.io/hugo-page/hpc/number-theory/</loc>
   </url><url>
-    <loc>https://en.algorithmica.org/hpc/cpu-cache/alignment/</loc>
+    <loc>https://jyang772.github.io/hugo-page/hpc/cpu-cache/alignment/</loc>
   </url><url>
-    <loc>https://en.algorithmica.org/hpc/external-memory/</loc>
+    <loc>https://jyang772.github.io/hugo-page/hpc/external-memory/</loc>
   </url><url>
-    <loc>https://en.algorithmica.org/hpc/compilation/precalc/</loc>
+    <loc>https://jyang772.github.io/hugo-page/hpc/compilation/precalc/</loc>
   </url><url>
-    <loc>https://en.algorithmica.org/hpc/algorithms/prefix/</loc>
+    <loc>https://jyang772.github.io/hugo-page/hpc/algorithms/prefix/</loc>
   </url><url>
-    <loc>https://en.algorithmica.org/hpc/external-memory/locality/</loc>
+    <loc>https://jyang772.github.io/hugo-page/hpc/external-memory/locality/</loc>
   </url><url>
-    <loc>https://en.algorithmica.org/hpc/cpu-cache/</loc>
+    <loc>https://jyang772.github.io/hugo-page/hpc/cpu-cache/</loc>
   </url><url>
-    <loc>https://en.algorithmica.org/hpc/simd/auto-vectorization/</loc>
+    <loc>https://jyang772.github.io/hugo-page/hpc/simd/auto-vectorization/</loc>
   </url><url>
-    <loc>https://en.algorithmica.org/hpc/profiling/noise/</loc>
+    <loc>https://jyang772.github.io/hugo-page/hpc/profiling/noise/</loc>
   </url><url>
-    <loc>https://en.algorithmica.org/hpc/architecture/layout/</loc>
+    <loc>https://jyang772.github.io/hugo-page/hpc/architecture/layout/</loc>
   </url><url>
-    <loc>https://en.algorithmica.org/hpc/cpu-cache/pointers/</loc>
+    <loc>https://jyang772.github.io/hugo-page/hpc/cpu-cache/pointers/</loc>
   </url><url>
-    <loc>https://en.algorithmica.org/hpc/simd/</loc>
+    <loc>https://jyang772.github.io/hugo-page/hpc/simd/</loc>
   </url><url>
-    <loc>https://en.algorithmica.org/hpc/algorithms/</loc>
+    <loc>https://jyang772.github.io/hugo-page/hpc/algorithms/</loc>
   </url><url>
-    <loc>https://en.algorithmica.org/hpc/cpu-cache/associativity/</loc>
+    <loc>https://jyang772.github.io/hugo-page/hpc/cpu-cache/associativity/</loc>
   </url><url>
-    <loc>https://en.algorithmica.org/hpc/data-structures/</loc>
+    <loc>https://jyang772.github.io/hugo-page/hpc/data-structures/</loc>
   </url><url>
-    <loc>https://en.algorithmica.org/hpc/cpu-cache/paging/</loc>
+    <loc>https://jyang772.github.io/hugo-page/hpc/cpu-cache/paging/</loc>
   </url><url>
-    <loc>https://en.algorithmica.org/hpc/cpu-cache/aos-soa/</loc>
+    <loc>https://jyang772.github.io/hugo-page/hpc/cpu-cache/aos-soa/</loc>
   </url><url>
-    <loc>https://en.algorithmica.org/hpc/algorithms/matmul/</loc>
+    <loc>https://jyang772.github.io/hugo-page/hpc/algorithms/matmul/</loc>
   </url><url>
-    <loc>https://en.algorithmica.org/</loc>
+    <loc>https://jyang772.github.io/hugo-page/</loc>
     <xhtml:link
                 rel="alternate"
                 hreflang="ru-ru"
@@ -175,10 +175,10 @@
     <xhtml:link
                 rel="alternate"
                 hreflang="en-us"
-                href="https://en.algorithmica.org/"
+                href="https://jyang772.github.io/hugo-page/"
                 />
   </url><url>
-    <loc>https://en.algorithmica.org/categories/</loc>
+    <loc>https://jyang772.github.io/hugo-page/categories/</loc>
     <xhtml:link
                 rel="alternate"
                 hreflang="ru-ru"
@@ -187,10 +187,10 @@
     <xhtml:link
                 rel="alternate"
                 hreflang="en-us"
-                href="https://en.algorithmica.org/categories/"
+                href="https://jyang772.github.io/hugo-page/categories/"
                 />
   </url><url>
-    <loc>https://en.algorithmica.org/tags/</loc>
+    <loc>https://jyang772.github.io/hugo-page/tags/</loc>
     <xhtml:link
                 rel="alternate"
                 hreflang="ru-ru"
@@ -199,7 +199,7 @@
     <xhtml:link
                 rel="alternate"
                 hreflang="en-us"
-                href="https://en.algorithmica.org/tags/"
+                href="https://jyang772.github.io/hugo-page/tags/"
                 />
   </url>
 </urlset>
