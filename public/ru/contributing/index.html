@@ -1,0 +1,420 @@
+<!doctype html>
+<html lang='ru-ru'><head>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-WBN59M8Y5S"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-WBN59M8Y5S');
+</script>
+
+
+<script type="text/javascript">
+  (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+  m[i].l=1*new Date();k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
+  (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
+
+  ym(53961409, "init", {
+       clickmap:true,
+       trackLinks:true,
+       accurateTrackBounce:true,
+       webvisor:true
+  });
+</script>
+<noscript><div><img src="https://mc.yandex.ru/watch/53961409" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+<meta charset="utf-8">
+
+  
+  <link rel="stylesheet" href="/style.min.a3a4a7a8e8602aaa85b7cb3d655edde028ac80d73f2a97389e2cbcf995dd672d.css" integrity="sha256-o6SnqOhgKqqFt8s9ZV7d4CisgNc/Kpc4niy8&#43;ZXdZy0=">
+  <link rel="stylesheet" href="/syntax.css" id="syntax-theme">
+
+  <link rel="stylesheet" type="text/css" href="https://tikzjax.com/v1/fonts.css">
+  <script src="https://tikzjax.com/v1/tikzjax.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/lunr.js/2.3.9/lunr.min.js"></script>
+  <script src="/scripts/lunr.stemmer.support.min.js"></script>
+  <script src="/scripts/lunr.ru.min.js"></script>
+  <script src="/scripts/lunr.multi.min.js"></script>
+
+  
+  <link rel="stylesheet" id="theme">
+
+  <script>
+    function toggleSidebar() {
+      console.log("Toggling sidebar visibility")
+      var sidebar = document.getElementById('sidebar')
+      var wrapper = document.getElementById('wrapper')
+      if (sidebar.classList.contains('sidebar-toggled') || window.getComputedStyle(sidebar).display == 'block') { 
+        sidebar.classList.toggle('sidebar-hidden')
+        wrapper.classList.toggle('sidebar-hidden')
+      }
+      sidebar.classList.add('sidebar-toggled')
+      wrapper.classList.add('sidebar-toggled')
+    }
+
+    function switchTheme(theme) {
+      console.log("Changing theme:", theme)
+      document.getElementById('theme').href = (theme == 'dark' ? "\/dark.min.b3ae1169831434b11b48de5b3e3210547eea6b7884c295ab0030cb973ea0dc49.css" : "")
+      document.getElementById('syntax-theme').href = (theme == 'dark' ? '/syntax-dark.css' : '/syntax.css')
+      localStorage.setItem('theme', theme)
+    }
+
+    async function toggleSearch() {
+      console.log("Toggling search")
+      
+      var searchDiv = document.getElementById('search')
+      if (window.getComputedStyle(searchDiv).display == 'none') {
+        searchDiv.style.display = 'block'
+        window.scrollTo({ top: 0 });
+        document.getElementById('search-bar').focus()
+      } else {
+        searchDiv.style.display = 'none'  
+      }
+
+      if (!index) {
+        console.log("Fetching index")
+        const response = await fetch('/searchindex.json')
+        const pages = await response.json()
+        index = lunr(function() {
+          this.use(lunr.multiLanguage('en', 'ru'))
+          this.field('title', {
+            boost: 5
+          })
+          this.field('content', {
+            boost: 1
+          })
+          pages.forEach(function(doc) {
+            this.add(doc)
+            articles.push(doc)
+          }, this)
+        })
+        console.log("Ready to search")
+      }
+    }
+
+    var articles = []
+    var index = undefined
+
+    function search() {
+      var query = document.getElementById('search-bar').value
+      var resultsDiv = document.getElementById('search-results')
+      var countDiv = document.getElementById('search-count')
+      
+      if (query == '') {
+        resultsDiv.innerHTML = ''
+        countDiv.innerHTML = ''
+        return
+      }
+      
+      var results = index.search(query)
+
+      countDiv.innerHTML = 'Найдено <b>' + results.length + '</b> страниц'
+
+      let resultList = ''
+
+      for (const n in results) {
+        const item = articles[results[n].ref]
+        resultList += '<li><a href="' + item.path + '">' + item.title + '</a> <p>'
+        const text = item.content
+
+        const contextLimit = 80
+
+        if (text.includes(query)) {
+          const start = text.indexOf(query)
+          if (start > contextLimit)
+            resultList += '…'
+          resultList += text.substring(start - contextLimit, start)
+                      + '<b>' + query + '</b>' + text.substring(start + query.length, start + query.length + contextLimit)
+
+        } else {
+          resultList += text.substring(0, contextLimit * 2)
+        }
+        resultList += '…</p></li>'
+      }
+
+      resultsDiv.innerHTML = resultList
+    }
+
+    if (localStorage.getItem('theme') == 'dark') {
+      switchTheme('dark')
+    }
+
+    window.addEventListener('load', function() {
+      var el = document.getElementById("active-element")
+      
+      if (el) {
+        el.scrollIntoView({block: "center"})
+      }
+      
+
+    })
+
+    window.addEventListener('scroll', function() {
+      var menu = document.getElementById('menu')
+      if (window.scrollY < 120) {
+        
+        menu.classList.remove('scrolled')
+      } else {
+        
+        menu.classList.add('scrolled')
+      }
+    })
+
+    window.addEventListener('keydown', function(e) {
+      if (e.altKey) { return }
+      if (document.activeElement.tagName == 'INPUT') { return }
+      if (e.key == 'ArrowLeft') {
+        document.getElementById('prev-article').click()
+      } else if (e.key == 'ArrowRight') {
+        document.getElementById('next-article').click()
+      }
+    })
+  </script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css" integrity="sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.js" integrity="sha384-g7c+Jr9ZivxKLnZTDUhnkOnsh30B4H0rpLUpJ4jAIKs4fnJI+sEnkvrMWph2EDg4" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/contrib/auto-render.min.js" integrity="sha384-mll67QQFJfxn0IYznZYonOWZ644AWYC+Pt2cHqMaRhXVrursRwvLnLaebdGIlYNa" crossorigin="anonymous"
+  onload="renderMathInElement(document.body, {
+    delimiters: [
+      {left: '$$', right: '$$', display: true},
+      {left: '$', right: '$', display: false}
+    ]
+  })"></script>
+
+  
+  <title>Как добавлять и редактировать статьи - Алгоритмика</title>
+</head>
+<body><nav id='sidebar' class='sidebar-hidden sidebar-toggled'>
+  
+  
+  <div class='title'>
+    <a href='/'>Алгоритмика</a>
+    
+      
+    
+  </div>
+  <ul>
+    
+      
+    
+  </ul>
+</nav>
+<div id='wrapper' class='sidebar-hidden sidebar-toggled'><menu id='menu'>
+  
+  
+  <div class='left'>
+    <a>
+      <img src='/icons/bars-solid.svg'
+           onclick='toggleSidebar()'
+           title='open table of contents'>
+    </a>
+    <a>
+      <img src='/icons/adjust-solid.svg'
+           style='position: relative; top: -1px'
+           onclick='switchTheme(localStorage.getItem("theme") == "dark" ? "light" : "dark")'
+           title='dark theme'>
+    </a>
+    <a>
+      <img src='/icons/search-solid.svg'
+           onclick='toggleSearch()'
+           title='search'>
+    </a>
+  </div>
+  <div class='title'>Как добавлять и редактировать статьи</div>
+  <div class='right'>
+    <a onClick='window.print()'>
+      <img src='/icons/print-solid.svg' title='print'>
+    </a>
+    <a href='https://prose.io/#algorithmica-org/algorithmica/edit/master//contributing.md'>
+      <img src='/icons/edit-solid.svg'
+           title='edit'
+           style='width: 18px; position: relative; right: -2px; top: -1px'>
+    </a>
+    <a href='https://github.com/algorithmica-org/algorithmica/blob/master//contributing.md' class='github-main'>
+      <img src='/icons/github-brands.svg' title='view on github'>
+    </a>
+  </div>
+</menu>
+<main>
+        <div id="search">
+    <input id="search-bar" type="search" placeholder='Поиск по сайту…' oninput="search()">
+    <div id="search-count"></div>
+    <div id="search-results">
+    </div>
+</div>
+<header>
+  
+  <h1>Как добавлять и редактировать статьи</h1>
+  
+    <div class='info'><div>
+          <span>автор</span>
+          
+            <span>Сергей Слотин</span>
+          
+        </div>
+      <div>
+          <span>обновлено</span>
+          <span>янв. 23, 2021</span>
+        </div>
+      </div>
+  
+</header>
+<article>
+  
+
+
+  
+    
+    
+      
+        <p>Неполные гайдлайны, которые постепенно будут пополняться.</p>
+<p>Если есть какие-либо вопросы, даже глупые, <a href="https://t.me/bydlokoder">напишите мне</a>.</p>
+<span class='anchor' id="как-начать"></span>
+<h2><a class="anchor-link" href="https://ru.algorithmica.org/contributing/#%d0%ba%d0%b0%d0%ba-%d0%bd%d0%b0%d1%87%d0%b0%d1%82%d1%8c">#</a>Как начать</h2><span class='anchor' id="если-у-меня-маленькая-правка"></span>
+<h3><a class="anchor-link" href="https://ru.algorithmica.org/contributing/#%d0%b5%d1%81%d0%bb%d0%b8-%d1%83-%d0%bc%d0%b5%d0%bd%d1%8f-%d0%bc%d0%b0%d0%bb%d0%b5%d0%bd%d1%8c%d0%ba%d0%b0%d1%8f-%d0%bf%d1%80%d0%b0%d0%b2%d0%ba%d0%b0">#</a>Если у меня маленькая правка</h3><p>На любой странице сайта можно нажать кнопку с карандашом сверху справа. Откроется интерфейс prose.io, в котором нужно залогиниться через GitHub, после чего можно редактировать markdown-исходник страницы. При первом сохранении автоматически создастся ветка и pull request от вашего имени, и при дальнейших он будет обновляться. Когда закончили, оставьте как есть — кто-нибудь придет и апрувнет.</p>
+<p>Полного preview там нет — осторожнее с правкой сложных формул, если не уверены в корректности.</p>
+<p>Иногда редактор немного меняет формат блока мета-информации в начале статьи (о нём ниже). Это нормально — только проверьте, что <code>published</code> / <code>draft</code> / <code>date</code> стоят такие, какие нужно.</p>
+<span class='anchor' id="если-у-меня-большая-правка"></span>
+<h3><a class="anchor-link" href="https://ru.algorithmica.org/contributing/#%d0%b5%d1%81%d0%bb%d0%b8-%d1%83-%d0%bc%d0%b5%d0%bd%d1%8f-%d0%b1%d0%be%d0%bb%d1%8c%d1%88%d0%b0%d1%8f-%d0%bf%d1%80%d0%b0%d0%b2%d0%ba%d0%b0">#</a>Если у меня большая правка</h3><p>Для чего-либо серьёзного рекомендуется счекаутить репозиторий и поднять сайт локально. Это можно сделать так (предполагается, что вы знакомы с работой в терминале):</p>
+<ol>
+<li><a href="https://gohugo.io/getting-started/installing/">Поставить Hugo</a>: скорее всего одно из <code>sudo apt-get install hugo</code>, <code>sudo pacman -Syu hugo</code>, <code>brew install hugo</code> или <code>choco install hugo -confirm</code> в зависимости от системы.</li>
+<li>Форкнуть репозиторий и сделать <code>git clone https://github.com/$USERNAME/algorithmica.git</code>.</li>
+<li>Выполнить <code>hugo serve</code> в корне репозитория и зайти на <code>localhost:1313</code> для английской или <code>localhost:1314</code> для русской версии (порты могут быть другие).</li>
+<li>Найти или создать нужную статью, внести правки (в любом текстовом редакторе; они автоматически отрендерятся в браузере), запушить изменения и создать pull request в master.</li>
+</ol>
+<p>Если хотите отредактировать какую-то статью, помеченную как draft (неопубликованную), нужно добавить флаг <code>-D</code>. Рекомендуется перед созданием PR пройтись спеллчекером (например, <code>hunspell</code>-ом).</p>
+<p>Если кому-то нужна помощь с любым из этих пунктов, опять же, пишите.</p>
+<span class='anchor' id="если-хочу-написать-новую-статью"></span>
+<h3><a class="anchor-link" href="https://ru.algorithmica.org/contributing/#%d0%b5%d1%81%d0%bb%d0%b8-%d1%85%d0%be%d1%87%d1%83-%d0%bd%d0%b0%d0%bf%d0%b8%d1%81%d0%b0%d1%82%d1%8c-%d0%bd%d0%be%d0%b2%d1%83%d1%8e-%d1%81%d1%82%d0%b0%d1%82%d1%8c%d1%8e">#</a>Если хочу написать новую статью</h3><p>Условно готовыми считаются статьи, в которых:</p>
+<ul>
+<li>алгоритм описан и доказан,</li>
+<li>есть реализация,</li>
+<li>в реализации нет багов,</li>
+<li>есть хотя бы один пример задачи.</li>
+</ul>
+<p>Для минимизации бесполезной работы рекомендуется сначала спросить (в telegram или в issue на гитхабе), есть ли где-то уже статья на эту тему, начал ли её уже кто-нибудь писать, нужна ли она вообще, и в какой раздел её тогда следует положить.</p>
+<p>Многие статьи помечены как draft — это означает, что статья запланирована, но ещё только готовится. Если в них не указан автор, или указан, но последнее изменение было очень давно, то смело берите.</p>
+<span class='anchor' id="технические-возможности"></span>
+<h2><a class="anchor-link" href="https://ru.algorithmica.org/contributing/#%d1%82%d0%b5%d1%85%d0%bd%d0%b8%d1%87%d0%b5%d1%81%d0%ba%d0%b8%d0%b5-%d0%b2%d0%be%d0%b7%d0%bc%d0%be%d0%b6%d0%bd%d0%be%d1%81%d1%82%d0%b8">#</a>Технические возможности</h2><span class='anchor' id="markdown"></span>
+<h3><a class="anchor-link" href="https://ru.algorithmica.org/contributing/#markdown">#</a>Markdown</h3><p><a href="https://www.markdownguide.org/basic-syntax/">Гайд по синтаксису</a>.</p>
+<p>Помимо основного синтаксиса, поддерживаются ещё таблицы, блоки кода, strikethrough, latex-формулы (через один или два <code>$</code>) и tikz-диаграммы (через две <code>@</code>).</p>
+<span class='anchor' id="front-matter"></span>
+<h3><a class="anchor-link" href="https://ru.algorithmica.org/contributing/#front-matter">#</a>Front matter</h3><p>В начале каждой статьи есть отделяемый через <code>---</code> блок метаинформации, среди которой из важной есть:</p>
+<ul>
+<li><code>title</code>: название статьи</li>
+<li><code>authors</code>: список авторов (поддерживает markdown: можете вставлять там ссылки, например)</li>
+<li><code>editors</code>: такой же список редакторов</li>
+<li><code>date</code>: время последнего изменения (записывать в формате <code>2021-08-19</code>)</li>
+<li><code>created</code>: когда статья была изначально опубликована (в любом формате)</li>
+<li><code>prerequisites</code>: список ссылок (лучше относительных) на статьи-пререквизиты; лучше не указывать слишком много и избегать циклов (это не техническое ограничение, а здравый смысл)</li>
+</ul>
+<p><a href="https://raw.githubusercontent.com/algorithmica-org/algorithmica/master/content/russian/cs/tree-structures/treap.md">Пример заполненной метаинформации</a>.</p>
+<span class='anchor' id="правила-русского-языка"></span>
+<h2><a class="anchor-link" href="https://ru.algorithmica.org/contributing/#%d0%bf%d1%80%d0%b0%d0%b2%d0%b8%d0%bb%d0%b0-%d1%80%d1%83%d1%81%d1%81%d0%ba%d0%be%d0%b3%d0%be-%d1%8f%d0%b7%d1%8b%d0%ba%d0%b0">#</a>Правила русского языка</h2><p>Ревьюер всё равно поправит, но, пожалуйста, имейте в виду:</p>
+<ol>
+<li>Кавычки: « и ».</li>
+<li><a href="https://www.artlebedev.ru/kovodstvo/sections/97/">Дефисы, минусы и тире</a>: -, $a-b$ (через latex) и —.</li>
+<li>Предложения с формулами должны читаться как нормальные предложения (если идёт display-style формула, параграф перед ней скорее всего не заканчивается знаком препинания, а параграф после начинается со строчной, если он не является отдельным предложением).</li>
+<li>Списки с перечислениями тоже должны читаться либо как отдельные предложения, либо как часть одного предложения.</li>
+<li>Хеш, стек, дек — все через «е».</li>
+</ol>
+<p>Удобно научиться набирать кавычки и прочие особые символы без копирования. В Linux это делается через Compose Key.</p>
+<p>Также мы <em>игнорируем</em> правило про тире вместо дефиса в названиях алгоритмов с более чем одним автором («Ахо-Корасик» вместо «Ахо — Корасик») и не очень строго относимся к правилам пунктуации.</p>
+<span class='anchor' id="частые-ошибки-и-конвенции"></span>
+<h2><a class="anchor-link" href="https://ru.algorithmica.org/contributing/#%d1%87%d0%b0%d1%81%d1%82%d1%8b%d0%b5-%d0%be%d1%88%d0%b8%d0%b1%d0%ba%d0%b8-%d0%b8-%d0%ba%d0%be%d0%bd%d0%b2%d0%b5%d0%bd%d1%86%d0%b8%d0%b8">#</a>Частые ошибки и конвенции</h2><p>Небольшие технические тонкости и гайдлайны:</p>
+<ul>
+<li>Используйте только заголовки второго (<code>##</code>) и третьего (<code>###</code>) уровней. Если это очень маленькая секция, имеет смысл её выделить просто параграфом, начинающимся с <strong>bold</strong>-словом.</li>
+<li>Используйте либо относительные ссылки, либо абсолютные от корня сайта: <code>/cs/tree-structures/treap/</code>.</li>
+<li>Картинки вставляются через <code>![описание](../img/picture.png)</code> и заливаются в локальную директорию <code>img</code>. Старайтесь по возможности использовать <code>.svg</code> вместо <code>.png</code> и <code>.png</code> вместо <code>.jpg</code>.</li>
+<li>Не используйте html, если это не какой-то исключительный случай.</li>
+<li>Помечайте блоки кода тегом языка, на котором они были написаны (<code>cpp</code> / <code>python</code>), иначе подсветка синтаксиса работать не будет.</li>
+<li>Комментарии можно и нужно использовать. Комментарии в духе общего &ldquo;todo&rdquo; можно указать в front matter через <code>#</code>, а контекстные комментарии или секции-черновики можно сделать через html-комментарии: <code>&lt;!-- ... --&gt;</code>.</li>
+</ul>
+<span class='anchor' id="кодстайл"></span>
+<h2><a class="anchor-link" href="https://ru.algorithmica.org/contributing/#%d0%ba%d0%be%d0%b4%d1%81%d1%82%d0%b0%d0%b9%d0%bb">#</a>Кодстайл</h2><p>Везде используются пробелы, если это не Makefile или Go.</p>
+<p><strong>Python.</strong> В полном соответствии с PEP.</p>
+<p><strong>C++:</strong></p>
+<ol>
+<li>Лучше использовать конкретные типы вместо метапрограммирования.</li>
+<li>Абсолютно точно никаких <code>#define forn</code>.</li>
+<li>Если в статье была однобуквенная переменная, её можно и нужно использовать в реализации. В противном случае у неё должно быть самоочевидное название.</li>
+<li>Решение конкретной задачи должно быть функцией или методом. Предподсчет можно указывать либо отдельной функцией, либо как в <code>main</code> без самого <code>main</code>. Ввод-вывод никому не интересен.</li>
+<li>Оставляйте комментарии на русском языке, но переменные и функции называйте на английском.</li>
+</ol>
+<p>Кодстайл проще описать примерами:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="k">template</span> <span class="o">&lt;</span><span class="k">typename</span> <span class="n">T</span><span class="o">&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="kt">void</span> <span class="n">f</span><span class="p">(</span><span class="n">T</span> <span class="n">a</span><span class="p">,</span> <span class="n">T</span> <span class="o">*</span><span class="n">b</span><span class="p">,</span> <span class="n">T</span> <span class="o">&amp;</span><span class="n">c</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// ...
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// однострочные форы предпочтительнее
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">for</span> <span class="p">(</span><span class="cm">/* ... */</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// ...
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl"><span class="k">for</span> <span class="p">(</span><span class="cm">/* ... */</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="k">for</span> <span class="p">(</span><span class="cm">/* ... */</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="k">for</span> <span class="p">(</span><span class="cm">/* ... */</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// однострочные ифы тоже предпочтительнее
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">if</span> <span class="p">(</span><span class="n">cond</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// ...
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl"><span class="c1">// но не так:
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">if</span> <span class="p">(</span><span class="n">cond</span><span class="p">)</span> <span class="c1">// ...
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl"><span class="c1">// при этом однострочные функции ок
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kt">int</span> <span class="n">sum</span><span class="p">(</span><span class="n">Node</span> <span class="o">*</span><span class="n">v</span><span class="p">)</span> <span class="p">{</span> <span class="k">return</span> <span class="n">v</span> <span class="o">?</span> <span class="n">v</span><span class="o">-&gt;</span><span class="nl">sum</span> <span class="p">:</span> <span class="mi">0</span><span class="p">;</span> <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">if</span> <span class="p">(</span><span class="n">cond</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// ...
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// ...
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// ...
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// иногда:
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">if</span> <span class="p">(</span><span class="n">cond</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// ...
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">else</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// ...
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// бесконечный цикл делается так
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">while</span> <span class="p">(</span><span class="nb">true</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// ...
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">sort</span><span class="p">(</span><span class="n">a</span><span class="p">.</span><span class="n">begin</span><span class="p">(),</span> <span class="n">a</span><span class="p">.</span><span class="n">end</span><span class="p">(),</span> <span class="p">[](</span><span class="kt">int</span> <span class="n">x</span><span class="p">,</span> <span class="kt">int</span> <span class="n">y</span><span class="p">){</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">x</span> <span class="o">&lt;</span> <span class="n">y</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">});</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kt">int</span> <span class="n">a</span><span class="p">[</span><span class="mi">5</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">};</span>
+</span></span><span class="line"><span class="cl"><span class="kt">int</span> <span class="n">a</span><span class="p">[</span><span class="n">n</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="mi">0</span><span class="p">};</span> <span class="c1">// заполнить нулями
+</span></span></span></code></pre></div><p>Если не указано обратного, во всех реализациях неявно предполагается, что компилятор GCC, стандарт не старше C++17, и перед блоком кода идут импорты:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;bits/stdc++.h&gt;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="cp"></span><span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
+</span></span></code></pre></div><p>Если ваш привычный кодстайл отличается, рекомендуется воспользоваться <code>clang-format</code> или другими форматерами.</p>
+
+      
+    
+  
+
+
+
+        </article>
+        <div class='nextprev'>
+  
+    
+  
+</div>
+
+      </main>
+      <footer>
+  Copyleft 2017–2022 Algorithmica.org
+  <br>
+  Материалы распространяются под <a href='https://tldrlegal.com/license/creative-commons-attribution-sharealike-4.0-international-(cc-by-sa-4.0)'>CC BY-SA</a>
+</footer>
+
+    </div>
+  </body>
+</html>

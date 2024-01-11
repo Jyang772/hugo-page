@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Поиск подстроки on Алгоритмика</title>
+    <link>https://ru.algorithmica.org/cs/string-searching/</link>
+    <description>Recent content in Поиск подстроки on Алгоритмика</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>ru-ru</language>
+    <atom:link href="https://ru.algorithmica.org/cs/string-searching/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Префикс-функция</title>
+      <link>https://ru.algorithmica.org/cs/string-searching/prefix-function/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://ru.algorithmica.org/cs/string-searching/prefix-function/</guid>
+      <description>Определение. Префикс-функцией от строки $s$ называется массив $p$, где $p_i$ равно длине самого большого префикса строки $s_0 s_1 s_2 \ldots s_i$, который также является и суффиксом $i$-того префика (не считая весь $i$-й префикс).&#xA;Например, самый большой префикс, который равен суффиксу для строки «aataataa» — это «aataa»; префикс-функция для этой строки равна $[0, 1, 0, 1, 2, 3, 4, 5]$.&#xA;vector&amp;lt;int&amp;gt; slow_prefix_function(string s) { int n = (int) s.size(); vector&amp;lt;int&amp;gt; p(n, 0); for (int i = 1; i &amp;lt; n; i++) for (int len = 1; len &amp;lt;= i; len++) // если префикс длины len равен суффиксу длины len if (s.</description>
+    </item>
+    <item>
+      <title>Z-функция</title>
+      <link>https://ru.algorithmica.org/cs/string-searching/z-function/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://ru.algorithmica.org/cs/string-searching/z-function/</guid>
+      <description>Немного более простая для понимания альтернатива префикс-функции — z-функция.&#xA;Z-функция от строки $s$ определяется как массив $z$, такой что $z_i$ равно длине максимальной подстроки, начинающейся с $i$-й позиции, которая равна префиксу $s$.&#xA;$$ \underbrace{aba}c\overbrace{aba}daba \hspace{1em} (z_4 = 3) $$&#xA;Наивно её реализовать ещё проще:&#xA;vector&amp;lt;int&amp;gt; slow_z_function(string s) { int n = (int) s.size(); vector&amp;lt;int&amp;gt; z(n, 0); // z[0] считается не определенным for (int i = 1; i &amp;lt; n; i++) // если мы не вышли за границу и следующие символы совпадают while (i + z[i] &amp;lt; n &amp;amp;&amp;amp; s[z[i]] == s[i + z[i]]) z[i]++; return z; } aaaaa 04321 abcdef 000000 abacabadaba 00103010301 Z-функцию можно использовать вместо префикс-функции в алгоритме Кнута-Морриса-Пратта — только теперь нужные позиции будут начинаться c $|s|$, а не заканчиваться.</description>
+    </item>
+    <item>
+      <title>Алгоритм Манакера</title>
+      <link>https://ru.algorithmica.org/cs/string-searching/manacher/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://ru.algorithmica.org/cs/string-searching/manacher/</guid>
+      <description>Пусть есть строка $s$ и мы хотим найти в ней все подпалиндромы.&#xA;Мы сразу сталкиваемся с очевидной трудностью: их в строке может быть $O(n^2)$, что можно видеть на примере строки $s = aa \ldots a$. Поэтому будем использовать следующий формат: для каждой позиции $s_i$ найдём наибольший палиндром, центр которого совпадает с $s_i$ (чётные и нечётные палиндромы будем рассматривать отдельно). Половину его длины, округлённую вниз, будем называть радиусом.&#xA;Наивное решение — перебрать $s_i$, а для него вторым циклом находить наибольшую искомую длину:</description>
+    </item>
+  </channel>
+</rss>

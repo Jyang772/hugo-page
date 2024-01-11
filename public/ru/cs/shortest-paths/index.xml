@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Кратчайшие пути on Алгоритмика</title>
+    <link>https://ru.algorithmica.org/cs/shortest-paths/</link>
+    <description>Recent content in Кратчайшие пути on Алгоритмика</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>ru-ru</language>
+    <lastBuildDate>Wed, 29 Sep 2021 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://ru.algorithmica.org/cs/shortest-paths/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Пути в ациклических графах</title>
+      <link>https://ru.algorithmica.org/cs/shortest-paths/acyclic-paths/</link>
+      <pubDate>Wed, 29 Sep 2021 00:00:00 +0000</pubDate>
+      <guid>https://ru.algorithmica.org/cs/shortest-paths/acyclic-paths/</guid>
+      <description>Кратчайшие пути очень просто искать, если в графе нет циклов.&#xA;В этом случае задачу нахождения кратчайших расстояний от заданной вершины до всех остальных можно решить в стиле динамического программирования — кратчайшее расстояние до вершины $v$ можно найти через перебор всех потенциальных последних рёбер на кратчайшем пути:&#xA;$$ d_v = \min_{(u, v) \in E} (d_u + w_{uv}) $$&#xA;Чтобы посчитать эту формулу, нужно уметь для заданной вершины $v$ быстро проходиться по всем обратным ребрам, а также найти такой порядок обхода, что при подсчете $d_v$ все нужные $d_u$ уже были подсчитаны.</description>
+    </item>
+    <item>
+      <title>Поиск в ширину</title>
+      <link>https://ru.algorithmica.org/cs/shortest-paths/bfs/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://ru.algorithmica.org/cs/shortest-paths/bfs/</guid>
+      <description>Поиск в ширину (англ. breadth-first search) — один из основных алгоритмов на графах, позволяющий находить все кратчайшие пути от заданной вершины и решать многие другие задачи.&#xA;Поиск в ширину также называют обходом — так же, как поиск в глубину и все другие обходы, он посещает все вершины графа по одному разу, только в другом порядке: по увеличению расстояния до начальной вершины.&#xA;#Описание алгоритмаНа вход алгоритма подаётся невзвешенный граф и номер стартовой вершины $s$.</description>
+    </item>
+    <item>
+      <title>Алгоритм Дейкстры</title>
+      <link>https://ru.algorithmica.org/cs/shortest-paths/dijkstra/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://ru.algorithmica.org/cs/shortest-paths/dijkstra/</guid>
+      <description>Алгоритм Дейкстры (англ. Dijkstra&amp;rsquo;s algorithm) находит кратчайшие пути от заданной вершины $s$ до всех остальных в графе без ребер отрицательного веса.&#xA;Существует два основных варианта алгоритма, время работы которых составляет $O(n^2)$ и $O(m \log n)$, где $n$ — число вершин, а $m$ — число ребер.&#xA;#Основная идеяЗаведём массив $d$, в котором для каждой вершины $v$ будем хранить текущую длину $d_v$ кратчайшего пути из $s$ в $v$. Изначально $d_s = 0$, а для всех остальных вершин расстояние равно бесконечности (или любому числу, которое заведомо больше максимально возможного расстояния).</description>
+    </item>
+  </channel>
+</rss>

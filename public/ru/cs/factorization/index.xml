@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Факторизация и простые числа on Алгоритмика</title>
+    <link>https://ru.algorithmica.org/cs/factorization/</link>
+    <description>Recent content in Факторизация и простые числа on Алгоритмика</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>ru-ru</language>
+    <lastBuildDate>Mon, 30 Aug 2021 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://ru.algorithmica.org/cs/factorization/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Решето Эратосфена</title>
+      <link>https://ru.algorithmica.org/cs/factorization/eratosthenes/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://ru.algorithmica.org/cs/factorization/eratosthenes/</guid>
+      <description>Определение. Целое положительное число называется простым, если оно имеет ровно два различных натуральных делителя — единицу и самого себя. Единица простым числом не считается.&#xA;Решето Эратосфена (англ. sieve of Eratosthenes) — алгоритм нахождения всех простых чисел от $1$ до $n$.&#xA;Основная идея соответствует названию алгоритма: запишем ряд чисел $1, 2,\ldots, n$, а затем будем вычеркивать&#xA;сначала числа, делящиеся на $2$, кроме самого числа $2$, потом числа, делящиеся на $3$, кроме самого числа $3$, с числами, делящимися на $4$, ничего делать не будем — мы их уже вычёркивали, потом продолжим вычеркивать числа, делящиеся на $5$, кроме самого числа $5$, …и так далее.</description>
+    </item>
+    <item>
+      <title>Ро-алгоритм Полларда</title>
+      <link>https://ru.algorithmica.org/cs/factorization/pollard/</link>
+      <pubDate>Mon, 30 Aug 2021 00:00:00 +0000</pubDate>
+      <guid>https://ru.algorithmica.org/cs/factorization/pollard/</guid>
+      <description>Ро-алгоритм Полларда — рандомизированный алгоритм факторизации целых чисел, работающий за время $O(n^\frac{1}{4})$ и основывающийся на следствии из парадокса дней рождений:&#xA;В мультимножество нужно добавить $O(\sqrt{n})$ случайных чисел от 1 до $n$, чтобы какие-то два совпали.&#xA;#$\rho$-алгоритм ПоллардаИтак, мы хотим факторизовать число $n$. Предположим, что $n = p q$ и $p \approx q$. Понятно, что труднее случая, наверное, нет. Алгоритм итеративно ищет наименьший делитель и таким образом сводит задачу к как минимум в два раза меньшей.</description>
+    </item>
+  </channel>
+</rss>

@@ -1,0 +1,1641 @@
+<!doctype html>
+<html lang='ru-ru'><head>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-WBN59M8Y5S"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-WBN59M8Y5S');
+</script>
+
+
+<script type="text/javascript">
+  (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+  m[i].l=1*new Date();k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
+  (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
+
+  ym(53961409, "init", {
+       clickmap:true,
+       trackLinks:true,
+       accurateTrackBounce:true,
+       webvisor:true
+  });
+</script>
+<noscript><div><img src="https://mc.yandex.ru/watch/53961409" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+<meta charset="utf-8">
+
+  
+  <link rel="stylesheet" href="/style.min.a3a4a7a8e8602aaa85b7cb3d655edde028ac80d73f2a97389e2cbcf995dd672d.css" integrity="sha256-o6SnqOhgKqqFt8s9ZV7d4CisgNc/Kpc4niy8&#43;ZXdZy0=">
+  <link rel="stylesheet" href="/syntax.css" id="syntax-theme">
+
+  <link rel="stylesheet" type="text/css" href="https://tikzjax.com/v1/fonts.css">
+  <script src="https://tikzjax.com/v1/tikzjax.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/lunr.js/2.3.9/lunr.min.js"></script>
+  <script src="/scripts/lunr.stemmer.support.min.js"></script>
+  <script src="/scripts/lunr.ru.min.js"></script>
+  <script src="/scripts/lunr.multi.min.js"></script>
+
+  
+  <link rel="stylesheet" id="theme">
+
+  <script>
+    function toggleSidebar() {
+      console.log("Toggling sidebar visibility")
+      var sidebar = document.getElementById('sidebar')
+      var wrapper = document.getElementById('wrapper')
+      if (sidebar.classList.contains('sidebar-toggled') || window.getComputedStyle(sidebar).display == 'block') { 
+        sidebar.classList.toggle('sidebar-hidden')
+        wrapper.classList.toggle('sidebar-hidden')
+      }
+      sidebar.classList.add('sidebar-toggled')
+      wrapper.classList.add('sidebar-toggled')
+    }
+
+    function switchTheme(theme) {
+      console.log("Changing theme:", theme)
+      document.getElementById('theme').href = (theme == 'dark' ? "\/dark.min.b3ae1169831434b11b48de5b3e3210547eea6b7884c295ab0030cb973ea0dc49.css" : "")
+      document.getElementById('syntax-theme').href = (theme == 'dark' ? '/syntax-dark.css' : '/syntax.css')
+      localStorage.setItem('theme', theme)
+    }
+
+    async function toggleSearch() {
+      console.log("Toggling search")
+      
+      var searchDiv = document.getElementById('search')
+      if (window.getComputedStyle(searchDiv).display == 'none') {
+        searchDiv.style.display = 'block'
+        window.scrollTo({ top: 0 });
+        document.getElementById('search-bar').focus()
+      } else {
+        searchDiv.style.display = 'none'  
+      }
+
+      if (!index) {
+        console.log("Fetching index")
+        const response = await fetch('/searchindex.json')
+        const pages = await response.json()
+        index = lunr(function() {
+          this.use(lunr.multiLanguage('en', 'ru'))
+          this.field('title', {
+            boost: 5
+          })
+          this.field('content', {
+            boost: 1
+          })
+          pages.forEach(function(doc) {
+            this.add(doc)
+            articles.push(doc)
+          }, this)
+        })
+        console.log("Ready to search")
+      }
+    }
+
+    var articles = []
+    var index = undefined
+
+    function search() {
+      var query = document.getElementById('search-bar').value
+      var resultsDiv = document.getElementById('search-results')
+      var countDiv = document.getElementById('search-count')
+      
+      if (query == '') {
+        resultsDiv.innerHTML = ''
+        countDiv.innerHTML = ''
+        return
+      }
+      
+      var results = index.search(query)
+
+      countDiv.innerHTML = 'Найдено <b>' + results.length + '</b> страниц'
+
+      let resultList = ''
+
+      for (const n in results) {
+        const item = articles[results[n].ref]
+        resultList += '<li><a href="' + item.path + '">' + item.title + '</a> <p>'
+        const text = item.content
+
+        const contextLimit = 80
+
+        if (text.includes(query)) {
+          const start = text.indexOf(query)
+          if (start > contextLimit)
+            resultList += '…'
+          resultList += text.substring(start - contextLimit, start)
+                      + '<b>' + query + '</b>' + text.substring(start + query.length, start + query.length + contextLimit)
+
+        } else {
+          resultList += text.substring(0, contextLimit * 2)
+        }
+        resultList += '…</p></li>'
+      }
+
+      resultsDiv.innerHTML = resultList
+    }
+
+    if (localStorage.getItem('theme') == 'dark') {
+      switchTheme('dark')
+    }
+
+    window.addEventListener('load', function() {
+      var el = document.getElementById("active-element")
+      
+      if (el) {
+        el.scrollIntoView({block: "center"})
+      }
+      
+
+    })
+
+    window.addEventListener('scroll', function() {
+      var menu = document.getElementById('menu')
+      if (window.scrollY < 120) {
+        
+        menu.classList.remove('scrolled')
+      } else {
+        
+        menu.classList.add('scrolled')
+      }
+    })
+
+    window.addEventListener('keydown', function(e) {
+      if (e.altKey) { return }
+      if (document.activeElement.tagName == 'INPUT') { return }
+      if (e.key == 'ArrowLeft') {
+        document.getElementById('prev-article').click()
+      } else if (e.key == 'ArrowRight') {
+        document.getElementById('next-article').click()
+      }
+    })
+  </script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css" integrity="sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.js" integrity="sha384-g7c+Jr9ZivxKLnZTDUhnkOnsh30B4H0rpLUpJ4jAIKs4fnJI+sEnkvrMWph2EDg4" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/contrib/auto-render.min.js" integrity="sha384-mll67QQFJfxn0IYznZYonOWZ644AWYC+Pt2cHqMaRhXVrursRwvLnLaebdGIlYNa" crossorigin="anonymous"
+  onload="renderMathInElement(document.body, {
+    delimiters: [
+      {left: '$$', right: '$$', display: true},
+      {left: '$', right: '$', display: false}
+    ]
+  })"></script>
+
+  
+  <title>Быстрое преобразование Фурье - Алгоритмика</title>
+</head>
+<body><nav id='sidebar' >
+  
+  
+  <div class='title'>
+    <a href='/'>Алгоритмика</a>
+    
+      
+        
+        <span class='slash'>/</span>
+        <a href='/cs/' class='divisionAbbr'
+           >
+          CS
+        </a>
+      
+    
+  </div>
+  <ul>
+    
+      
+        
+          <li class='part'>Анализ алгоритмов</li>
+        
+        <li class=' '><a href='/cs/complexity/'
+          
+          >Вычислительная сложность</a></li>
+        
+          <ol>
+            
+              <li ><a href='/cs/complexity/asymptotic/'
+                
+                >Асимптотический анализ</a></li>
+            
+              <li ><a href='/cs/complexity/master-theorem/'
+                
+                >Мастер-теорема</a></li>
+            
+          </ol>
+        
+      
+        
+        <li class=' '><a href='/cs/sorting/'
+          
+          >Сортировки</a></li>
+        
+          <ol>
+            
+              <li ><a href='/cs/sorting/bubble/'
+                
+                >Сортировка пузырьком</a></li>
+            
+              <li ><a href='/cs/sorting/selection/'
+                
+                >Сортировка выбором</a></li>
+            
+              <li ><a href='/cs/sorting/insertion/'
+                
+                >Сортировка вставками</a></li>
+            
+              <li ><a href='/cs/sorting/heapsort/'
+                
+                >Сортировка кучей</a></li>
+            
+              <li ><a href='/cs/sorting/counting/'
+                
+                >Сортировка подсчетом</a></li>
+            
+              <li ><a href='/cs/sorting/radix/'
+                
+                >Цифровая сортировка</a></li>
+            
+          </ol>
+        
+      
+        
+        <li class=' '><a href='/cs/interactive/'
+          
+          >Бинпоиск и интерактивки</a></li>
+        
+          <ol>
+            
+              <li ><a href='/cs/interactive/binary-search/'
+                
+                >Бинарный поиск</a></li>
+            
+              <li ><a href='/cs/interactive/answer-search/'
+                
+                >Бинарный поиск по ответу</a></li>
+            
+          </ol>
+        
+      
+        
+        <li class=' '><a href='/cs/sequences/'
+          
+          >Последовательности</a></li>
+        
+          <ol>
+            
+              <li ><a href='/cs/sequences/compression/'
+                
+                >Сжатие координат</a></li>
+            
+          </ol>
+        
+      
+        
+        <li class=' '><a href='/cs/decomposition/'
+          
+          >Декомпозиция задач</a></li>
+        
+          <ol>
+            
+              <li ><a href='/cs/decomposition/scanline/'
+                
+                >Сканирующая прямая</a></li>
+            
+              <li ><a href='/cs/decomposition/rollback/'
+                
+                >Откатывание состояний</a></li>
+            
+              <li ><a href='/cs/decomposition/sqrt-heuristics/'
+                
+                >Корневые эвристики</a></li>
+            
+              <li ><a href='/cs/decomposition/mo/'
+                
+                >Алгоритм Мо</a></li>
+            
+              <li ><a href='/cs/decomposition/mitm/'
+                
+                >Meet-in-the-middle</a></li>
+            
+          </ol>
+        
+      
+        
+        <li class=' '><a href='/cs/arithmetic/'
+          
+          >Арифметика</a></li>
+        
+          <ol>
+            
+              <li ><a href='/cs/arithmetic/bit-representation/'
+                
+                >Битовое представление чисел</a></li>
+            
+              <li ><a href='/cs/arithmetic/simd/'
+                
+                >Векторизация</a></li>
+            
+          </ol>
+        
+      
+        
+          <li class='part'>Структуры данных</li>
+        
+        <li class=' '><a href='/cs/basic-structures/'
+          
+          >Базовые структуры данных</a></li>
+        
+          <ol>
+            
+              <li ><a href='/cs/basic-structures/array/'
+                
+                >Массивы и кортежи</a></li>
+            
+              <li ><a href='/cs/basic-structures/iterators/'
+                
+                >Итераторы</a></li>
+            
+              <li ><a href='/cs/basic-structures/vector/'
+                
+                >Динамический массив</a></li>
+            
+              <li ><a href='/cs/basic-structures/heap/'
+                
+                >Двоичная куча</a></li>
+            
+          </ol>
+        
+      
+        
+        <li class=' '><a href='/cs/tree-structures/'
+          
+          >Деревья поиска</a></li>
+        
+          <ol>
+            
+              <li ><a href='/cs/tree-structures/stl-trees/'
+                
+                >Деревья в STL</a></li>
+            
+              <li ><a href='/cs/tree-structures/treap/'
+                
+                >Декартово дерево</a></li>
+            
+              <li ><a href='/cs/tree-structures/implicit/'
+                
+                >Неявный ключ</a></li>
+            
+          </ol>
+        
+      
+        
+        <li class=' '><a href='/cs/set-structures/'
+          
+          >Структуры для множеств</a></li>
+        
+          <ol>
+            
+              <li ><a href='/cs/set-structures/bitset/'
+                
+                >Битсет и битовое сжатие</a></li>
+            
+              <li ><a href='/cs/set-structures/dsu/'
+                
+                >Система непересекающихся множеств</a></li>
+            
+          </ol>
+        
+      
+        
+        <li class=' '><a href='/cs/range-queries/'
+          
+          >Запросы на отрезках</a></li>
+        
+          <ol>
+            
+              <li ><a href='/cs/range-queries/prefix-sum/'
+                
+                >Префиксные суммы</a></li>
+            
+              <li ><a href='/cs/range-queries/fenwick/'
+                
+                >Дерево Фенвика</a></li>
+            
+              <li ><a href='/cs/range-queries/sparse-table/'
+                
+                >Разреженная таблица</a></li>
+            
+              <li ><a href='/cs/range-queries/sqrt-structures/'
+                
+                >Корневые структуры</a></li>
+            
+          </ol>
+        
+      
+        
+        <li class=' '><a href='/cs/persistent/'
+          
+          >Персистентность</a></li>
+        
+          <ol>
+            
+              <li ><a href='/cs/persistent/persistent-array/'
+                
+                >Структуры с откатами</a></li>
+            
+              <li ><a href='/cs/persistent/path-copying/'
+                
+                >Метод копирования пути</a></li>
+            
+              <li ><a href='/cs/persistent/persistent-segtree/'
+                
+                >Персистентное дерево отрезков</a></li>
+            
+              <li ><a href='/cs/persistent/persistent-treap/'
+                
+                >Персистентное декартово дерево</a></li>
+            
+          </ol>
+        
+      
+        
+        <li class=' '><a href='/cs/segment-tree/'
+          
+          >Дерево отрезков</a></li>
+        
+          <ol>
+            
+              <li ><a href='/cs/segment-tree/pointers/'
+                
+                >Дерево отрезков на указателях</a></li>
+            
+              <li ><a href='/cs/segment-tree/lazy-propagation/'
+                
+                >Отложенные операции</a></li>
+            
+              <li ><a href='/cs/segment-tree/lazy-initialization/'
+                
+                >Отложенное построение</a></li>
+            
+          </ol>
+        
+      
+        
+          <li class='part'>Динамическое программирование</li>
+        
+        <li class=' '><a href='/cs/general-dynamic/'
+          
+          >Общие приёмы динамики</a></li>
+        
+          <ol>
+            
+              <li ><a href='/cs/general-dynamic/segments/'
+                
+                >Динамика по подотрезкам</a></li>
+            
+              <li ><a href='/cs/general-dynamic/memoization/'
+                
+                >Ленивая динамика</a></li>
+            
+          </ol>
+        
+      
+        
+        <li class=' '><a href='/cs/combinatorial-optimization/'
+          
+          >Комбинаторная оптимизация</a></li>
+        
+          <ol>
+            
+              <li ><a href='/cs/combinatorial-optimization/greedy/'
+                
+                >Жадные алгоритмы</a></li>
+            
+              <li ><a href='/cs/combinatorial-optimization/matroid/'
+                
+                >Матроиды</a></li>
+            
+              <li ><a href='/cs/combinatorial-optimization/annealing/'
+                
+                >Метод отжига</a></li>
+            
+          </ol>
+        
+      
+        
+        <li class=' '><a href='/cs/games/'
+          
+          >Теория игр</a></li>
+        
+          <ol>
+            
+              <li ><a href='/cs/games/nim/'
+                
+                >Игра «Ним»</a></li>
+            
+          </ol>
+        
+      
+        
+        <li class=' '><a href='/cs/layer-optimizations/'
+          
+          >Пересчет динамики по слоям</a></li>
+        
+          <ol>
+            
+              <li ><a href='/cs/layer-optimizations/divide-and-conquer/'
+                
+                >Оптимизация через разделяй-и-властвуй</a></li>
+            
+              <li ><a href='/cs/layer-optimizations/knuth/'
+                
+                >Оптимизация Кнута</a></li>
+            
+              <li ><a href='/cs/layer-optimizations/convex-hull-trick/'
+                
+                >Convex Hull Trick</a></li>
+            
+              <li ><a href='/cs/layer-optimizations/lagrange/'
+                
+                >Дискретный метод Лагранжа</a></li>
+            
+          </ol>
+        
+      
+        
+          <li class='part'>Математика</li>
+        
+        <li class=' '><a href='/cs/algebra/'
+          
+          >Алгебра</a></li>
+        
+          <ol>
+            
+              <li ><a href='/cs/algebra/binpow/'
+                
+                >Бинарное возведение в степень</a></li>
+            
+              <li ><a href='/cs/algebra/matrix/'
+                
+                >Матрицы</a></li>
+            
+              <li ><a href='/cs/algebra/matmul/'
+                
+                >Задачи на умножение матриц</a></li>
+            
+              <li ><a href='/cs/algebra/gauss/'
+                
+                >Линейные уравнения</a></li>
+            
+              <li ><a href='/cs/algebra/polynomials/'
+                
+                >Многочлены</a></li>
+            
+              <li ><a href='/cs/algebra/interpolation/'
+                
+                >Интерполяция</a></li>
+            
+              <li ><a href='/cs/algebra/karatsuba/'
+                
+                >Алгоритм Карацубы</a></li>
+            
+              <li ><a href='/cs/algebra/fft/'
+                id='active-element'
+                >Быстрое преобразование Фурье</a></li>
+            
+          </ol>
+        
+      
+        
+        <li class=' '><a href='/cs/modular/'
+          
+          >Модулярная арифметика</a></li>
+        
+          <ol>
+            
+              <li ><a href='/cs/modular/euclid/'
+                
+                >Алгоритм Евклида</a></li>
+            
+              <li ><a href='/cs/modular/extended-euclid/'
+                
+                >Расширенный алгоритм Евклида</a></li>
+            
+              <li ><a href='/cs/modular/reciprocal/'
+                
+                >«Деление» по модулю</a></li>
+            
+          </ol>
+        
+      
+        
+        <li class=' '><a href='/cs/factorization/'
+          
+          >Факторизация и простые числа</a></li>
+        
+          <ol>
+            
+              <li ><a href='/cs/factorization/eratosthenes/'
+                
+                >Решето Эратосфена</a></li>
+            
+              <li ><a href='/cs/factorization/pollard/'
+                
+                >Ро-алгоритм Полларда</a></li>
+            
+          </ol>
+        
+      
+        
+          <li class='part'>Графы</li>
+        
+        <li class=' '><a href='/cs/graph-traversals/'
+          
+          >Обходы графов</a></li>
+        
+          <ol>
+            
+              <li ><a href='/cs/graph-traversals/storing-graphs/'
+                
+                >Хранение графов</a></li>
+            
+              <li ><a href='/cs/graph-traversals/dfs/'
+                
+                >Поиск в глубину</a></li>
+            
+              <li ><a href='/cs/graph-traversals/connectivity/'
+                
+                >Поиск компонент связности</a></li>
+            
+              <li ><a href='/cs/graph-traversals/bipartite/'
+                
+                >Двудольные графы и раскраски</a></li>
+            
+              <li ><a href='/cs/graph-traversals/cycle/'
+                
+                >Нахождение цикла</a></li>
+            
+              <li ><a href='/cs/graph-traversals/topological-sorting/'
+                
+                >Топологическая сортировка</a></li>
+            
+              <li ><a href='/cs/graph-traversals/euler-cycle/'
+                
+                >Эйлеров цикл</a></li>
+            
+              <li ><a href='/cs/graph-traversals/bridges/'
+                
+                >Мосты и точки сочленения</a></li>
+            
+              <li ><a href='/cs/graph-traversals/scc/'
+                
+                >Компоненты сильной связности</a></li>
+            
+              <li ><a href='/cs/graph-traversals/2-sat/'
+                
+                >2-SAT</a></li>
+            
+          </ol>
+        
+      
+        
+        <li class=' '><a href='/cs/shortest-paths/'
+          
+          >Кратчайшие пути</a></li>
+        
+          <ol>
+            
+              <li ><a href='/cs/shortest-paths/acyclic-paths/'
+                
+                >Пути в ациклических графах</a></li>
+            
+              <li ><a href='/cs/shortest-paths/bfs/'
+                
+                >Поиск в ширину</a></li>
+            
+              <li ><a href='/cs/shortest-paths/dijkstra/'
+                
+                >Алгоритм Дейкстры</a></li>
+            
+          </ol>
+        
+      
+        
+        <li class=' '><a href='/cs/spanning-trees/'
+          
+          >Связность и остовные деревья</a></li>
+        
+          <ol>
+            
+              <li ><a href='/cs/spanning-trees/safe-edge/'
+                
+                >Лемма о безопасном ребре</a></li>
+            
+              <li ><a href='/cs/spanning-trees/prim/'
+                
+                >Алгоритм Прима</a></li>
+            
+              <li ><a href='/cs/spanning-trees/kruskal/'
+                
+                >Алгоритм Краскала</a></li>
+            
+              <li ><a href='/cs/spanning-trees/boruvka/'
+                
+                >Алгоритм Борувки</a></li>
+            
+              <li ><a href='/cs/spanning-trees/dcp/'
+                
+                >Динамическая связность</a></li>
+            
+          </ol>
+        
+      
+        
+        <li class=' '><a href='/cs/matching/'
+          
+          >Паросочетания</a></li>
+        
+          <ol>
+            
+              <li ><a href='/cs/matching/berge/'
+                
+                >Лемма Бержа</a></li>
+            
+              <li ><a href='/cs/matching/kuhn/'
+                
+                >Алгоритм Куна</a></li>
+            
+              <li ><a href='/cs/matching/matching-problems/'
+                
+                >Задачи на паросочетания</a></li>
+            
+              <li ><a href='/cs/matching/hall/'
+                
+                >Теорема о свадьбах</a></li>
+            
+          </ol>
+        
+      
+        
+        <li class=' '><a href='/cs/trees/'
+          
+          >Корневые деревья</a></li>
+        
+          <ol>
+            
+              <li ><a href='/cs/trees/tree-queries/'
+                
+                >Запросы на деревьях</a></li>
+            
+              <li ><a href='/cs/trees/lca-rmq/'
+                
+                >Связь задачи LCA и static RMQ</a></li>
+            
+              <li ><a href='/cs/trees/binary-lifting/'
+                
+                >Метод двоичных подъемов</a></li>
+            
+              <li ><a href='/cs/trees/centroid/'
+                
+                >Центроидная декомпозиция</a></li>
+            
+              <li ><a href='/cs/trees/heavy-light/'
+                
+                >Heavy-light декомпозиция</a></li>
+            
+          </ol>
+        
+      
+        
+        <li class=' '><a href='/cs/flows/'
+          
+          >Потоки</a></li>
+        
+          <ol>
+            
+              <li ><a href='/cs/flows/mincost-maxflow/'
+                
+                >Поток минимальной стоимости</a></li>
+            
+          </ol>
+        
+      
+        
+          <li class='part'>Геометрия</li>
+        
+        <li class=' '><a href='/cs/geometry-basic/'
+          
+          >Геометрические примитивы</a></li>
+        
+          <ol>
+            
+              <li ><a href='/cs/geometry-basic/vectors/'
+                
+                >Точки и вектора</a></li>
+            
+              <li ><a href='/cs/geometry-basic/products/'
+                
+                >Скалярное и векторное произведение</a></li>
+            
+              <li ><a href='/cs/geometry-basic/segments/'
+                
+                >Прямые и отрезки</a></li>
+            
+              <li ><a href='/cs/geometry-basic/polygons/'
+                
+                >Многоугольники</a></li>
+            
+          </ol>
+        
+      
+        
+        <li class=' '><a href='/cs/convex-hulls/'
+          
+          >Выпуклые оболочки</a></li>
+        
+          <ol>
+            
+              <li ><a href='/cs/convex-hulls/hull-applications/'
+                
+                >Применения выпуклых оболочек</a></li>
+            
+              <li ><a href='/cs/convex-hulls/jarvis/'
+                
+                >Алгоритм Джарвиса</a></li>
+            
+              <li ><a href='/cs/convex-hulls/graham/'
+                
+                >Алгоритм Грэхэма</a></li>
+            
+              <li ><a href='/cs/convex-hulls/chan/'
+                
+                >Алгоритм Чана</a></li>
+            
+              <li ><a href='/cs/convex-hulls/envelope/'
+                
+                >Верхние и нижние огибающие</a></li>
+            
+          </ol>
+        
+      
+        
+          <li class='part'>Строки</li>
+        
+        <li class=' '><a href='/cs/string-searching/'
+          
+          >Поиск подстроки</a></li>
+        
+          <ol>
+            
+              <li ><a href='/cs/string-searching/prefix-function/'
+                
+                >Префикс-функция</a></li>
+            
+              <li ><a href='/cs/string-searching/z-function/'
+                
+                >Z-функция</a></li>
+            
+              <li ><a href='/cs/string-searching/manacher/'
+                
+                >Алгоритм Манакера</a></li>
+            
+          </ol>
+        
+      
+        
+        <li class=' '><a href='/cs/hashing/'
+          
+          >Хеширование</a></li>
+        
+          <ol>
+            
+              <li ><a href='/cs/hashing/polynomial/'
+                
+                >Полиномиальное хеширование</a></li>
+            
+              <li ><a href='/cs/hashing/collision/'
+                
+                >Коллизии хешей</a></li>
+            
+              <li ><a href='/cs/hashing/isomorphism/'
+                
+                >Проверки на изоморфизм</a></li>
+            
+          </ol>
+        
+      
+        
+        <li class=' '><a href='/cs/string-structures/'
+          
+          >Строковые структуры</a></li>
+        
+          <ol>
+            
+              <li ><a href='/cs/string-structures/trie/'
+                
+                >Префиксное дерево</a></li>
+            
+              <li ><a href='/cs/string-structures/aho-corasick/'
+                
+                >Алгоритм Ахо-Корасик</a></li>
+            
+              <li ><a href='/cs/string-structures/palindromic-tree/'
+                
+                >Дерево палиндромов</a></li>
+            
+              <li ><a href='/cs/string-structures/suffix-array/'
+                
+                >Суффиксный массив</a></li>
+            
+          </ol>
+        
+      
+        
+          <li class='part'>Разное</li>
+        
+        <li class=' '><a href='/cs/numerical/'
+          
+          >Численные методы</a></li>
+        
+          <ol>
+            
+              <li ><a href='/cs/numerical/newton/'
+                
+                >Метод Ньютона</a></li>
+            
+              <li ><a href='/cs/numerical/monte-carlo/'
+                
+                >Методы Монте-Карло</a></li>
+            
+          </ol>
+        
+      
+        
+        <li class=' '><a href='/cs/programming/'
+          
+          >Технологии программирования</a></li>
+        
+          <ol>
+            
+              <li ><a href='/cs/programming/stress-test/'
+                
+                >Стресс-тестирование</a></li>
+            
+              <li ><a href='/cs/programming/bayans/'
+                
+                >Просто интересные задачи</a></li>
+            
+          </ol>
+        
+      
+    
+  </ul>
+</nav>
+<div id='wrapper' ><menu id='menu'>
+  
+  
+  <div class='left'>
+    <a>
+      <img src='/icons/bars-solid.svg'
+           onclick='toggleSidebar()'
+           title='open table of contents'>
+    </a>
+    <a>
+      <img src='/icons/adjust-solid.svg'
+           style='position: relative; top: -1px'
+           onclick='switchTheme(localStorage.getItem("theme") == "dark" ? "light" : "dark")'
+           title='dark theme'>
+    </a>
+    <a>
+      <img src='/icons/search-solid.svg'
+           onclick='toggleSearch()'
+           title='search'>
+    </a>
+  </div>
+  <div class='title'>Быстрое преобразование Фурье</div>
+  <div class='right'>
+    <a onClick='window.print()'>
+      <img src='/icons/print-solid.svg' title='print'>
+    </a>
+    <a href='https://prose.io/#algorithmica-org/algorithmica/edit/master//cs%2falgebra%2ffft.md'>
+      <img src='/icons/edit-solid.svg'
+           title='edit'
+           style='width: 18px; position: relative; right: -2px; top: -1px'>
+    </a>
+    <a href='https://github.com/algorithmica-org/algorithmica/blob/master//cs/algebra/fft.md' class='github-main'>
+      <img src='/icons/github-brands.svg' title='view on github'>
+    </a>
+  </div>
+</menu>
+<main>
+        <div id="search">
+    <input id="search-bar" type="search" placeholder='Поиск по сайту…' oninput="search()">
+    <div id="search-count"></div>
+    <div id="search-results">
+    </div>
+</div>
+<header>
+  
+  <h1>Быстрое преобразование Фурье</h1>
+  
+    <div class='info'><div>
+          <span>авторы</span>
+          
+            <span>Сергей Слотин</span>
+          
+            <span>Александр Кульков</span>
+          
+        </div>
+      <div>
+          <span>опубликовано</span>
+          <span>2019</span>
+        </div>
+      <div>
+          <span>обновлено</span>
+          <span>сент. 14, 2021</span>
+        </div>
+      <div>
+          <span>пререквизиты</span>
+          
+          
+            
+              <span><a href='https://ru.algorithmica.org/cs/algebra/polynomials/'>Многочлены</a></span>
+            
+          
+            
+              <span><a href='https://ru.algorithmica.org/cs/algebra/interpolation/'>Интерполяция</a></span>
+            
+          
+        </div>
+      </div>
+  
+</header>
+<article>
+  
+
+
+  
+    
+    
+      
+        <p>Быстрое преобразование Фурье — один из самых важных алгоритмов XX века, если не самый важный.</p>
+<p>Оно применяется, как можно догадаться, для вычисления <a href="https://ru.wikipedia.org/wiki/%D0%9F%D1%80%D0%B5%D0%BE%D0%B1%D1%80%D0%B0%D0%B7%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5_%D0%A4%D1%83%D1%80%D1%8C%D0%B5">преобразований Фурье</a>, которые в свою очередь используются для обработки звука, электромагнитных волн, задач оптики, сжатия данных, физического моделирования и прочих сложных математических и физических задач.</p>
+<p>В этой статье же мы подойдем немного с другой стороны и рассмотрим алгоритм быстрого преобразования Фурье в контексте задачи умножения чисел и многочленов, <a href="../polynomials">часто встречающейся</a> в олимпиадах.</p>
+<span class='anchor' id="умножение-через-интерполяцию"></span>
+<h3><a class="anchor-link" href="https://ru.algorithmica.org/cs/algebra/fft/#%d1%83%d0%bc%d0%bd%d0%be%d0%b6%d0%b5%d0%bd%d0%b8%d0%b5-%d1%87%d0%b5%d1%80%d0%b5%d0%b7-%d0%b8%d0%bd%d1%82%d0%b5%d1%80%d0%bf%d0%be%d0%bb%d1%8f%d1%86%d0%b8%d1%8e">#</a>Умножение через интерполяцию</h3><p>Многочлен степени $(n - 1)$ <a href="/cs/algebra/interpolation/">можно однозначно задать</a> не только своими коэффициентами, но и значениями в $n$ различных точках.</p>
+<p>При прямом перемножении многочленов, заданных своими коэффициентами, нужно потратить $O(n^2)$ операций. Но если многочлены заданы своими значениями в $2n$ точках, то их можно перемножить за $O(n)$: значение многочлена-произведения $A(x) \cdot B(x)$ в точке $x_i$ просто становится равным $A(x_i) \cdot B(x_i)$.</p>
+<p><strong>Основная идея алгоритма</strong> заключается в том, что если мы посчитаем значения в каких-то различных $(n + m)$ точках для обоих многочленов $A$ и $B$, то, попарно перемножив их, мы за $O(n + m)$ операций можем получить значения в тех же точках для многочлена $A(x) \cdot B(x)$, и с их помощью интерполяцией получить коэффициенты многочлена-произведения и решить задачу.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="cl"><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">poly_multiply</span><span class="p">(</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">a</span><span class="p">,</span> <span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">b</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">A</span> <span class="o">=</span> <span class="n">evaluate</span><span class="p">(</span><span class="n">a</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">B</span> <span class="o">=</span> <span class="n">evaluate</span><span class="p">(</span><span class="n">b</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">A</span><span class="p">.</span><span class="n">size</span><span class="p">();</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="n">A</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">*=</span> <span class="n">B</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="nf">interpolate</span><span class="p">(</span><span class="n">A</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p>Если притвориться, что <code>evaluate</code> и <code>interpolate</code> работают за линейное время, то такое умножение тоже будет работать за линейное время. Но, к сожалению, непосредственное вычисление значений требует $O(n^2)$ операций, а интерполяция — как методом Гаусса, так и через символьное вычисление многочлена Лагранжа — и того больше, $O(n^3)$.</p>
+<p>Но что, если бы мы могли вычислять значения в точках и делать интерполяцию быстрее? Выясняется, что это можно сделать, если рассматривать не произвольные точки, а только специальные — а именно, комплексные корни из единицы.</p>
+<span class='anchor' id="корни-из-единицы"></span>
+<h3><a class="anchor-link" href="https://ru.algorithmica.org/cs/algebra/fft/#%d0%ba%d0%be%d1%80%d0%bd%d0%b8-%d0%b8%d0%b7-%d0%b5%d0%b4%d0%b8%d0%bd%d0%b8%d1%86%d1%8b">#</a>Корни из единицы</h3><p><strong>Факт.</strong> Для любого натурального $n$ есть ровно $n$ «корней из единицы», то есть чисел $w_k$, для которых</p>
+
+      
+    
+  
+
+  
+    $$
+    
+w_k^n = 1
+
+    $$
+  
+
+  
+    
+    
+      
+        А именно, это будут числа вида
+      
+    
+  
+
+  
+    $$
+    
+w_k = e^{i \tau \frac{k}{n}}
+
+    $$
+  
+
+  
+    
+    
+      
+        <p>где $\tau$ обозначает $2 \pi$, «целый круг». <a href="https://tauday.com/tau-manifesto">Это довольно новая нотация</a>.</p>
+<p>На комплексной плоскости эти числа располагаются на единичном круге на равном расстоянии друг от друга:</p>
+<p><figure>
+  <img src="https://www.kylem.net/math/242_roots_unity_9.png">
+  <figcaption>Все 9 комплексных корней степени 9 из единицы</figcaption>
+</figure>
+</p>
+<p>Первый корень $w_1$ (точнее второй — единицу считаем нулевым корнем) называют <em>образующим корнем</em> степени $n$ из единицы. Возведение его в нулевую, первую, вторую и так далее степени порождает последовательность нужных корней единицы, при этом на $n$-ном элементе последовательность зацикливается:</p>
+
+      
+    
+  
+
+  
+    $$
+    
+w_n = e^{i \tau \frac{n}{n}} = e^{i \tau} = e^{i \cdot 0} = w_0 = 1
+
+    $$
+  
+
+  
+    
+    
+      
+        <p>Будем обозначать $w_1$ как просто $w$.</p>
+<span class='anchor' id="дискретное-преобразование-фурье"></span>
+<h2><a class="anchor-link" href="https://ru.algorithmica.org/cs/algebra/fft/#%d0%b4%d0%b8%d1%81%d0%ba%d1%80%d0%b5%d1%82%d0%bd%d0%be%d0%b5-%d0%bf%d1%80%d0%b5%d0%be%d0%b1%d1%80%d0%b0%d0%b7%d0%be%d0%b2%d0%b0%d0%bd%d0%b8%d0%b5-%d1%84%d1%83%d1%80%d1%8c%d0%b5">#</a>Дискретное преобразование Фурье</h2><p><em>Дискретным преобразованием Фурье</em> собственно и называется вычисление значений многочлена в комплексных корнях из единицы:</p>
+
+      
+    
+  
+
+  
+    $$
+    
+y_j = \sum_{k=0}^{n-1} x_k e^{i\tau \frac{kj}{n}} = \sum_{k=0}^{n-1} x_k w_1^{kj}
+
+    $$
+  
+
+  
+    
+    
+      
+        <p><em>Обратным дискретным преобразованием Фурье</em> называется, как можно догадаться, обратная операция — интерполяция коэффициентов $x_i$ по значениям $y_i$.</p>
+<p><strong>Утверждение.</strong> Обратное ДПФ можно вычислить по формуле</p>
+
+      
+    
+  
+
+  
+    $$
+    
+x_j = \frac{1}{n} \sum_{k=0}^{n-1} y_k e^{-i\tau \frac{kj}{n}} = \frac{1}{n} \sum_{k=0}^{n-1} y_k w_{n-1}^{kj}
+
+    $$
+  
+
+  
+    
+    
+      
+        <strong>Доказательство.</strong> При вычислении ПФ мы фактически применяем матрицу к вектору:
+      
+    
+  
+
+  
+    $$
+    
+\begin{pmatrix}
+    w^0 & w^0 & w^0 & w^0 & \dots & w^0
+\\  w^0 & w^1 & w^2 & w^3 & \dots & w^{-1}
+\\  w^0 & w^2 & w^4 & w^6 & \dots & w^{-2}
+\\  w^0 & w^3 & w^6 & w^9 & \dots & w^{-3}
+\\  \vdots & \vdots & \vdots & \vdots & \ddots & \vdots
+\\  w^0 & w^{-1} & w^{-2} & w^{-3} & \dots & w^1
+\end{pmatrix}
+\begin{pmatrix} a_0 \\ a_1 \\ a_2 \\ a_3 \\ \vdots \\ a_{n-1} \end{pmatrix}
+= \begin{pmatrix} y_0 \\ y_1 \\ y_2 \\ y_3 \\ \vdots \\ y_{n-1} \end{pmatrix}
+
+    $$
+  
+
+  
+    
+    
+      
+        <p>То есть преобразование Фурье — это просто линейная операция над вектором: $W a = y$. Значит, обратное преобразование можно записать так: $a = W^{-1}y$.</p>
+<p>Как будет выглядеть эта $W^{-1}$? Автор не будет пытаться изображать логичный способ рассуждений о её получении и сразу её приведёт:</p>
+
+      
+    
+  
+
+  
+    $$
+    
+W^{-1} =
+\dfrac 1 n \begin{pmatrix}
+    w^0 & w^0 & w^0 & w^0 & \dots & w^0
+\\  w^0 & w^{-1} & w^{-2} & w^{-3} & \dots & w^{1}
+\\  w^0 & w^{-2} & w^{-4} & w^{-6} & \dots & w^{2}
+\\  w^0 & w^{-3} & w^{-6} & w^{-9} & \dots & w^{3}
+\\  \vdots & \vdots & \vdots & \vdots & \ddots & \vdots
+\\  w^0 & w^{1} & w^{2} & w^{3} & \dots & w^{-1}
+\end{pmatrix}
+
+    $$
+  
+
+  
+    
+    
+      
+        <p>Проверим, что при перемножении $W$ и $W^{-1}$ действительно получается единичная матрица:</p>
+<ol>
+<li>Значение $i$-того диагонального элемента будет равно $\frac{1}{n} \sum_k w^{ki} w^{-ki} = \frac{1}{n} n = 1$.</li>
+<li>Значение любого недиагонального ($i \neq j$) элемента $(i, j)$ будет равно</li>
+</ol>
+      
+    
+  
+
+  
+    $$
+    
+\frac{1}{n} \sum_k w^{ik} w^{-jk} = \frac{1}{n} \sum_k w^k w^{i-j} = \frac{w^{i-j}}{n} \sum_k w^k = 0
+
+    $$
+  
+
+  
+    
+    
+      
+        <p>Последний переход верен, потому что все комплексные корни суммируются в ноль, то есть $\sum w^k = 0$.</p>
+<p>Внимательный читатель заметит симметричность форм $W$ и $W^{-1}$, а также формул для прямого и обратного преобразования. Эта симметрия нам сильно упростит жизнь: для обратного преобразования Фурье можно использовать тот же алгоритм, только вместо $w^k$ использовать $w^{-k}$, а в конце результат поделить на $n$.</p>
+<span class='anchor' id="алгоритм"></span>
+<h2><a class="anchor-link" href="https://ru.algorithmica.org/cs/algebra/fft/#%d0%b0%d0%bb%d0%b3%d0%be%d1%80%d0%b8%d1%82%d0%bc">#</a>Алгоритм</h2><p>Напомним, что мы изначально хотели перемножать многочлены следующим алгоритмом:</p>
+<ol>
+<li>Посчитаем значения в $(n+m)$ каких-нибудь точках обоих многочленов.</li>
+<li>Перемножим эти значения попарно за $O(n + m)$.</li>
+<li>Интерполяцией получим многочлен-произведение.</li>
+</ol>
+<p>В общем случае быстро посчитать интерполяцию и даже просто посчитать значения в точках нельзя, но для корней единицы — можно. Если научиться быстро считать значения в корнях и интерполировать (прямое и обратное преобразование Фурье), но мы сможем решить исходную задачу.</p>
+<p>Соответствующий алгоритм и называется <em>быстрым преобразованием Фурье</em> (англ. <em>fast Fourier transform</em>). Он использует парадигму «разделяй-и-властвуй» и работает за $O(n \log n)$.</p>
+<span class='anchor' id="схема-кули-тьюки"></span>
+<h3><a class="anchor-link" href="https://ru.algorithmica.org/cs/algebra/fft/#%d1%81%d1%85%d0%b5%d0%bc%d0%b0-%d0%ba%d1%83%d0%bb%d0%b8-%d1%82%d1%8c%d1%8e%d0%ba%d0%b8">#</a>Схема Кули-Тьюки</h3><p>Обычно, алгоритмы «разделяй-и-властвуй» делят задачу на две половины: на первые $\frac{n}{2}$ элементов и вторые $\frac{n}{2}$ элементов. Здесь же мы поступим по-другому: поделим все элементы на чётные и нечётные.</p>
+<p>Представим многочлен в виде $P(x)=A(x^2)+xB(x^2)$, где $A(x)$ состоит из  коэффициентов при чётных степенях $x$, а $B(x)$ — из коэффициентов при нечётных.</p>
+<p>Пусть $n = 2k$. Тогда заметим, что для любого целого числа $t$</p>
+
+      
+    
+  
+
+  
+    $$
+    
+w^{2t}
+= w^{2t \bmod n}
+= w^{2t \bmod 2k}
+= w^{2(t \bmod k)}
+
+    $$
+  
+
+  
+    
+    
+      
+        Зная это, исходную формулу для значения многочлена в точке $w^t$ можно записать так:
+      
+    
+  
+
+  
+    $$
+    
+P(w^t)
+= A(w^{2t}) + w^t B(w^{2t})
+= A\left(w^{2(t\bmod k)}\right)+w^tB\left(w^{2(t\bmod k)}\right)
+
+    $$
+  
+
+  
+    
+    
+      
+        <p>Ключевое замечание: различных корней вида $w^{2t}$, значения в которых нам потребуются для пересчета, будет в два раза меньше, а также в обоих многочленах будет в два раза меньших коэффициентов — значит, мы только что успешно разбили нашу задачу на две, каждая из которых в два раза меньше.</p>
+<p>Сам алгоритм заключается в следующем: рекурсивно посчитаем БПФ для многочленов $A$ и $B$ и объединим ответы с помощью формулы выше. При этом в рекурсии нам нужно считать значения на корнях степени не $n$, а $k = \frac{n}{2}$, то есть на всех «чётных» корнях степени $n$ (вида $w^{2t}$). Заметим, что если $w$ это образующий корень степени $n = 2k$ из единицы, то $w^2$ будет образующим корнем степени $k$, то есть в рекурсию мы можем просто передать другое значение образующего корня.</p>
+<p>Таким образом, мы свели преобразование размера $n$ к двум преобразованиям размера $\dfrac n 2$, и, следовательно, общее время вычисления БПФ составит</p>
+
+      
+    
+  
+
+  
+    $$
+    
+T(n)=2T\left(\dfrac n 2\right)+O(n)=O(n\log n)
+
+    $$
+  
+
+  
+    
+    
+      
+        <p>Отметим также, что предположение о делимости $n$ на $2$ имело существенную роль. Значит, $n$ должно быть чётным на каждом уровне, кроме последнего, из чего следует, что $n$ должно быть степенью двойки.</p>
+<span class='anchor' id="реализация"></span>
+<h3><a class="anchor-link" href="https://ru.algorithmica.org/cs/algebra/fft/#%d1%80%d0%b5%d0%b0%d0%bb%d0%b8%d0%b7%d0%b0%d1%86%d0%b8%d1%8f">#</a>Реализация</h3><p>Приведём код, вычисляющий БПФ по схеме Кули-Тьюки:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="k">typedef</span> <span class="n">complex</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span> <span class="n">ftype</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="k">const</span> <span class="kt">double</span> <span class="n">pi</span> <span class="o">=</span> <span class="n">acos</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// принимает массив и n-ный корень из единицы, и заменяет его на значения в корнях
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kt">void</span> <span class="nf">fft</span><span class="p">(</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">ftype</span><span class="o">&gt;</span> <span class="o">&amp;</span><span class="n">p</span><span class="p">,</span> <span class="n">ftype</span> <span class="n">wn</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">int</span> <span class="n">n</span> <span class="o">=</span> <span class="p">(</span><span class="kt">int</span><span class="p">)</span> <span class="n">p</span><span class="p">.</span><span class="n">size</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="n">n</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// разделяем массив на четный и нечетный
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">vector</span><span class="o">&lt;</span><span class="n">ftype</span><span class="o">&gt;</span> <span class="n">a</span><span class="p">(</span><span class="n">n</span> <span class="o">/</span> <span class="mi">2</span><span class="p">),</span> <span class="n">b</span><span class="p">(</span><span class="n">n</span> <span class="o">/</span> <span class="mi">2</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">n</span> <span class="o">/</span> <span class="mi">2</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">p</span><span class="p">[</span><span class="mi">2</span> <span class="o">*</span> <span class="n">i</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl">        <span class="n">b</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">p</span><span class="p">[</span><span class="mi">2</span> <span class="o">*</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// рекурсивно считаем БПФ
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">fft</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">wn</span> <span class="o">*</span> <span class="n">wn</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">fft</span><span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="n">wn</span> <span class="o">*</span> <span class="n">wn</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// объединяем результат по формуле
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">ftype</span> <span class="n">w</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">n</span> <span class="o">/</span> <span class="mi">2</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">// можно не использовать модуль, а сразу раскрыть его для двух половин
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="n">p</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="n">w</span> <span class="o">*</span> <span class="n">b</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl">        <span class="n">p</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="n">n</span> <span class="o">/</span> <span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">-</span> <span class="n">w</span> <span class="o">*</span> <span class="n">b</span><span class="p">[</span><span class="n">i</span><span class="p">];</span> <span class="c1">// w^(i+n/2) = -w^i
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="n">w</span> <span class="o">*=</span> <span class="n">wn</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p>При изначальном запуске следует дополнить массив до степени двойки:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="n">vector</span><span class="o">&lt;</span><span class="n">ftype</span><span class="o">&gt;</span> <span class="n">evaluate</span><span class="p">(</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">p</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">while</span> <span class="p">(</span><span class="n">__builtin_popcount</span><span class="p">(</span><span class="n">p</span><span class="p">.</span><span class="n">size</span><span class="p">())</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="n">p</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="nf">fft</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">polar</span><span class="p">(</span><span class="mf">1.</span><span class="p">,</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">pi</span> <span class="o">/</span> <span class="n">p</span><span class="p">.</span><span class="n">size</span><span class="p">()));</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p>Как обсуждалось ранее, обратное преобразование Фурье удобно выразить через прямое:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="cl"><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">interpolate</span><span class="p">(</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">ftype</span><span class="o">&gt;</span> <span class="n">p</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">int</span> <span class="n">n</span> <span class="o">=</span> <span class="n">p</span><span class="p">.</span><span class="n">size</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">    <span class="k">auto</span> <span class="n">inv</span> <span class="o">=</span> <span class="n">fft</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">polar</span><span class="p">(</span><span class="mf">1.</span><span class="p">,</span> <span class="o">-</span><span class="mi">2</span> <span class="o">*</span> <span class="n">pi</span> <span class="o">/</span> <span class="n">n</span><span class="p">));</span>
+</span></span><span class="line"><span class="cl">    <span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">res</span><span class="p">(</span><span class="n">n</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">n</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">// мы хотим получать целые числа, для этого результаты нужно округлить
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="n">res</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">round</span><span class="p">(</span><span class="n">real</span><span class="p">(</span><span class="n">inv</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="o">/</span> <span class="n">n</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">res</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p>Теперь мы умеем перемножать два многочлена за $O(n \log n)$:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="cl"><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">poly_multiply</span><span class="p">(</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">a</span><span class="p">,</span> <span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">b</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">vector</span><span class="o">&lt;</span><span class="n">ftype</span><span class="o">&gt;</span> <span class="n">A</span> <span class="o">=</span> <span class="n">evaluate</span><span class="p">(</span><span class="n">a</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">vector</span><span class="o">&lt;</span><span class="n">ftype</span><span class="o">&gt;</span> <span class="n">B</span> <span class="o">=</span> <span class="n">evaluate</span><span class="p">(</span><span class="n">b</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">A</span><span class="p">.</span><span class="n">size</span><span class="p">();</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="n">A</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">*=</span> <span class="n">B</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="nf">interpolate</span><span class="p">(</span><span class="n">A</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p>Приведённый выше код, являясь корректным и имея асимптотику $O(n \log n)$, имеет весьма большую константу — в основном из-за рекурсии и дополнительных аллокаций.</p>
+<span class='anchor' id="оптимизированная-версия"></span>
+<h3><a class="anchor-link" href="https://ru.algorithmica.org/cs/algebra/fft/#%d0%be%d0%bf%d1%82%d0%b8%d0%bc%d0%b8%d0%b7%d0%b8%d1%80%d0%be%d0%b2%d0%b0%d0%bd%d0%bd%d0%b0%d1%8f-%d0%b2%d0%b5%d1%80%d1%81%d0%b8%d1%8f">#</a>Оптимизированная версия</h3><p>Попробуем избавиться от аллокаций вообще. Сейчас они происходят, потому что мы каждый раз разбиваем массив на два. Что произойдет, если вместо того, чтобы создавать новые массивы, просто сдвинуть все четные элементы в левую половину, а нечетные — в правую, и запуститься рекурсивно от половин?</p>
+<p><strong>Наблюдение.</strong> Элемент с индексом <code>k</code> на последнем уровне рекурсии будет записан в ячейку <code>revbits(k)</code>, где функция <code>revbits(x)</code> «разворачивает» биты числа <code>x</code>.</p>
+<p>Действительно, первой итерации все четные элементы (с нижним битом, равным нулю) будут записаны в первую половину (в позицию с верхним битом, равным нулю), а для нечетных наоборот. Дальше, все элементы со вторым самым младшим битом равным нулю будут внутри своих половин записаны в меньшую половину (со вторым самым старшим битом, равным нулю), и так далее.</p>
+<p><figure>
+  <img src="../img/fft-shuffle.png">
+  <figcaption></figcaption>
+</figure>
+</p>
+<p>Если мы знаем, где окажется каждый элемент, то давайте тогда даже не будем делать какие-либо перестановки внутри рекурсии, а просто выполним их один раз в самом начале, а в рекурсивной функции будем просто запускаться от половин.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="kt">void</span> <span class="nf">solve</span><span class="p">(</span><span class="n">ftype</span> <span class="o">*</span><span class="n">a</span><span class="p">,</span> <span class="kt">int</span> <span class="n">n</span><span class="p">,</span> <span class="n">ftype</span> <span class="n">wn</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="n">n</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="kt">int</span> <span class="n">k</span> <span class="o">=</span> <span class="p">(</span><span class="n">n</span> <span class="o">&gt;&gt;</span> <span class="mi">1</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="n">solve</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">wn</span> <span class="o">*</span> <span class="n">wn</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="n">solve</span><span class="p">(</span><span class="n">a</span> <span class="o">+</span> <span class="n">k</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">wn</span> <span class="o">*</span> <span class="n">wn</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="n">ftype</span> <span class="n">w</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">k</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="c1">// тут нужно быть чуть аккуратней с перезаписыванием,
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>            <span class="c1">// потому что мы читаем и пишем из одного и того же массива
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>            <span class="n">ftype</span> <span class="n">t</span> <span class="o">=</span> <span class="n">w</span> <span class="o">*</span> <span class="n">a</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="n">k</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl">            <span class="n">a</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">-</span> <span class="n">t</span><span class="p">;</span> 
+</span></span><span class="line"><span class="cl">            <span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="n">t</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">            <span class="n">w</span> <span class="o">*=</span> <span class="n">wn</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kt">void</span> <span class="nf">fft</span><span class="p">(</span><span class="n">ftype</span> <span class="o">*</span><span class="n">a</span><span class="p">,</span> <span class="kt">int</span> <span class="n">n</span><span class="p">,</span> <span class="kt">int</span> <span class="n">inverse</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">const</span> <span class="kt">int</span> <span class="n">logn</span> <span class="o">=</span> <span class="n">__lg</span><span class="p">(</span><span class="n">n</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">n</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">// переворачиваем биты числа i
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="kt">int</span> <span class="n">k</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">l</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">l</span> <span class="o">&lt;</span> <span class="n">logn</span><span class="p">;</span> <span class="n">l</span><span class="o">++</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">            <span class="n">k</span> <span class="o">|=</span> <span class="p">((</span><span class="n">i</span> <span class="o">&gt;&gt;</span> <span class="n">l</span> <span class="o">&amp;</span> <span class="mi">1</span><span class="p">)</span> <span class="o">&lt;&lt;</span> <span class="p">(</span><span class="n">logn</span> <span class="o">-</span> <span class="n">l</span> <span class="o">-</span> <span class="mi">1</span><span class="p">));</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">// делаем только один swap -- из того элемента, который идет раньше
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="k">if</span> <span class="p">(</span><span class="n">i</span> <span class="o">&lt;</span> <span class="n">k</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">            <span class="n">swap</span><span class="p">(</span><span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">a</span><span class="p">[</span><span class="n">k</span><span class="p">]);</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">ftype</span> <span class="n">wn</span> <span class="o">=</span> <span class="n">polar</span><span class="p">(</span><span class="mf">1.</span><span class="p">,</span> <span class="n">inverse</span> <span class="o">*</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">pi</span> <span class="o">/</span> <span class="n">n</span><span class="p">);</span> <span class="c1">// inverse = {-1, +1}
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">solve</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">wn</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p>У алгоритма довольно неплохая численная стабильность, однако в олимпиадных задачах часто требуется считать какой-нибудь большой целочисленный ответ, либо посчитать его по модулю. Однако от этой проблемы можно избавиться.</p>
+<span class='anchor' id="number-theoretic-transform"></span>
+<h3><a class="anchor-link" href="https://ru.algorithmica.org/cs/algebra/fft/#number-theoretic-transform">#</a>Number-theoretic transform</h3><p>Нам от комплексных чисел на самом деле нужно было только одно свойство: что у единицы есть $n$ «корней». На самом деле, помимо комплексных чисел, есть и другие алгебраические объекты, обладающие таким свойством — например, элементы кольца вычетов по модулю.</p>
+<p>Найдем пару $m$ и $g$ (играющее роль $w_n^1$), такую что $g$ является образующим элементом, то есть $g^n \equiv 1 \pmod m$ и для всех остальных $k &lt; n$ все степени $g^k$ различны по модулю $m$. В качестве $m$ на практике часто специально берут «удобные» модули, например</p>
+
+      
+    
+  
+
+  
+    $$
+    
+m = 998244353 = 7 \cdot 17 \cdot 2^{23} + 1
+
+    $$
+  
+
+  
+    
+    
+      
+        <p>Это число простое, и при этом является ровно на единицу больше числа, делящегося на большую степень двойки. При $n=2^{23}$ подходящим $g$ является число $31$. Заметим, что, как и для комплексных чисел, если для некоторого $n=2^k$ первообразный корень $g$, то для $n=2^{k-1}$ первообразным корнем будет $(g^2 \bmod m)$. Таким образом, для $m=998244353$ и $n=2^k$ первообразный корень будет равен $g=31^{2^{23-k}} \bmod m$.</p>
+<p>Реализация при этом практически не отличается: нужно просто использовать модулярную арифметику во всех операциях и страшные предподсчитанные константы для $w$ и $w^{-1}$.</p>
+<p>Также с недавнего времени некоторые проблемсеттеры начали использовать именно этот модуль вместо стандартного $10^9+7$, чтобы намекнуть (или сбить с толку), что задача на FFT.</p>
+<!--
+Реализация практически не отличается.
+
+```c++
+const int MAXN = (1 << 19),
+          INV2 = 499122177; // обратное к двум по модулю MOD
+const int MOD = 998244353;
+W = 805775211, // W -- первообразный корень MAXN-ной степени из 1,
+IW = 46809892; // IW -- обратное по модулю MOD к W
+
+// INV2 - обратное к двум по модулю MOD
+// Данная реализация FFT перемножает два целых числа длиной до 250000 цифр за ~0.13 секунд без проблем с точностью и занимает всего 30 строк кода
+
+int pws[MAXN + 1], ipws[MAXN + 1];
+
+void init() {
+    pws[MAXN] = W; ipws[MAXN] = IW;
+    for (int i = MAXN / 2; i >= 1; i /= 2) {
+        pws[i] = (pws[i * 2] * 1ll * pws[i * 2]) % MOD;
+        ipws[i] = (ipws[i * 2] * 1ll * ipws[i * 2]) % MOD;
+    }
+}
+
+void fft(vector<int> &a, vector<int> &ans, int l, int cl, int step, int n, bool inv) {
+    if (n == 1) { ans[l] = a[cl]; return; }
+    fft(a, ans, l, cl, step * 2, n / 2, inv);
+    fft(a, ans, l + n / 2, cl + step, step * 2, n / 2, inv);
+    int cw = 1, gw = (inv ? ipws[n] : pws[n]);
+    for (int i = l; i < l + n / 2; i++) {
+        int u = ans[i], v = (cw * 1ll * ans[i + n / 2]) % MOD;
+        ans[i] = (u + v) % MOD;
+        ans[i + n / 2] = (u - v) % MOD;
+        if (ans[i + n / 2] < 0) ans[i + n / 2] += MOD;
+        if (inv) {
+            ans[i] = (ans[i] * 1ll * INV2) % MOD;
+            ans[i + n / 2] = (ans[i + n / 2] * 1ll * INV2) % MOD;
+        }
+        cw = (cw * 1ll * gw) % MOD;
+    }
+}
+```
+-->
+
+      
+    
+  
+
+
+
+        </article>
+        <div class='nextprev'>
+  
+    
+      
+      
+
+      
+      
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+          
+        
+      
+
+      
+        <div class='left'>
+        
+          <a href='https://ru.algorithmica.org/cs/algebra/karatsuba/' id='prev-article'>← Алгоритм Карацубы</a>
+        
+        </div>
+        <div class='right'>
+        
+          
+          
+          
+
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+              
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+        
+          
+            <a href='https://ru.algorithmica.org/cs/modular/' id='next-article'>../Модулярная арифметика →</a>
+          
+        
+        </div>
+      
+    
+  
+</div>
+
+      </main>
+      <footer>
+  Copyleft 2017–2022 Algorithmica.org
+  <br>
+  Материалы распространяются под <a href='https://tldrlegal.com/license/creative-commons-attribution-sharealike-4.0-international-(cc-by-sa-4.0)'>CC BY-SA</a>
+</footer>
+
+    </div>
+  </body>
+</html>

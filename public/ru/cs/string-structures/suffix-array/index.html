@@ -1,0 +1,1353 @@
+<!doctype html>
+<html lang='ru-ru'><head>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-WBN59M8Y5S"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-WBN59M8Y5S');
+</script>
+
+
+<script type="text/javascript">
+  (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+  m[i].l=1*new Date();k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
+  (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
+
+  ym(53961409, "init", {
+       clickmap:true,
+       trackLinks:true,
+       accurateTrackBounce:true,
+       webvisor:true
+  });
+</script>
+<noscript><div><img src="https://mc.yandex.ru/watch/53961409" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+<meta charset="utf-8">
+
+  
+  <link rel="stylesheet" href="/style.min.a3a4a7a8e8602aaa85b7cb3d655edde028ac80d73f2a97389e2cbcf995dd672d.css" integrity="sha256-o6SnqOhgKqqFt8s9ZV7d4CisgNc/Kpc4niy8&#43;ZXdZy0=">
+  <link rel="stylesheet" href="/syntax.css" id="syntax-theme">
+
+  <link rel="stylesheet" type="text/css" href="https://tikzjax.com/v1/fonts.css">
+  <script src="https://tikzjax.com/v1/tikzjax.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/lunr.js/2.3.9/lunr.min.js"></script>
+  <script src="/scripts/lunr.stemmer.support.min.js"></script>
+  <script src="/scripts/lunr.ru.min.js"></script>
+  <script src="/scripts/lunr.multi.min.js"></script>
+
+  
+  <link rel="stylesheet" id="theme">
+
+  <script>
+    function toggleSidebar() {
+      console.log("Toggling sidebar visibility")
+      var sidebar = document.getElementById('sidebar')
+      var wrapper = document.getElementById('wrapper')
+      if (sidebar.classList.contains('sidebar-toggled') || window.getComputedStyle(sidebar).display == 'block') { 
+        sidebar.classList.toggle('sidebar-hidden')
+        wrapper.classList.toggle('sidebar-hidden')
+      }
+      sidebar.classList.add('sidebar-toggled')
+      wrapper.classList.add('sidebar-toggled')
+    }
+
+    function switchTheme(theme) {
+      console.log("Changing theme:", theme)
+      document.getElementById('theme').href = (theme == 'dark' ? "\/dark.min.b3ae1169831434b11b48de5b3e3210547eea6b7884c295ab0030cb973ea0dc49.css" : "")
+      document.getElementById('syntax-theme').href = (theme == 'dark' ? '/syntax-dark.css' : '/syntax.css')
+      localStorage.setItem('theme', theme)
+    }
+
+    async function toggleSearch() {
+      console.log("Toggling search")
+      
+      var searchDiv = document.getElementById('search')
+      if (window.getComputedStyle(searchDiv).display == 'none') {
+        searchDiv.style.display = 'block'
+        window.scrollTo({ top: 0 });
+        document.getElementById('search-bar').focus()
+      } else {
+        searchDiv.style.display = 'none'  
+      }
+
+      if (!index) {
+        console.log("Fetching index")
+        const response = await fetch('/searchindex.json')
+        const pages = await response.json()
+        index = lunr(function() {
+          this.use(lunr.multiLanguage('en', 'ru'))
+          this.field('title', {
+            boost: 5
+          })
+          this.field('content', {
+            boost: 1
+          })
+          pages.forEach(function(doc) {
+            this.add(doc)
+            articles.push(doc)
+          }, this)
+        })
+        console.log("Ready to search")
+      }
+    }
+
+    var articles = []
+    var index = undefined
+
+    function search() {
+      var query = document.getElementById('search-bar').value
+      var resultsDiv = document.getElementById('search-results')
+      var countDiv = document.getElementById('search-count')
+      
+      if (query == '') {
+        resultsDiv.innerHTML = ''
+        countDiv.innerHTML = ''
+        return
+      }
+      
+      var results = index.search(query)
+
+      countDiv.innerHTML = 'Найдено <b>' + results.length + '</b> страниц'
+
+      let resultList = ''
+
+      for (const n in results) {
+        const item = articles[results[n].ref]
+        resultList += '<li><a href="' + item.path + '">' + item.title + '</a> <p>'
+        const text = item.content
+
+        const contextLimit = 80
+
+        if (text.includes(query)) {
+          const start = text.indexOf(query)
+          if (start > contextLimit)
+            resultList += '…'
+          resultList += text.substring(start - contextLimit, start)
+                      + '<b>' + query + '</b>' + text.substring(start + query.length, start + query.length + contextLimit)
+
+        } else {
+          resultList += text.substring(0, contextLimit * 2)
+        }
+        resultList += '…</p></li>'
+      }
+
+      resultsDiv.innerHTML = resultList
+    }
+
+    if (localStorage.getItem('theme') == 'dark') {
+      switchTheme('dark')
+    }
+
+    window.addEventListener('load', function() {
+      var el = document.getElementById("active-element")
+      
+      if (el) {
+        el.scrollIntoView({block: "center"})
+      }
+      
+
+    })
+
+    window.addEventListener('scroll', function() {
+      var menu = document.getElementById('menu')
+      if (window.scrollY < 120) {
+        
+        menu.classList.remove('scrolled')
+      } else {
+        
+        menu.classList.add('scrolled')
+      }
+    })
+
+    window.addEventListener('keydown', function(e) {
+      if (e.altKey) { return }
+      if (document.activeElement.tagName == 'INPUT') { return }
+      if (e.key == 'ArrowLeft') {
+        document.getElementById('prev-article').click()
+      } else if (e.key == 'ArrowRight') {
+        document.getElementById('next-article').click()
+      }
+    })
+  </script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css" integrity="sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.js" integrity="sha384-g7c+Jr9ZivxKLnZTDUhnkOnsh30B4H0rpLUpJ4jAIKs4fnJI+sEnkvrMWph2EDg4" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/contrib/auto-render.min.js" integrity="sha384-mll67QQFJfxn0IYznZYonOWZ644AWYC+Pt2cHqMaRhXVrursRwvLnLaebdGIlYNa" crossorigin="anonymous"
+  onload="renderMathInElement(document.body, {
+    delimiters: [
+      {left: '$$', right: '$$', display: true},
+      {left: '$', right: '$', display: false}
+    ]
+  })"></script>
+
+  
+  <title>Суффиксный массив - Алгоритмика</title>
+</head>
+<body><nav id='sidebar' >
+  
+  
+  <div class='title'>
+    <a href='/'>Алгоритмика</a>
+    
+      
+        
+        <span class='slash'>/</span>
+        <a href='/cs/' class='divisionAbbr'
+           >
+          CS
+        </a>
+      
+    
+  </div>
+  <ul>
+    
+      
+        
+          <li class='part'>Анализ алгоритмов</li>
+        
+        <li class=' '><a href='/cs/complexity/'
+          
+          >Вычислительная сложность</a></li>
+        
+          <ol>
+            
+              <li ><a href='/cs/complexity/asymptotic/'
+                
+                >Асимптотический анализ</a></li>
+            
+              <li ><a href='/cs/complexity/master-theorem/'
+                
+                >Мастер-теорема</a></li>
+            
+          </ol>
+        
+      
+        
+        <li class=' '><a href='/cs/sorting/'
+          
+          >Сортировки</a></li>
+        
+          <ol>
+            
+              <li ><a href='/cs/sorting/bubble/'
+                
+                >Сортировка пузырьком</a></li>
+            
+              <li ><a href='/cs/sorting/selection/'
+                
+                >Сортировка выбором</a></li>
+            
+              <li ><a href='/cs/sorting/insertion/'
+                
+                >Сортировка вставками</a></li>
+            
+              <li ><a href='/cs/sorting/heapsort/'
+                
+                >Сортировка кучей</a></li>
+            
+              <li ><a href='/cs/sorting/counting/'
+                
+                >Сортировка подсчетом</a></li>
+            
+              <li ><a href='/cs/sorting/radix/'
+                
+                >Цифровая сортировка</a></li>
+            
+          </ol>
+        
+      
+        
+        <li class=' '><a href='/cs/interactive/'
+          
+          >Бинпоиск и интерактивки</a></li>
+        
+          <ol>
+            
+              <li ><a href='/cs/interactive/binary-search/'
+                
+                >Бинарный поиск</a></li>
+            
+              <li ><a href='/cs/interactive/answer-search/'
+                
+                >Бинарный поиск по ответу</a></li>
+            
+          </ol>
+        
+      
+        
+        <li class=' '><a href='/cs/sequences/'
+          
+          >Последовательности</a></li>
+        
+          <ol>
+            
+              <li ><a href='/cs/sequences/compression/'
+                
+                >Сжатие координат</a></li>
+            
+          </ol>
+        
+      
+        
+        <li class=' '><a href='/cs/decomposition/'
+          
+          >Декомпозиция задач</a></li>
+        
+          <ol>
+            
+              <li ><a href='/cs/decomposition/scanline/'
+                
+                >Сканирующая прямая</a></li>
+            
+              <li ><a href='/cs/decomposition/rollback/'
+                
+                >Откатывание состояний</a></li>
+            
+              <li ><a href='/cs/decomposition/sqrt-heuristics/'
+                
+                >Корневые эвристики</a></li>
+            
+              <li ><a href='/cs/decomposition/mo/'
+                
+                >Алгоритм Мо</a></li>
+            
+              <li ><a href='/cs/decomposition/mitm/'
+                
+                >Meet-in-the-middle</a></li>
+            
+          </ol>
+        
+      
+        
+        <li class=' '><a href='/cs/arithmetic/'
+          
+          >Арифметика</a></li>
+        
+          <ol>
+            
+              <li ><a href='/cs/arithmetic/bit-representation/'
+                
+                >Битовое представление чисел</a></li>
+            
+              <li ><a href='/cs/arithmetic/simd/'
+                
+                >Векторизация</a></li>
+            
+          </ol>
+        
+      
+        
+          <li class='part'>Структуры данных</li>
+        
+        <li class=' '><a href='/cs/basic-structures/'
+          
+          >Базовые структуры данных</a></li>
+        
+          <ol>
+            
+              <li ><a href='/cs/basic-structures/array/'
+                
+                >Массивы и кортежи</a></li>
+            
+              <li ><a href='/cs/basic-structures/iterators/'
+                
+                >Итераторы</a></li>
+            
+              <li ><a href='/cs/basic-structures/vector/'
+                
+                >Динамический массив</a></li>
+            
+              <li ><a href='/cs/basic-structures/heap/'
+                
+                >Двоичная куча</a></li>
+            
+          </ol>
+        
+      
+        
+        <li class=' '><a href='/cs/tree-structures/'
+          
+          >Деревья поиска</a></li>
+        
+          <ol>
+            
+              <li ><a href='/cs/tree-structures/stl-trees/'
+                
+                >Деревья в STL</a></li>
+            
+              <li ><a href='/cs/tree-structures/treap/'
+                
+                >Декартово дерево</a></li>
+            
+              <li ><a href='/cs/tree-structures/implicit/'
+                
+                >Неявный ключ</a></li>
+            
+          </ol>
+        
+      
+        
+        <li class=' '><a href='/cs/set-structures/'
+          
+          >Структуры для множеств</a></li>
+        
+          <ol>
+            
+              <li ><a href='/cs/set-structures/bitset/'
+                
+                >Битсет и битовое сжатие</a></li>
+            
+              <li ><a href='/cs/set-structures/dsu/'
+                
+                >Система непересекающихся множеств</a></li>
+            
+          </ol>
+        
+      
+        
+        <li class=' '><a href='/cs/range-queries/'
+          
+          >Запросы на отрезках</a></li>
+        
+          <ol>
+            
+              <li ><a href='/cs/range-queries/prefix-sum/'
+                
+                >Префиксные суммы</a></li>
+            
+              <li ><a href='/cs/range-queries/fenwick/'
+                
+                >Дерево Фенвика</a></li>
+            
+              <li ><a href='/cs/range-queries/sparse-table/'
+                
+                >Разреженная таблица</a></li>
+            
+              <li ><a href='/cs/range-queries/sqrt-structures/'
+                
+                >Корневые структуры</a></li>
+            
+          </ol>
+        
+      
+        
+        <li class=' '><a href='/cs/persistent/'
+          
+          >Персистентность</a></li>
+        
+          <ol>
+            
+              <li ><a href='/cs/persistent/persistent-array/'
+                
+                >Структуры с откатами</a></li>
+            
+              <li ><a href='/cs/persistent/path-copying/'
+                
+                >Метод копирования пути</a></li>
+            
+              <li ><a href='/cs/persistent/persistent-segtree/'
+                
+                >Персистентное дерево отрезков</a></li>
+            
+              <li ><a href='/cs/persistent/persistent-treap/'
+                
+                >Персистентное декартово дерево</a></li>
+            
+          </ol>
+        
+      
+        
+        <li class=' '><a href='/cs/segment-tree/'
+          
+          >Дерево отрезков</a></li>
+        
+          <ol>
+            
+              <li ><a href='/cs/segment-tree/pointers/'
+                
+                >Дерево отрезков на указателях</a></li>
+            
+              <li ><a href='/cs/segment-tree/lazy-propagation/'
+                
+                >Отложенные операции</a></li>
+            
+              <li ><a href='/cs/segment-tree/lazy-initialization/'
+                
+                >Отложенное построение</a></li>
+            
+          </ol>
+        
+      
+        
+          <li class='part'>Динамическое программирование</li>
+        
+        <li class=' '><a href='/cs/general-dynamic/'
+          
+          >Общие приёмы динамики</a></li>
+        
+          <ol>
+            
+              <li ><a href='/cs/general-dynamic/segments/'
+                
+                >Динамика по подотрезкам</a></li>
+            
+              <li ><a href='/cs/general-dynamic/memoization/'
+                
+                >Ленивая динамика</a></li>
+            
+          </ol>
+        
+      
+        
+        <li class=' '><a href='/cs/combinatorial-optimization/'
+          
+          >Комбинаторная оптимизация</a></li>
+        
+          <ol>
+            
+              <li ><a href='/cs/combinatorial-optimization/greedy/'
+                
+                >Жадные алгоритмы</a></li>
+            
+              <li ><a href='/cs/combinatorial-optimization/matroid/'
+                
+                >Матроиды</a></li>
+            
+              <li ><a href='/cs/combinatorial-optimization/annealing/'
+                
+                >Метод отжига</a></li>
+            
+          </ol>
+        
+      
+        
+        <li class=' '><a href='/cs/games/'
+          
+          >Теория игр</a></li>
+        
+          <ol>
+            
+              <li ><a href='/cs/games/nim/'
+                
+                >Игра «Ним»</a></li>
+            
+          </ol>
+        
+      
+        
+        <li class=' '><a href='/cs/layer-optimizations/'
+          
+          >Пересчет динамики по слоям</a></li>
+        
+          <ol>
+            
+              <li ><a href='/cs/layer-optimizations/divide-and-conquer/'
+                
+                >Оптимизация через разделяй-и-властвуй</a></li>
+            
+              <li ><a href='/cs/layer-optimizations/knuth/'
+                
+                >Оптимизация Кнута</a></li>
+            
+              <li ><a href='/cs/layer-optimizations/convex-hull-trick/'
+                
+                >Convex Hull Trick</a></li>
+            
+              <li ><a href='/cs/layer-optimizations/lagrange/'
+                
+                >Дискретный метод Лагранжа</a></li>
+            
+          </ol>
+        
+      
+        
+          <li class='part'>Математика</li>
+        
+        <li class=' '><a href='/cs/algebra/'
+          
+          >Алгебра</a></li>
+        
+          <ol>
+            
+              <li ><a href='/cs/algebra/binpow/'
+                
+                >Бинарное возведение в степень</a></li>
+            
+              <li ><a href='/cs/algebra/matrix/'
+                
+                >Матрицы</a></li>
+            
+              <li ><a href='/cs/algebra/matmul/'
+                
+                >Задачи на умножение матриц</a></li>
+            
+              <li ><a href='/cs/algebra/gauss/'
+                
+                >Линейные уравнения</a></li>
+            
+              <li ><a href='/cs/algebra/polynomials/'
+                
+                >Многочлены</a></li>
+            
+              <li ><a href='/cs/algebra/interpolation/'
+                
+                >Интерполяция</a></li>
+            
+              <li ><a href='/cs/algebra/karatsuba/'
+                
+                >Алгоритм Карацубы</a></li>
+            
+              <li ><a href='/cs/algebra/fft/'
+                
+                >Быстрое преобразование Фурье</a></li>
+            
+          </ol>
+        
+      
+        
+        <li class=' '><a href='/cs/modular/'
+          
+          >Модулярная арифметика</a></li>
+        
+          <ol>
+            
+              <li ><a href='/cs/modular/euclid/'
+                
+                >Алгоритм Евклида</a></li>
+            
+              <li ><a href='/cs/modular/extended-euclid/'
+                
+                >Расширенный алгоритм Евклида</a></li>
+            
+              <li ><a href='/cs/modular/reciprocal/'
+                
+                >«Деление» по модулю</a></li>
+            
+          </ol>
+        
+      
+        
+        <li class=' '><a href='/cs/factorization/'
+          
+          >Факторизация и простые числа</a></li>
+        
+          <ol>
+            
+              <li ><a href='/cs/factorization/eratosthenes/'
+                
+                >Решето Эратосфена</a></li>
+            
+              <li ><a href='/cs/factorization/pollard/'
+                
+                >Ро-алгоритм Полларда</a></li>
+            
+          </ol>
+        
+      
+        
+          <li class='part'>Графы</li>
+        
+        <li class=' '><a href='/cs/graph-traversals/'
+          
+          >Обходы графов</a></li>
+        
+          <ol>
+            
+              <li ><a href='/cs/graph-traversals/storing-graphs/'
+                
+                >Хранение графов</a></li>
+            
+              <li ><a href='/cs/graph-traversals/dfs/'
+                
+                >Поиск в глубину</a></li>
+            
+              <li ><a href='/cs/graph-traversals/connectivity/'
+                
+                >Поиск компонент связности</a></li>
+            
+              <li ><a href='/cs/graph-traversals/bipartite/'
+                
+                >Двудольные графы и раскраски</a></li>
+            
+              <li ><a href='/cs/graph-traversals/cycle/'
+                
+                >Нахождение цикла</a></li>
+            
+              <li ><a href='/cs/graph-traversals/topological-sorting/'
+                
+                >Топологическая сортировка</a></li>
+            
+              <li ><a href='/cs/graph-traversals/euler-cycle/'
+                
+                >Эйлеров цикл</a></li>
+            
+              <li ><a href='/cs/graph-traversals/bridges/'
+                
+                >Мосты и точки сочленения</a></li>
+            
+              <li ><a href='/cs/graph-traversals/scc/'
+                
+                >Компоненты сильной связности</a></li>
+            
+              <li ><a href='/cs/graph-traversals/2-sat/'
+                
+                >2-SAT</a></li>
+            
+          </ol>
+        
+      
+        
+        <li class=' '><a href='/cs/shortest-paths/'
+          
+          >Кратчайшие пути</a></li>
+        
+          <ol>
+            
+              <li ><a href='/cs/shortest-paths/acyclic-paths/'
+                
+                >Пути в ациклических графах</a></li>
+            
+              <li ><a href='/cs/shortest-paths/bfs/'
+                
+                >Поиск в ширину</a></li>
+            
+              <li ><a href='/cs/shortest-paths/dijkstra/'
+                
+                >Алгоритм Дейкстры</a></li>
+            
+          </ol>
+        
+      
+        
+        <li class=' '><a href='/cs/spanning-trees/'
+          
+          >Связность и остовные деревья</a></li>
+        
+          <ol>
+            
+              <li ><a href='/cs/spanning-trees/safe-edge/'
+                
+                >Лемма о безопасном ребре</a></li>
+            
+              <li ><a href='/cs/spanning-trees/prim/'
+                
+                >Алгоритм Прима</a></li>
+            
+              <li ><a href='/cs/spanning-trees/kruskal/'
+                
+                >Алгоритм Краскала</a></li>
+            
+              <li ><a href='/cs/spanning-trees/boruvka/'
+                
+                >Алгоритм Борувки</a></li>
+            
+              <li ><a href='/cs/spanning-trees/dcp/'
+                
+                >Динамическая связность</a></li>
+            
+          </ol>
+        
+      
+        
+        <li class=' '><a href='/cs/matching/'
+          
+          >Паросочетания</a></li>
+        
+          <ol>
+            
+              <li ><a href='/cs/matching/berge/'
+                
+                >Лемма Бержа</a></li>
+            
+              <li ><a href='/cs/matching/kuhn/'
+                
+                >Алгоритм Куна</a></li>
+            
+              <li ><a href='/cs/matching/matching-problems/'
+                
+                >Задачи на паросочетания</a></li>
+            
+              <li ><a href='/cs/matching/hall/'
+                
+                >Теорема о свадьбах</a></li>
+            
+          </ol>
+        
+      
+        
+        <li class=' '><a href='/cs/trees/'
+          
+          >Корневые деревья</a></li>
+        
+          <ol>
+            
+              <li ><a href='/cs/trees/tree-queries/'
+                
+                >Запросы на деревьях</a></li>
+            
+              <li ><a href='/cs/trees/lca-rmq/'
+                
+                >Связь задачи LCA и static RMQ</a></li>
+            
+              <li ><a href='/cs/trees/binary-lifting/'
+                
+                >Метод двоичных подъемов</a></li>
+            
+              <li ><a href='/cs/trees/centroid/'
+                
+                >Центроидная декомпозиция</a></li>
+            
+              <li ><a href='/cs/trees/heavy-light/'
+                
+                >Heavy-light декомпозиция</a></li>
+            
+          </ol>
+        
+      
+        
+        <li class=' '><a href='/cs/flows/'
+          
+          >Потоки</a></li>
+        
+          <ol>
+            
+              <li ><a href='/cs/flows/mincost-maxflow/'
+                
+                >Поток минимальной стоимости</a></li>
+            
+          </ol>
+        
+      
+        
+          <li class='part'>Геометрия</li>
+        
+        <li class=' '><a href='/cs/geometry-basic/'
+          
+          >Геометрические примитивы</a></li>
+        
+          <ol>
+            
+              <li ><a href='/cs/geometry-basic/vectors/'
+                
+                >Точки и вектора</a></li>
+            
+              <li ><a href='/cs/geometry-basic/products/'
+                
+                >Скалярное и векторное произведение</a></li>
+            
+              <li ><a href='/cs/geometry-basic/segments/'
+                
+                >Прямые и отрезки</a></li>
+            
+              <li ><a href='/cs/geometry-basic/polygons/'
+                
+                >Многоугольники</a></li>
+            
+          </ol>
+        
+      
+        
+        <li class=' '><a href='/cs/convex-hulls/'
+          
+          >Выпуклые оболочки</a></li>
+        
+          <ol>
+            
+              <li ><a href='/cs/convex-hulls/hull-applications/'
+                
+                >Применения выпуклых оболочек</a></li>
+            
+              <li ><a href='/cs/convex-hulls/jarvis/'
+                
+                >Алгоритм Джарвиса</a></li>
+            
+              <li ><a href='/cs/convex-hulls/graham/'
+                
+                >Алгоритм Грэхэма</a></li>
+            
+              <li ><a href='/cs/convex-hulls/chan/'
+                
+                >Алгоритм Чана</a></li>
+            
+              <li ><a href='/cs/convex-hulls/envelope/'
+                
+                >Верхние и нижние огибающие</a></li>
+            
+          </ol>
+        
+      
+        
+          <li class='part'>Строки</li>
+        
+        <li class=' '><a href='/cs/string-searching/'
+          
+          >Поиск подстроки</a></li>
+        
+          <ol>
+            
+              <li ><a href='/cs/string-searching/prefix-function/'
+                
+                >Префикс-функция</a></li>
+            
+              <li ><a href='/cs/string-searching/z-function/'
+                
+                >Z-функция</a></li>
+            
+              <li ><a href='/cs/string-searching/manacher/'
+                
+                >Алгоритм Манакера</a></li>
+            
+          </ol>
+        
+      
+        
+        <li class=' '><a href='/cs/hashing/'
+          
+          >Хеширование</a></li>
+        
+          <ol>
+            
+              <li ><a href='/cs/hashing/polynomial/'
+                
+                >Полиномиальное хеширование</a></li>
+            
+              <li ><a href='/cs/hashing/collision/'
+                
+                >Коллизии хешей</a></li>
+            
+              <li ><a href='/cs/hashing/isomorphism/'
+                
+                >Проверки на изоморфизм</a></li>
+            
+          </ol>
+        
+      
+        
+        <li class=' '><a href='/cs/string-structures/'
+          
+          >Строковые структуры</a></li>
+        
+          <ol>
+            
+              <li ><a href='/cs/string-structures/trie/'
+                
+                >Префиксное дерево</a></li>
+            
+              <li ><a href='/cs/string-structures/aho-corasick/'
+                
+                >Алгоритм Ахо-Корасик</a></li>
+            
+              <li ><a href='/cs/string-structures/palindromic-tree/'
+                
+                >Дерево палиндромов</a></li>
+            
+              <li ><a href='/cs/string-structures/suffix-array/'
+                id='active-element'
+                >Суффиксный массив</a></li>
+            
+          </ol>
+        
+      
+        
+          <li class='part'>Разное</li>
+        
+        <li class=' '><a href='/cs/numerical/'
+          
+          >Численные методы</a></li>
+        
+          <ol>
+            
+              <li ><a href='/cs/numerical/newton/'
+                
+                >Метод Ньютона</a></li>
+            
+              <li ><a href='/cs/numerical/monte-carlo/'
+                
+                >Методы Монте-Карло</a></li>
+            
+          </ol>
+        
+      
+        
+        <li class=' '><a href='/cs/programming/'
+          
+          >Технологии программирования</a></li>
+        
+          <ol>
+            
+              <li ><a href='/cs/programming/stress-test/'
+                
+                >Стресс-тестирование</a></li>
+            
+              <li ><a href='/cs/programming/bayans/'
+                
+                >Просто интересные задачи</a></li>
+            
+          </ol>
+        
+      
+    
+  </ul>
+</nav>
+<div id='wrapper' ><menu id='menu'>
+  
+  
+  <div class='left'>
+    <a>
+      <img src='/icons/bars-solid.svg'
+           onclick='toggleSidebar()'
+           title='open table of contents'>
+    </a>
+    <a>
+      <img src='/icons/adjust-solid.svg'
+           style='position: relative; top: -1px'
+           onclick='switchTheme(localStorage.getItem("theme") == "dark" ? "light" : "dark")'
+           title='dark theme'>
+    </a>
+    <a>
+      <img src='/icons/search-solid.svg'
+           onclick='toggleSearch()'
+           title='search'>
+    </a>
+  </div>
+  <div class='title'>Суффиксный массив</div>
+  <div class='right'>
+    <a onClick='window.print()'>
+      <img src='/icons/print-solid.svg' title='print'>
+    </a>
+    <a href='https://prose.io/#algorithmica-org/algorithmica/edit/master//cs%2fstring-structures%2fsuffix-array.md'>
+      <img src='/icons/edit-solid.svg'
+           title='edit'
+           style='width: 18px; position: relative; right: -2px; top: -1px'>
+    </a>
+    <a href='https://github.com/algorithmica-org/algorithmica/blob/master//cs/string-structures/suffix-array.md' class='github-main'>
+      <img src='/icons/github-brands.svg' title='view on github'>
+    </a>
+  </div>
+</menu>
+<main>
+        <div id="search">
+    <input id="search-bar" type="search" placeholder='Поиск по сайту…' oninput="search()">
+    <div id="search-count"></div>
+    <div id="search-results">
+    </div>
+</div>
+<header>
+  
+  <h1>Суффиксный массив</h1>
+  
+    <div class='info'><div>
+          <span>авторы</span>
+          
+            <span>Сергей Слотин</span>
+          
+            <span>Константин Амеличев</span>
+          
+        </div>
+      <div>
+          <span>опубликовано</span>
+          <span>2019</span>
+        </div>
+      <div>
+          <span>обновлено</span>
+          <span>авг. 25, 2021</span>
+        </div>
+      <div>
+          <span>пререквизиты</span>
+          
+          
+            
+              <span><a href='https://ru.algorithmica.org/cs/sorting/counting/'>Сортировка подсчетом</a></span>
+            
+          
+            
+              <span><a href='https://ru.algorithmica.org/cs/sorting/radix/'>Цифровая сортировка</a></span>
+            
+          
+        </div>
+      </div>
+  
+</header>
+<article>
+  
+
+
+  
+    
+    
+      
+        <p>Суффиксный массив, автомат и дерево обобщённо называют суффиксными структурами данных. Они применяются в множестве различных задач, встречающихся как на олимпиадах, так и на практике.</p>
+<p>Суффиксные структуры часто (но не всегда) взаимозаменяемые, и более того, конвертируются друг в друга за линейное время. Суффиксный массив — самый простой из них, поэтому мы с него и начнём.</p>
+<span class='anchor' id="мотивация"></span>
+<h2><a class="anchor-link" href="https://ru.algorithmica.org/cs/string-structures/suffix-array/#%d0%bc%d0%be%d1%82%d0%b8%d0%b2%d0%b0%d1%86%d0%b8%d1%8f">#</a>Мотивация</h2><p><strong>Суффиксным массивом</strong> (англ. <em>suffix array</em>, <em>суфмасс</em>) строки $s$ называется перестановка индексов начал её суффиксов, которая задаёт порядок их лексикографической сортировки. Иными словами, чтобы его построить, нужно выполнить сортировку всех суффиксов заданной строки.</p>
+<p><figure>
+  <img src="../img/sa-sort.png">
+  <figcaption>Сортировка всех суффиксов строки «mississippi$»</figcaption>
+</figure>
+</p>
+<p><strong>Где это может быть полезно.</strong> Пусть вы хотите основать ещё один поисковик, и чтобы получить финансирование, вам нужно сделать хоть что-то минимально работающее — хотя бы просто научиться искать по ключевому слову документы, включающие его, а также позиции их вхождения (в 90-е это был бы уже довольно сильный MVP). Простыми алгоритмами — <a href="/cs/hashing">полиномиальными хешами</a>, <a href="/cs/string-searching">z- и префикс-функцией</a> и даже <a href="../aho-corasick">Ахо-Корасиком</a> — это сделать быстро нельзя, потому что на каждый раз нужно проходиться по всем данным, а суффиксными структурами — можно.</p>
+<p>В случае с суффиксным массивом можно сделать следующее: сконкатенировать все строки-документы с каким-нибудь внеалфавитным разделителем (<code>$</code>), построить по ним суффиксный массив, а дальше для каждого запроса искать бинарным поиском первый суффикс в суффиксном массиве, который меньше искомого слова, а также последний, который меньше. Все суффиксы между этими двумя будут включать искомую строку как префикс.</p>
+<p>Например, строка <code>iss</code> в суффиксном массиве из примера найти будет зажата между суффиксами <code>issippi$</code> и <code>ississippi$</code>, которые имеют индексы $2$ и $5$, а значит ровно на этих позициях и будет входить в исходный текст.</p>
+<p>Работать такой алгоритм будет за $O(|t| \log |s|)$, и позже это можно будет оптимизировать до $O(|t| + \log |s|)$, что является одним из самых оптимальных алгоритмов поиска.</p>
+<p>Теперь научимся его строить.</p>
+<span class='anchor' id="построение-суффиксного-массива"></span>
+<h2><a class="anchor-link" href="https://ru.algorithmica.org/cs/string-structures/suffix-array/#%d0%bf%d0%be%d1%81%d1%82%d1%80%d0%be%d0%b5%d0%bd%d0%b8%d0%b5-%d1%81%d1%83%d1%84%d1%84%d0%b8%d0%ba%d1%81%d0%bd%d0%be%d0%b3%d0%be-%d0%bc%d0%b0%d1%81%d1%81%d0%b8%d0%b2%d0%b0">#</a>Построение суффиксного массива</h2><p>Для сортировки суффиксов мы могли бы просто взять перестановку от $0$ до $n$, написать компаратор, который сравнивает суффиксы с соответствующими индексами, и скормить это в <code>std::sort</code>, что будет работать за $O(n^2 \log n)$, потому что внутреннее сравнение работает за $O(n)$. Однако, если сравнивать суффиксы <a href="/cs/hashing">хешами</a>, то уже можно получить алгоритм за $O(n \log^2 n)$. Но это не самый быстрый и удобный алгоритм.</p>
+<span class='anchor' id="построение-за-on-log-n"></span>
+<h3><a class="anchor-link" href="https://ru.algorithmica.org/cs/string-structures/suffix-array/#%d0%bf%d0%be%d1%81%d1%82%d1%80%d0%be%d0%b5%d0%bd%d0%b8%d0%b5-%d0%b7%d0%b0-on-log-n">#</a>Построение за $O(n \log n)$</h3><p>Для удобства допишем в конец строки какой-нибудь символ, который лексикографически меньше любого другого. Для стандартной ASCII обычно выбирают либо «$», либо «#», либо просто нулевой символ, если это C-string (в языке Си все строки и так заканчиваются нулевым символом).</p>
+<p>Мы будем выполнять сортировку не суффиксов, а <em>циклических сдвигов</em>. Строки мы, соответственно, тоже будем рассматривать циклические — это удобно тем, что у них всех будет одна и та же длина. Легко убедиться, что сортировка таких циклических сдвигов эквивалентна сортировке суффиксов — можно просто убрать всё, что идёт после доллара.</p>
+<p>Наш алгоритм будет состоять из $\lceil \log n \rceil$ этапов. На $k$-том этапе будем сортировать все циклические подстроки длины $2^k$. Так на последнем этапе мы отсортируем строки длины $\geq n$ (это легально — строки ведь циклические), и мы получим нужный суффиксный массив.</p>
+<p>Заметим, что в отличие сортировки суффиксов, сортировка подстрок не всегда однозначна — две подстроки могут быть одинаковыми. Поэтому на каждой фазе алгоритма помимо перестановки $p$ индексов циклических подстрок будем поддерживать для каждой циклической подстроки номер её <em>класса эквивалентности</em> $c_i$, которому эта подстрока принадлежит. Номера классов эквивалентности будем давать с сохранением порядка: лексикографически меньшим подстрокам соответствуют меньшие $c_i$. После последнего этапа массив классов эквивалентности должен задавать перестановку, обратную суффиксному массиву.</p>
+<p>Пример: $s = aaba$. Этапов будет 3: для подстрок длины 1, 2 и 4.</p>
+
+      
+    
+  
+
+  
+    $$
+    
+   p_0 = (0, 1, 3, 2) \;\;\; c_0 = (0, 0, 1, 0)
+\\ p_1 = (0, 3, 1, 2) \;\;\; c_1 = (0, 1, 2, 0)
+\\ p_2 = (3, 0, 1, 2) \;\;\; c_2 = (1, 2, 3, 0)
+
+    $$
+  
+
+  
+    
+    
+      
+        <p>Как настоящие программисты, мы нумеруем этапы с нуля, поэтому на нулевом этапе мы отсортируем строки длины $2^0 = 1$, то есть просто символы. Если алфавит небольшой, то это легко сделать <a href="/cs/sorting/counting">сортировкой подсчётом</a> за $O(n)$.</p>
+<p>Следующие этапы нужно проводить, используя информацию с предыдущих. Как в исходном решении, можем снова создать перестановку индексов и применить к ней <code>std::sort</code> со своим компаратором.</p>
+<p>Для быстрого сравнения двух подстрок размера $2^{k-1}$ мы можем использовать классы эквивалентности $c_i$, сопоставив каждой строке длины $2^k$ биграмму — строку из двух «символов». А именно, строка $s[i \ldots i+2^k-1]$ с точки зрения сортировки будет эквивалентна паре $(c_i, c_{i+2^{k-1}})$. Соответственно, можно написать компаратор, который смотрит только на эти пары, и работает за $O(1)$ вместо линейного прохода по строкам. Однако, это всё ещё будет работать за $O(n \log^2 n)$, потому что каждый этап работает за $O(n \log n)$.</p>
+<p><em>Примечание. Зачастую этот способ построения работает быстро, поскольку имеет небольшую константу.</em></p>
+<p>Чтобы соптимизировать каждый этап до линейного, нужно избавиться от логарифма в сортировке. Сортировка слиянием оптимальна только тогда, когда мы ничего не знаем про сортируемые значения — но в нашем случае это не так.</p>
+<p>Воспользуемся идеей <a href="/cs/sorting/radix">цифровой сортировки</a> — сначала отсортируем биграммы по второму символу, а потом по первому. С предыдущего этапа мы уже знаем порядок вторых элементов (это ровно массив $p$). Теперь, чтобы упорядочить их по первому, нам надо просто пройтись по суффиксам в этом порядке, от начала каждого элемента отнять $2^{k-1}$, чтобы получить индекс начала, и провести цифровую сортировку. Таким образом, можно проводить каждый этап за $O(n)$, а весь алгоритм за $O(n \log n)$.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="cl"><span class="c1">// строка -- это последовательность чисел от 1 до размера алфавита
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">suffix_array</span><span class="p">(</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="o">&amp;</span><span class="n">s</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">s</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>  <span class="c1">// добавляем нулевой символ в конец строки
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="kt">int</span> <span class="n">n</span> <span class="o">=</span> <span class="p">(</span><span class="kt">int</span><span class="p">)</span> <span class="n">s</span><span class="p">.</span><span class="n">size</span><span class="p">(),</span>
+</span></span><span class="line"><span class="cl">        <span class="n">cnt</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>  <span class="c1">// вспомогательная переменная: счётчик для сортировки 
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="n">cls</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>  <span class="c1">// количество классов эквивалентности
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">c</span><span class="p">(</span><span class="n">n</span><span class="p">),</span> <span class="n">p</span><span class="p">(</span><span class="n">n</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="n">map</span><span class="o">&lt;</span><span class="kt">int</span><span class="p">,</span> <span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;&gt;</span> <span class="n">t</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">n</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="n">t</span><span class="p">[</span><span class="n">s</span><span class="p">[</span><span class="n">i</span><span class="p">]].</span><span class="n">push_back</span><span class="p">(</span><span class="n">i</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="c1">// «нулевой» этап
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="k">for</span> <span class="p">(</span><span class="k">auto</span> <span class="o">&amp;</span><span class="nl">x</span> <span class="p">:</span> <span class="n">t</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="nl">u</span> <span class="p">:</span> <span class="n">x</span><span class="p">.</span><span class="n">second</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">            <span class="n">c</span><span class="p">[</span><span class="n">u</span><span class="p">]</span> <span class="o">=</span> <span class="n">cls</span><span class="p">,</span> <span class="n">p</span><span class="p">[</span><span class="n">cnt</span><span class="o">++</span><span class="p">]</span> <span class="o">=</span> <span class="n">u</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="n">cls</span><span class="o">++</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="c1">// пока все суффиксы не стали уникальными
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">l</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="n">cls</span> <span class="o">&lt;</span> <span class="n">n</span><span class="p">;</span> <span class="n">l</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">vector</span><span class="o">&lt;</span> <span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="o">&gt;</span> <span class="n">a</span><span class="p">(</span><span class="n">cls</span><span class="p">);</span>  <span class="c1">// массив для сортировки подсчётом
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">_c</span><span class="p">(</span><span class="n">n</span><span class="p">);</span>  <span class="c1">// новые классы эквивалентности
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="kt">int</span> <span class="n">d</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="n">l</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="kt">int</span> <span class="n">_cls</span> <span class="o">=</span> <span class="n">cnt</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>  <span class="c1">// новое количество классов
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        
+</span></span><span class="line"><span class="cl">        <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">n</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="kt">int</span> <span class="n">k</span> <span class="o">=</span> <span class="p">(</span><span class="n">p</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">-</span> <span class="n">d</span> <span class="o">+</span> <span class="n">n</span><span class="p">)</span> <span class="o">%</span> <span class="n">n</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">            <span class="n">a</span><span class="p">[</span><span class="n">c</span><span class="p">[</span><span class="n">k</span><span class="p">]].</span><span class="n">push_back</span><span class="p">(</span><span class="n">k</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">        
+</span></span><span class="line"><span class="cl">        <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">cls</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="k">for</span> <span class="p">(</span><span class="n">size_t</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">size</span><span class="p">();</span> <span class="n">j</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                <span class="c1">// если суффикс начинает новый класс эквивалентности
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>                <span class="k">if</span> <span class="p">(</span><span class="n">j</span> <span class="o">==</span> <span class="mi">0</span> <span class="o">||</span> <span class="n">c</span><span class="p">[(</span><span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span> <span class="o">+</span> <span class="n">d</span><span class="p">)</span> <span class="o">%</span> <span class="n">n</span><span class="p">]</span> <span class="o">!=</span> <span class="n">c</span><span class="p">[(</span><span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">d</span><span class="p">)</span> <span class="o">%</span> <span class="n">n</span><span class="p">])</span>
+</span></span><span class="line"><span class="cl">                    <span class="n">_cls</span><span class="o">++</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">                <span class="n">_c</span><span class="p">[</span><span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]]</span> <span class="o">=</span> <span class="n">_cls</span> <span class="o">-</span> <span class="mi">1</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">                <span class="n">p</span><span class="p">[</span><span class="n">cnt</span><span class="o">++</span><span class="p">]</span> <span class="o">=</span> <span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl">            <span class="p">}</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">        
+</span></span><span class="line"><span class="cl">        <span class="n">c</span> <span class="o">=</span> <span class="n">_c</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="n">cls</span> <span class="o">=</span> <span class="n">_cls</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span><span class="p">(</span><span class="n">p</span><span class="p">.</span><span class="n">begin</span><span class="p">()</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">p</span><span class="p">.</span><span class="n">end</span><span class="p">());</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p>Автор извиняется за качество кода и призывает читателей его переписать и законтрибьютить.</p>
+<span class='anchor' id="наибольшие-общие-префиксы"></span>
+<h2><a class="anchor-link" href="https://ru.algorithmica.org/cs/string-structures/suffix-array/#%d0%bd%d0%b0%d0%b8%d0%b1%d0%be%d0%bb%d1%8c%d1%88%d0%b8%d0%b5-%d0%be%d0%b1%d1%89%d0%b8%d0%b5-%d0%bf%d1%80%d0%b5%d1%84%d0%b8%d0%ba%d1%81%d1%8b">#</a>Наибольшие общие префиксы</h2><p>Для многих применений часто бывает полезным возможность находить длину наибольшего общего префикса (англ. <em>largest common prefix</em>) для различных суффиксов строки.</p>
+<p>Например, чтобы просто сравнить две подстроки, мы можем найти наибольший префикс соответствующих суффиксов и посмотреть на следующий символ — так же, как это обычно делается <a href="/cs/hashing">хешами</a>.</p>
+<p><strong>Утверждение.</strong> Пусть мы знаем <code>lcp</code> для всех суффиксов, которые являются соседями в суффиксном массиве — это будет какой-то массив длины $(n - 1)$. Тогда общий префикс для $i$-того и $j$-того суффикса будет равен минимуму между $c_i$-тым и $c_j$-тым элементом в массиве <code>lcp</code> (напомним, что $c_i$ — класс эквивалентности — это номер $i$-того суффикса в суффиксном массиве).</p>
+<p>Для доказательства можно представить массив <code>lcp</code> в виде гистограммы. Минимум на отрезке между $c_i$ и $c_j$ будет соответствовать суффиксу, который имеет самый короткий общий префикс с ними, а значит все символы до этого префикса и только они и будут наибольшим общим префиксом.</p>
+<p><figure>
+  <img src="../img/lcp.png">
+  <figcaption>Массив LCP для строки «BANANA$»</figcaption>
+</figure>
+</p>
+<p>Тогда есть мотивация посчитать массив <code>lcp$</code> в котором окажутся наибольшие общие префиксы соседних суффиксов, а после как-нибудь считать минимумы на отрезках в этом массиве (например, с помощью <a href="/cs/range-queries/sparse-table">разреженной таблицы</a>).</p>
+<p>Осталось придумать способ быстро посчитать массив <code>lcp</code>. Можно воспользоваться идеей из построения суффиксного массива за $O(n \log^2 n)$: с помощью <a href="/cs/hashing/polynomial/">хешей</a> и бинпоиска находить <code>lcp</code> для каждой пары соседей. Такой метод работает за $O(n \log n)$, но является не самым удобным и популярным.</p>
+<span class='anchor' id="алгоритм-касаи-аримуры-арикавы-ли-парка"></span>
+<h3><a class="anchor-link" href="https://ru.algorithmica.org/cs/string-structures/suffix-array/#%d0%b0%d0%bb%d0%b3%d0%be%d1%80%d0%b8%d1%82%d0%bc-%d0%ba%d0%b0%d1%81%d0%b0%d0%b8-%d0%b0%d1%80%d0%b8%d0%bc%d1%83%d1%80%d1%8b-%d0%b0%d1%80%d0%b8%d0%ba%d0%b0%d0%b2%d1%8b-%d0%bb%d0%b8-%d0%bf%d0%b0%d1%80%d0%ba%d0%b0">#</a>Алгоритм Касаи, Аримуры, Арикавы, Ли, Парка</h3><p>Алгоритм в реальности называется как угодно, но не исходным способом (<em>алгоритм Касаи</em>, <em>алгоритм пяти корейцев</em>, и т. д.). Используется для подсчета $lcp$ за линейное время. Автору алгоритм кажется чем-то похожим на <a href="/cs/string-searching/z-function">z-функцию</a> по своей идее.</p>
+<p><strong>Утверждение.</strong> Пусть мы уже построили суфмасс и посчитали $lcp[i]$. Тогда:</p>
+
+      
+    
+  
+
+  
+    $$
+    
+lcp[c[p[i] + 1]] \ge lcp[i] - 1
+
+    $$
+  
+
+  
+    
+    
+      
+        <p>По-русски: $lcp$ от следующего суффикса в исходной строке не более чем на единицу меньше.</p>
+<p><strong>Доказательство.</strong> Если для $p[i]$-го суффикса была общая часть длины $lcp[i]$ с $p[i + 1]$-ым суффиксом, то у $(p[i] + 1)$-го суффикса гарантированно будет общая часть длины $(lcp[i] - 1)$ с $(p[i + 1] + 1)$-ым суффиксом.</p>
+<p>Заметим, что этот суффикс уже не обязательно будет соседом $(p[i] + 1)$-го в суффиксном массиве, но из свойства $lcp$ двух произвольных суффиксов получим, что $lcp[c[p[i] + 1]] \ge lcp[i] - 1$. Здесь возникает идея просто считать точное значение $lcp$ наивным образом — увеличиваем, пока увеличивается — но брать его стартовое значение, опираясь на это неравенство. В таком случае, чтобы не делать лишние сравнения, будем считать также считать массив $lcp$ в порядке от длинных суффиксов к коротким.</p>
+<p>Код алгоритма:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="cl">    <span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">calc_lcp</span><span class="p">(</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="o">&amp;</span><span class="n">val</span><span class="p">,</span> <span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="o">&amp;</span><span class="n">c</span><span class="p">,</span> <span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="o">&amp;</span><span class="n">p</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="kt">int</span> <span class="n">n</span> <span class="o">=</span> <span class="n">val</span><span class="p">.</span><span class="n">size</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">        <span class="kt">int</span> <span class="n">l</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="c1">// lcp текущего элемента
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">lcp</span><span class="p">(</span><span class="n">n</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">n</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="k">if</span> <span class="p">(</span><span class="n">c</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">==</span> <span class="n">n</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">                <span class="k">continue</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">            <span class="kt">int</span> <span class="n">nxt</span> <span class="o">=</span> <span class="n">p</span><span class="p">[</span><span class="n">c</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl">            <span class="k">while</span> <span class="p">(</span><span class="n">max</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">nxt</span><span class="p">)</span> <span class="o">+</span> <span class="n">l</span> <span class="o">&lt;</span> <span class="n">n</span> <span class="o">&amp;&amp;</span> <span class="n">val</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="n">l</span><span class="p">]</span> <span class="o">==</span> <span class="n">val</span><span class="p">[</span><span class="n">nxt</span> <span class="o">+</span> <span class="n">l</span><span class="p">])</span>
+</span></span><span class="line"><span class="cl">                <span class="n">l</span><span class="o">++</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">            <span class="n">lcp</span><span class="p">[</span><span class="n">c</span><span class="p">[</span><span class="n">i</span><span class="p">]]</span> <span class="o">=</span> <span class="n">l</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">            <span class="n">l</span> <span class="o">=</span> <span class="n">max</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">l</span> <span class="o">-</span> <span class="mi">1</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">lcp</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span></code></pre></div><p>Чтобы оценить сложность алгоритма, посчитаем, сколько раз мы сделаем наивное прибавление. Каждый $lcp[i] \le n$, а также мы сделаем не более $n$ вычитаний единицы при переходах. Тогда суммарное число прибавлений — $O(n)$. Следовательно, и сам алгоритм будет работать за $O(n)$.</p>
+
+      
+    
+  
+
+
+
+        </article>
+        <div class='nextprev'>
+  
+    
+      
+      
+
+      
+      
+      
+        
+      
+        
+      
+        
+      
+        
+          
+        
+      
+
+      
+        <div class='left'>
+        
+          <a href='https://ru.algorithmica.org/cs/string-structures/palindromic-tree/' id='prev-article'>← Дерево палиндромов</a>
+        
+        </div>
+        <div class='right'>
+        
+          
+          
+          
+
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+              
+            
+          
+            
+          
+            
+          
+        
+          
+            <a href='https://ru.algorithmica.org/cs/numerical/' id='next-article'>../Численные методы →</a>
+          
+        
+        </div>
+      
+    
+  
+</div>
+
+      </main>
+      <footer>
+  Copyleft 2017–2022 Algorithmica.org
+  <br>
+  Материалы распространяются под <a href='https://tldrlegal.com/license/creative-commons-attribution-sharealike-4.0-international-(cc-by-sa-4.0)'>CC BY-SA</a>
+</footer>
+
+    </div>
+  </body>
+</html>

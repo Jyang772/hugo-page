@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Теория игр on Алгоритмика</title>
+    <link>https://ru.algorithmica.org/cs/games/</link>
+    <description>Recent content in Теория игр on Алгоритмика</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>ru-ru</language>
+    <lastBuildDate>Fri, 03 Sep 2021 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://ru.algorithmica.org/cs/games/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Игра «Ним»</title>
+      <link>https://ru.algorithmica.org/cs/games/nim/</link>
+      <pubDate>Fri, 03 Sep 2021 00:00:00 +0000</pubDate>
+      <guid>https://ru.algorithmica.org/cs/games/nim/</guid>
+      <description>Рассмотрим следующую игру. Даны $n$ кучек, в каждой из них какое-то количество камней. За один ход игрок может выбрать кучку и выбросить оттуда любое ненулевое число камней. Выигрывает тот игрок, который забрал последний камень.&#xA;При оптимальной игре в ниме на кучках размера 3, 4 и 5 выигрывает первый игрок Немного переформулируем условие. Состояние игры однозначно описывается неупорядоченным набором неотрицательных чисел — пронумеруем их и обозначим количество камней в $i$-й кучке как $a_i$.</description>
+    </item>
+  </channel>
+</rss>

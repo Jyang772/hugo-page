@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Геометрические примитивы on Алгоритмика</title>
+    <link>https://ru.algorithmica.org/cs/geometry-basic/</link>
+    <description>Recent content in Геометрические примитивы on Алгоритмика</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>ru-ru</language>
+    <lastBuildDate>Thu, 26 Aug 2021 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://ru.algorithmica.org/cs/geometry-basic/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Точки и вектора</title>
+      <link>https://ru.algorithmica.org/cs/geometry-basic/vectors/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://ru.algorithmica.org/cs/geometry-basic/vectors/</guid>
+      <description>Отрезок, для которого указано, какой из его концов считается началом, а какой концом, называется вектором. Вектор на плоскости можно задать двумя числами — его координатами по горизонтали и вертикали.&#xA;Точка $\simeq$ вектор. Так как оба задаются просто парой чисел, можно считать их одним и тем же классом объектов и сопоставлять каждой точке её радиус-вектор — вектор из начала координат, ведущий в эту точку.&#xA;#Как их хранитьСоздадим класс, который будет отвечать за все операции с векторами.</description>
+    </item>
+    <item>
+      <title>Скалярное и векторное произведение</title>
+      <link>https://ru.algorithmica.org/cs/geometry-basic/products/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://ru.algorithmica.org/cs/geometry-basic/products/</guid>
+      <description>Помимо очевидных сложения, вычитания и умножения на константу, у векторов можно ввести и свои особенные операции, которые нам упростят жизнь.&#xA;#Скалярное произведениеСкалярное произведение (англ. dot product) двух векторов равно произведению их длин и косинуса угла между ними. Для него справедлива следующая формула:&#xA;$$ a \cdot b = |a| \cdot |b| \cdot \cos \theta = x_a x_b + y_a y_b $$&#xA;Она доказывается муторно и чисто технически, так что мы это делать не будем.</description>
+    </item>
+    <item>
+      <title>Прямые и отрезки</title>
+      <link>https://ru.algorithmica.org/cs/geometry-basic/segments/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://ru.algorithmica.org/cs/geometry-basic/segments/</guid>
+      <description>Отрезок можно задать двумя точками своих концов. В любом порядке — ведь он, в отличие от вектора, неориентирован.&#xA;struct segment { r p, q; }; В вычислительной геометрии часто требуется уметь определять взаимное положение геометрических объектов. Например, проверять, пересекаются ли отрезки. В этом нам поможет скалярное и векторное произведение, а также небольшой разбор случаев:&#xA;В терминах произведений, «концы отрезка лежат по разные стороны относительно другого отрезка», например, записывается как:&#xA;$$ [(M_1 - P_1) \times (P_2 - P_1)] \cdot [(M_2 - P_1) \times (P_2 - P_1)] &amp;lt; 0 $$</description>
+    </item>
+    <item>
+      <title>Многоугольники</title>
+      <link>https://ru.algorithmica.org/cs/geometry-basic/polygons/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://ru.algorithmica.org/cs/geometry-basic/polygons/</guid>
+      <description>Многоугольник определяется как часть плоскости, ограниченная какой-то замкнутой ломаной.&#xA;Разные типы многоугольников Многоугольник называется простым, если граничная ломаная не имеет точек самопересечения. На картинке все многоугольники кроме последнего являются простыми.&#xA;Многоугольник называется выпуклым, если для любых его двух точек, все точки на отрезке между ними тоже принадлежат многоугольнику. Первые два многоугольника являются выпуклыми.&#xA;Выпуклый многоугольник называется правильным, если у него равны все стороны и все углы. Все правильные многоугольники также можно вписать в окружность, но обратное неверно.</description>
+    </item>
+  </channel>
+</rss>

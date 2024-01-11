@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Строковые структуры on Алгоритмика</title>
+    <link>https://ru.algorithmica.org/cs/string-structures/</link>
+    <description>Recent content in Строковые структуры on Алгоритмика</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>ru-ru</language>
+    <lastBuildDate>Wed, 25 Aug 2021 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://ru.algorithmica.org/cs/string-structures/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Префиксное дерево</title>
+      <link>https://ru.algorithmica.org/cs/string-structures/trie/</link>
+      <pubDate>Thu, 19 Aug 2021 00:00:00 +0000</pubDate>
+      <guid>https://ru.algorithmica.org/cs/string-structures/trie/</guid>
+      <description>Префиксное дерево или бор (англ. trie) — структура данных для компактного хранения строк, устроенная в виде дерева, где на рёбрах между вершинами записаны символы, а некоторые вершины помечены терминальными.&#xA;Говорят, что префиксное дерево принимает строку $s$, если существует такая терминальная вершина $v$, что, если выписать подряд все буквы на путях от корня до $v$, то получится строка $s$.&#xA;Бор сам по себе можно использовать для разных задач:&#xA;Хранение строк: если есть много повторяющихся длинных префиксов, то бор может занимать гораздо меньше места, чем массив или set строк.</description>
+    </item>
+    <item>
+      <title>Алгоритм Ахо-Корасик</title>
+      <link>https://ru.algorithmica.org/cs/string-structures/aho-corasick/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://ru.algorithmica.org/cs/string-structures/aho-corasick/</guid>
+      <description>Представим, что мы работаем журналистами в некотором авторитарном государстве, контролирующем СМИ, и в котором время от времени издаются законы, запрещающие упоминать определенные политические события или использовать определенные слова. Как эффективно реализовать подобную цензуру программно?&#xA;Более формально, пусть дан набор строк $s_1, s_2, \ldots, s_m$ алфавита размера $k$ суммарной длины $n$, называемый словарем, и длинный текст $t$. Необходимо определить, есть ли в тексте хотя бы одно слово из словаря, и если есть, то на какой позиции.</description>
+    </item>
+    <item>
+      <title>Дерево палиндромов</title>
+      <link>https://ru.algorithmica.org/cs/string-structures/palindromic-tree/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://ru.algorithmica.org/cs/string-structures/palindromic-tree/</guid>
+      <description>Дерево палиндромов (англ. palindromic tree, EERTREE) — структура данных, использующая другой, более мощный формат хранения информации обо всех подпалиндромах, чем размеры $n$ палиндромов. Она была предложена Михаилом Рубинчиком на летних петрозаводских сборах в 2014-м году.&#xA;Лемма. В строке есть не более $n$ различных подпалиндромов.&#xA;Доказательство. Пусть мы дописываем к строке по одному символу и в данный момент, записав $r$ символов, имеем наибольший суффикс-палиндром $s_{l:r}$. Пусть у него, в свою очередь, есть суффикс-палиндром $s_{l&amp;rsquo;:r} = t$.</description>
+    </item>
+    <item>
+      <title>Суффиксный массив</title>
+      <link>https://ru.algorithmica.org/cs/string-structures/suffix-array/</link>
+      <pubDate>Wed, 25 Aug 2021 00:00:00 +0000</pubDate>
+      <guid>https://ru.algorithmica.org/cs/string-structures/suffix-array/</guid>
+      <description>Суффиксный массив, автомат и дерево обобщённо называют суффиксными структурами данных. Они применяются в множестве различных задач, встречающихся как на олимпиадах, так и на практике.&#xA;Суффиксные структуры часто (но не всегда) взаимозаменяемые, и более того, конвертируются друг в друга за линейное время. Суффиксный массив — самый простой из них, поэтому мы с него и начнём.&#xA;#МотивацияСуффиксным массивом (англ. suffix array, суфмасс) строки $s$ называется перестановка индексов начал её суффиксов, которая задаёт порядок их лексикографической сортировки.</description>
+    </item>
+  </channel>
+</rss>

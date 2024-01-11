@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Общие приёмы динамики on Алгоритмика</title>
+    <link>https://ru.algorithmica.org/cs/general-dynamic/</link>
+    <description>Recent content in Общие приёмы динамики on Алгоритмика</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>ru-ru</language>
+    <atom:link href="https://ru.algorithmica.org/cs/general-dynamic/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Динамика по подотрезкам</title>
+      <link>https://ru.algorithmica.org/cs/general-dynamic/segments/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://ru.algorithmica.org/cs/general-dynamic/segments/</guid>
+      <description>Разберем несколько учебных задач на динамику, где состоянием является префикс или непрерывный подотрезок какого-то массива.&#xA;#КузнечикЕсть полоска $1 \times n$. Кузнечик стоит на первой клетке, он может прыгать вперед на 1, 2 или 3 клетки. Сколько есть способов добраться от начальной клетки до последней?&#xA;Попытаемся придумать рекуррентную формулу — то есть вывести, как ответ для $n$ зависит от ответа для меньших чисел.&#xA;Пусть $f[k]$ равно количеству способов добраться от 1 клетки до клетки номер $k$.</description>
+    </item>
+    <item>
+      <title>Ленивая динамика</title>
+      <link>https://ru.algorithmica.org/cs/general-dynamic/memoization/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://ru.algorithmica.org/cs/general-dynamic/memoization/</guid>
+      <description>Стандартный подход в динамическом программировании — создать массив для ответов на подзадачи и пройтись по нему циклом, пересчитывая неизвестные значения из известных. Однако, иногда сложно или вообще невозможно придумать такой порядок обхода, что все необходимые значения уже посчитаны.&#xA;В подобных случаях вместо циклов можно использовать подход, называемый мемоизацией: будем считать динамику рекурсивной функцией, в которой запоминается посчитанный результат и в следующий раз сразу возвращается, когда функция вызывается от тех же входных аргументов.</description>
+    </item>
+  </channel>
+</rss>

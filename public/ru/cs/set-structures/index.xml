@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Структуры для множеств on Алгоритмика</title>
+    <link>https://ru.algorithmica.org/cs/set-structures/</link>
+    <description>Recent content in Структуры для множеств on Алгоритмика</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>ru-ru</language>
+    <lastBuildDate>Thu, 18 Feb 2021 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://ru.algorithmica.org/cs/set-structures/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Битсет и битовое сжатие</title>
+      <link>https://ru.algorithmica.org/cs/set-structures/bitset/</link>
+      <pubDate>Thu, 18 Feb 2021 00:00:00 +0000</pubDate>
+      <guid>https://ru.algorithmica.org/cs/set-structures/bitset/</guid>
+      <description>Нумерованные множества можно представлять в виде булевых массивов: если элемент $x$ присутствует в множестве, то $x$-тый элемент массива будет равен единице, и нулю в противном случае.&#xA;Разные теоретико-множественные операции часто можно свести к поэлементным операциям булевыми массивами. Например:&#xA;Объединение множеств — побитовое ИЛИ. Пересечение множеств — побитовое И. Симметрическая разность — побитовый XOR (исключающее ИЛИ). Процессор устроен так, что работает не с отдельными битами, а сразу с блоками по, например, 32 или 64 бита — эта величина называется машинным словом — и поэтому операции, затрагивающие лишь один бит, на самом деле «стоят» столько же, сколько и операции над всеми битами int или long.</description>
+    </item>
+    <item>
+      <title>Система непересекающихся множеств</title>
+      <link>https://ru.algorithmica.org/cs/set-structures/dsu/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://ru.algorithmica.org/cs/set-structures/dsu/</guid>
+      <description>Система непересекающихся множеств (англ. disjoint set union) — структура данных, позволяющая объединять непересекающиеся множества и отвечать на разные запросы про них, например «находятся ли элементы $a$ и $b$ в одном множестве» и «чему равен размер данного множества».&#xA;Более формально, изначально имеется $n$ элементов, каждый из которых находится в отдельном (своём собственном) множестве. Структура поддерживает две базовые операции:&#xA;Объединить два каких-либо множества. Запросить, в каком множестве сейчас находится указанный элемент. Обе операции выполняются в среднем почти за $O(1)$ (но не совсем).</description>
+    </item>
+  </channel>
+</rss>

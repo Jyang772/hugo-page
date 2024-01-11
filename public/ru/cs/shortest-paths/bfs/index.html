@@ -1,0 +1,1284 @@
+<!doctype html>
+<html lang='ru-ru'><head>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-WBN59M8Y5S"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-WBN59M8Y5S');
+</script>
+
+
+<script type="text/javascript">
+  (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+  m[i].l=1*new Date();k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
+  (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
+
+  ym(53961409, "init", {
+       clickmap:true,
+       trackLinks:true,
+       accurateTrackBounce:true,
+       webvisor:true
+  });
+</script>
+<noscript><div><img src="https://mc.yandex.ru/watch/53961409" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+<meta charset="utf-8">
+
+  
+  <link rel="stylesheet" href="/style.min.a3a4a7a8e8602aaa85b7cb3d655edde028ac80d73f2a97389e2cbcf995dd672d.css" integrity="sha256-o6SnqOhgKqqFt8s9ZV7d4CisgNc/Kpc4niy8&#43;ZXdZy0=">
+  <link rel="stylesheet" href="/syntax.css" id="syntax-theme">
+
+  <link rel="stylesheet" type="text/css" href="https://tikzjax.com/v1/fonts.css">
+  <script src="https://tikzjax.com/v1/tikzjax.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/lunr.js/2.3.9/lunr.min.js"></script>
+  <script src="/scripts/lunr.stemmer.support.min.js"></script>
+  <script src="/scripts/lunr.ru.min.js"></script>
+  <script src="/scripts/lunr.multi.min.js"></script>
+
+  
+  <link rel="stylesheet" id="theme">
+
+  <script>
+    function toggleSidebar() {
+      console.log("Toggling sidebar visibility")
+      var sidebar = document.getElementById('sidebar')
+      var wrapper = document.getElementById('wrapper')
+      if (sidebar.classList.contains('sidebar-toggled') || window.getComputedStyle(sidebar).display == 'block') { 
+        sidebar.classList.toggle('sidebar-hidden')
+        wrapper.classList.toggle('sidebar-hidden')
+      }
+      sidebar.classList.add('sidebar-toggled')
+      wrapper.classList.add('sidebar-toggled')
+    }
+
+    function switchTheme(theme) {
+      console.log("Changing theme:", theme)
+      document.getElementById('theme').href = (theme == 'dark' ? "\/dark.min.b3ae1169831434b11b48de5b3e3210547eea6b7884c295ab0030cb973ea0dc49.css" : "")
+      document.getElementById('syntax-theme').href = (theme == 'dark' ? '/syntax-dark.css' : '/syntax.css')
+      localStorage.setItem('theme', theme)
+    }
+
+    async function toggleSearch() {
+      console.log("Toggling search")
+      
+      var searchDiv = document.getElementById('search')
+      if (window.getComputedStyle(searchDiv).display == 'none') {
+        searchDiv.style.display = 'block'
+        window.scrollTo({ top: 0 });
+        document.getElementById('search-bar').focus()
+      } else {
+        searchDiv.style.display = 'none'  
+      }
+
+      if (!index) {
+        console.log("Fetching index")
+        const response = await fetch('/searchindex.json')
+        const pages = await response.json()
+        index = lunr(function() {
+          this.use(lunr.multiLanguage('en', 'ru'))
+          this.field('title', {
+            boost: 5
+          })
+          this.field('content', {
+            boost: 1
+          })
+          pages.forEach(function(doc) {
+            this.add(doc)
+            articles.push(doc)
+          }, this)
+        })
+        console.log("Ready to search")
+      }
+    }
+
+    var articles = []
+    var index = undefined
+
+    function search() {
+      var query = document.getElementById('search-bar').value
+      var resultsDiv = document.getElementById('search-results')
+      var countDiv = document.getElementById('search-count')
+      
+      if (query == '') {
+        resultsDiv.innerHTML = ''
+        countDiv.innerHTML = ''
+        return
+      }
+      
+      var results = index.search(query)
+
+      countDiv.innerHTML = 'Найдено <b>' + results.length + '</b> страниц'
+
+      let resultList = ''
+
+      for (const n in results) {
+        const item = articles[results[n].ref]
+        resultList += '<li><a href="' + item.path + '">' + item.title + '</a> <p>'
+        const text = item.content
+
+        const contextLimit = 80
+
+        if (text.includes(query)) {
+          const start = text.indexOf(query)
+          if (start > contextLimit)
+            resultList += '…'
+          resultList += text.substring(start - contextLimit, start)
+                      + '<b>' + query + '</b>' + text.substring(start + query.length, start + query.length + contextLimit)
+
+        } else {
+          resultList += text.substring(0, contextLimit * 2)
+        }
+        resultList += '…</p></li>'
+      }
+
+      resultsDiv.innerHTML = resultList
+    }
+
+    if (localStorage.getItem('theme') == 'dark') {
+      switchTheme('dark')
+    }
+
+    window.addEventListener('load', function() {
+      var el = document.getElementById("active-element")
+      
+      if (el) {
+        el.scrollIntoView({block: "center"})
+      }
+      
+
+    })
+
+    window.addEventListener('scroll', function() {
+      var menu = document.getElementById('menu')
+      if (window.scrollY < 120) {
+        
+        menu.classList.remove('scrolled')
+      } else {
+        
+        menu.classList.add('scrolled')
+      }
+    })
+
+    window.addEventListener('keydown', function(e) {
+      if (e.altKey) { return }
+      if (document.activeElement.tagName == 'INPUT') { return }
+      if (e.key == 'ArrowLeft') {
+        document.getElementById('prev-article').click()
+      } else if (e.key == 'ArrowRight') {
+        document.getElementById('next-article').click()
+      }
+    })
+  </script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css" integrity="sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.js" integrity="sha384-g7c+Jr9ZivxKLnZTDUhnkOnsh30B4H0rpLUpJ4jAIKs4fnJI+sEnkvrMWph2EDg4" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/contrib/auto-render.min.js" integrity="sha384-mll67QQFJfxn0IYznZYonOWZ644AWYC+Pt2cHqMaRhXVrursRwvLnLaebdGIlYNa" crossorigin="anonymous"
+  onload="renderMathInElement(document.body, {
+    delimiters: [
+      {left: '$$', right: '$$', display: true},
+      {left: '$', right: '$', display: false}
+    ]
+  })"></script>
+
+  
+  <title>Поиск в ширину - Алгоритмика</title>
+</head>
+<body><nav id='sidebar' >
+  
+  
+  <div class='title'>
+    <a href='/'>Алгоритмика</a>
+    
+      
+        
+        <span class='slash'>/</span>
+        <a href='/cs/' class='divisionAbbr'
+           >
+          CS
+        </a>
+      
+    
+  </div>
+  <ul>
+    
+      
+        
+          <li class='part'>Анализ алгоритмов</li>
+        
+        <li class=' '><a href='/cs/complexity/'
+          
+          >Вычислительная сложность</a></li>
+        
+          <ol>
+            
+              <li ><a href='/cs/complexity/asymptotic/'
+                
+                >Асимптотический анализ</a></li>
+            
+              <li ><a href='/cs/complexity/master-theorem/'
+                
+                >Мастер-теорема</a></li>
+            
+          </ol>
+        
+      
+        
+        <li class=' '><a href='/cs/sorting/'
+          
+          >Сортировки</a></li>
+        
+          <ol>
+            
+              <li ><a href='/cs/sorting/bubble/'
+                
+                >Сортировка пузырьком</a></li>
+            
+              <li ><a href='/cs/sorting/selection/'
+                
+                >Сортировка выбором</a></li>
+            
+              <li ><a href='/cs/sorting/insertion/'
+                
+                >Сортировка вставками</a></li>
+            
+              <li ><a href='/cs/sorting/heapsort/'
+                
+                >Сортировка кучей</a></li>
+            
+              <li ><a href='/cs/sorting/counting/'
+                
+                >Сортировка подсчетом</a></li>
+            
+              <li ><a href='/cs/sorting/radix/'
+                
+                >Цифровая сортировка</a></li>
+            
+          </ol>
+        
+      
+        
+        <li class=' '><a href='/cs/interactive/'
+          
+          >Бинпоиск и интерактивки</a></li>
+        
+          <ol>
+            
+              <li ><a href='/cs/interactive/binary-search/'
+                
+                >Бинарный поиск</a></li>
+            
+              <li ><a href='/cs/interactive/answer-search/'
+                
+                >Бинарный поиск по ответу</a></li>
+            
+          </ol>
+        
+      
+        
+        <li class=' '><a href='/cs/sequences/'
+          
+          >Последовательности</a></li>
+        
+          <ol>
+            
+              <li ><a href='/cs/sequences/compression/'
+                
+                >Сжатие координат</a></li>
+            
+          </ol>
+        
+      
+        
+        <li class=' '><a href='/cs/decomposition/'
+          
+          >Декомпозиция задач</a></li>
+        
+          <ol>
+            
+              <li ><a href='/cs/decomposition/scanline/'
+                
+                >Сканирующая прямая</a></li>
+            
+              <li ><a href='/cs/decomposition/rollback/'
+                
+                >Откатывание состояний</a></li>
+            
+              <li ><a href='/cs/decomposition/sqrt-heuristics/'
+                
+                >Корневые эвристики</a></li>
+            
+              <li ><a href='/cs/decomposition/mo/'
+                
+                >Алгоритм Мо</a></li>
+            
+              <li ><a href='/cs/decomposition/mitm/'
+                
+                >Meet-in-the-middle</a></li>
+            
+          </ol>
+        
+      
+        
+        <li class=' '><a href='/cs/arithmetic/'
+          
+          >Арифметика</a></li>
+        
+          <ol>
+            
+              <li ><a href='/cs/arithmetic/bit-representation/'
+                
+                >Битовое представление чисел</a></li>
+            
+              <li ><a href='/cs/arithmetic/simd/'
+                
+                >Векторизация</a></li>
+            
+          </ol>
+        
+      
+        
+          <li class='part'>Структуры данных</li>
+        
+        <li class=' '><a href='/cs/basic-structures/'
+          
+          >Базовые структуры данных</a></li>
+        
+          <ol>
+            
+              <li ><a href='/cs/basic-structures/array/'
+                
+                >Массивы и кортежи</a></li>
+            
+              <li ><a href='/cs/basic-structures/iterators/'
+                
+                >Итераторы</a></li>
+            
+              <li ><a href='/cs/basic-structures/vector/'
+                
+                >Динамический массив</a></li>
+            
+              <li ><a href='/cs/basic-structures/heap/'
+                
+                >Двоичная куча</a></li>
+            
+          </ol>
+        
+      
+        
+        <li class=' '><a href='/cs/tree-structures/'
+          
+          >Деревья поиска</a></li>
+        
+          <ol>
+            
+              <li ><a href='/cs/tree-structures/stl-trees/'
+                
+                >Деревья в STL</a></li>
+            
+              <li ><a href='/cs/tree-structures/treap/'
+                
+                >Декартово дерево</a></li>
+            
+              <li ><a href='/cs/tree-structures/implicit/'
+                
+                >Неявный ключ</a></li>
+            
+          </ol>
+        
+      
+        
+        <li class=' '><a href='/cs/set-structures/'
+          
+          >Структуры для множеств</a></li>
+        
+          <ol>
+            
+              <li ><a href='/cs/set-structures/bitset/'
+                
+                >Битсет и битовое сжатие</a></li>
+            
+              <li ><a href='/cs/set-structures/dsu/'
+                
+                >Система непересекающихся множеств</a></li>
+            
+          </ol>
+        
+      
+        
+        <li class=' '><a href='/cs/range-queries/'
+          
+          >Запросы на отрезках</a></li>
+        
+          <ol>
+            
+              <li ><a href='/cs/range-queries/prefix-sum/'
+                
+                >Префиксные суммы</a></li>
+            
+              <li ><a href='/cs/range-queries/fenwick/'
+                
+                >Дерево Фенвика</a></li>
+            
+              <li ><a href='/cs/range-queries/sparse-table/'
+                
+                >Разреженная таблица</a></li>
+            
+              <li ><a href='/cs/range-queries/sqrt-structures/'
+                
+                >Корневые структуры</a></li>
+            
+          </ol>
+        
+      
+        
+        <li class=' '><a href='/cs/persistent/'
+          
+          >Персистентность</a></li>
+        
+          <ol>
+            
+              <li ><a href='/cs/persistent/persistent-array/'
+                
+                >Структуры с откатами</a></li>
+            
+              <li ><a href='/cs/persistent/path-copying/'
+                
+                >Метод копирования пути</a></li>
+            
+              <li ><a href='/cs/persistent/persistent-segtree/'
+                
+                >Персистентное дерево отрезков</a></li>
+            
+              <li ><a href='/cs/persistent/persistent-treap/'
+                
+                >Персистентное декартово дерево</a></li>
+            
+          </ol>
+        
+      
+        
+        <li class=' '><a href='/cs/segment-tree/'
+          
+          >Дерево отрезков</a></li>
+        
+          <ol>
+            
+              <li ><a href='/cs/segment-tree/pointers/'
+                
+                >Дерево отрезков на указателях</a></li>
+            
+              <li ><a href='/cs/segment-tree/lazy-propagation/'
+                
+                >Отложенные операции</a></li>
+            
+              <li ><a href='/cs/segment-tree/lazy-initialization/'
+                
+                >Отложенное построение</a></li>
+            
+          </ol>
+        
+      
+        
+          <li class='part'>Динамическое программирование</li>
+        
+        <li class=' '><a href='/cs/general-dynamic/'
+          
+          >Общие приёмы динамики</a></li>
+        
+          <ol>
+            
+              <li ><a href='/cs/general-dynamic/segments/'
+                
+                >Динамика по подотрезкам</a></li>
+            
+              <li ><a href='/cs/general-dynamic/memoization/'
+                
+                >Ленивая динамика</a></li>
+            
+          </ol>
+        
+      
+        
+        <li class=' '><a href='/cs/combinatorial-optimization/'
+          
+          >Комбинаторная оптимизация</a></li>
+        
+          <ol>
+            
+              <li ><a href='/cs/combinatorial-optimization/greedy/'
+                
+                >Жадные алгоритмы</a></li>
+            
+              <li ><a href='/cs/combinatorial-optimization/matroid/'
+                
+                >Матроиды</a></li>
+            
+              <li ><a href='/cs/combinatorial-optimization/annealing/'
+                
+                >Метод отжига</a></li>
+            
+          </ol>
+        
+      
+        
+        <li class=' '><a href='/cs/games/'
+          
+          >Теория игр</a></li>
+        
+          <ol>
+            
+              <li ><a href='/cs/games/nim/'
+                
+                >Игра «Ним»</a></li>
+            
+          </ol>
+        
+      
+        
+        <li class=' '><a href='/cs/layer-optimizations/'
+          
+          >Пересчет динамики по слоям</a></li>
+        
+          <ol>
+            
+              <li ><a href='/cs/layer-optimizations/divide-and-conquer/'
+                
+                >Оптимизация через разделяй-и-властвуй</a></li>
+            
+              <li ><a href='/cs/layer-optimizations/knuth/'
+                
+                >Оптимизация Кнута</a></li>
+            
+              <li ><a href='/cs/layer-optimizations/convex-hull-trick/'
+                
+                >Convex Hull Trick</a></li>
+            
+              <li ><a href='/cs/layer-optimizations/lagrange/'
+                
+                >Дискретный метод Лагранжа</a></li>
+            
+          </ol>
+        
+      
+        
+          <li class='part'>Математика</li>
+        
+        <li class=' '><a href='/cs/algebra/'
+          
+          >Алгебра</a></li>
+        
+          <ol>
+            
+              <li ><a href='/cs/algebra/binpow/'
+                
+                >Бинарное возведение в степень</a></li>
+            
+              <li ><a href='/cs/algebra/matrix/'
+                
+                >Матрицы</a></li>
+            
+              <li ><a href='/cs/algebra/matmul/'
+                
+                >Задачи на умножение матриц</a></li>
+            
+              <li ><a href='/cs/algebra/gauss/'
+                
+                >Линейные уравнения</a></li>
+            
+              <li ><a href='/cs/algebra/polynomials/'
+                
+                >Многочлены</a></li>
+            
+              <li ><a href='/cs/algebra/interpolation/'
+                
+                >Интерполяция</a></li>
+            
+              <li ><a href='/cs/algebra/karatsuba/'
+                
+                >Алгоритм Карацубы</a></li>
+            
+              <li ><a href='/cs/algebra/fft/'
+                
+                >Быстрое преобразование Фурье</a></li>
+            
+          </ol>
+        
+      
+        
+        <li class=' '><a href='/cs/modular/'
+          
+          >Модулярная арифметика</a></li>
+        
+          <ol>
+            
+              <li ><a href='/cs/modular/euclid/'
+                
+                >Алгоритм Евклида</a></li>
+            
+              <li ><a href='/cs/modular/extended-euclid/'
+                
+                >Расширенный алгоритм Евклида</a></li>
+            
+              <li ><a href='/cs/modular/reciprocal/'
+                
+                >«Деление» по модулю</a></li>
+            
+          </ol>
+        
+      
+        
+        <li class=' '><a href='/cs/factorization/'
+          
+          >Факторизация и простые числа</a></li>
+        
+          <ol>
+            
+              <li ><a href='/cs/factorization/eratosthenes/'
+                
+                >Решето Эратосфена</a></li>
+            
+              <li ><a href='/cs/factorization/pollard/'
+                
+                >Ро-алгоритм Полларда</a></li>
+            
+          </ol>
+        
+      
+        
+          <li class='part'>Графы</li>
+        
+        <li class=' '><a href='/cs/graph-traversals/'
+          
+          >Обходы графов</a></li>
+        
+          <ol>
+            
+              <li ><a href='/cs/graph-traversals/storing-graphs/'
+                
+                >Хранение графов</a></li>
+            
+              <li ><a href='/cs/graph-traversals/dfs/'
+                
+                >Поиск в глубину</a></li>
+            
+              <li ><a href='/cs/graph-traversals/connectivity/'
+                
+                >Поиск компонент связности</a></li>
+            
+              <li ><a href='/cs/graph-traversals/bipartite/'
+                
+                >Двудольные графы и раскраски</a></li>
+            
+              <li ><a href='/cs/graph-traversals/cycle/'
+                
+                >Нахождение цикла</a></li>
+            
+              <li ><a href='/cs/graph-traversals/topological-sorting/'
+                
+                >Топологическая сортировка</a></li>
+            
+              <li ><a href='/cs/graph-traversals/euler-cycle/'
+                
+                >Эйлеров цикл</a></li>
+            
+              <li ><a href='/cs/graph-traversals/bridges/'
+                
+                >Мосты и точки сочленения</a></li>
+            
+              <li ><a href='/cs/graph-traversals/scc/'
+                
+                >Компоненты сильной связности</a></li>
+            
+              <li ><a href='/cs/graph-traversals/2-sat/'
+                
+                >2-SAT</a></li>
+            
+          </ol>
+        
+      
+        
+        <li class=' '><a href='/cs/shortest-paths/'
+          
+          >Кратчайшие пути</a></li>
+        
+          <ol>
+            
+              <li ><a href='/cs/shortest-paths/acyclic-paths/'
+                
+                >Пути в ациклических графах</a></li>
+            
+              <li ><a href='/cs/shortest-paths/bfs/'
+                id='active-element'
+                >Поиск в ширину</a></li>
+            
+              <li ><a href='/cs/shortest-paths/dijkstra/'
+                
+                >Алгоритм Дейкстры</a></li>
+            
+          </ol>
+        
+      
+        
+        <li class=' '><a href='/cs/spanning-trees/'
+          
+          >Связность и остовные деревья</a></li>
+        
+          <ol>
+            
+              <li ><a href='/cs/spanning-trees/safe-edge/'
+                
+                >Лемма о безопасном ребре</a></li>
+            
+              <li ><a href='/cs/spanning-trees/prim/'
+                
+                >Алгоритм Прима</a></li>
+            
+              <li ><a href='/cs/spanning-trees/kruskal/'
+                
+                >Алгоритм Краскала</a></li>
+            
+              <li ><a href='/cs/spanning-trees/boruvka/'
+                
+                >Алгоритм Борувки</a></li>
+            
+              <li ><a href='/cs/spanning-trees/dcp/'
+                
+                >Динамическая связность</a></li>
+            
+          </ol>
+        
+      
+        
+        <li class=' '><a href='/cs/matching/'
+          
+          >Паросочетания</a></li>
+        
+          <ol>
+            
+              <li ><a href='/cs/matching/berge/'
+                
+                >Лемма Бержа</a></li>
+            
+              <li ><a href='/cs/matching/kuhn/'
+                
+                >Алгоритм Куна</a></li>
+            
+              <li ><a href='/cs/matching/matching-problems/'
+                
+                >Задачи на паросочетания</a></li>
+            
+              <li ><a href='/cs/matching/hall/'
+                
+                >Теорема о свадьбах</a></li>
+            
+          </ol>
+        
+      
+        
+        <li class=' '><a href='/cs/trees/'
+          
+          >Корневые деревья</a></li>
+        
+          <ol>
+            
+              <li ><a href='/cs/trees/tree-queries/'
+                
+                >Запросы на деревьях</a></li>
+            
+              <li ><a href='/cs/trees/lca-rmq/'
+                
+                >Связь задачи LCA и static RMQ</a></li>
+            
+              <li ><a href='/cs/trees/binary-lifting/'
+                
+                >Метод двоичных подъемов</a></li>
+            
+              <li ><a href='/cs/trees/centroid/'
+                
+                >Центроидная декомпозиция</a></li>
+            
+              <li ><a href='/cs/trees/heavy-light/'
+                
+                >Heavy-light декомпозиция</a></li>
+            
+          </ol>
+        
+      
+        
+        <li class=' '><a href='/cs/flows/'
+          
+          >Потоки</a></li>
+        
+          <ol>
+            
+              <li ><a href='/cs/flows/mincost-maxflow/'
+                
+                >Поток минимальной стоимости</a></li>
+            
+          </ol>
+        
+      
+        
+          <li class='part'>Геометрия</li>
+        
+        <li class=' '><a href='/cs/geometry-basic/'
+          
+          >Геометрические примитивы</a></li>
+        
+          <ol>
+            
+              <li ><a href='/cs/geometry-basic/vectors/'
+                
+                >Точки и вектора</a></li>
+            
+              <li ><a href='/cs/geometry-basic/products/'
+                
+                >Скалярное и векторное произведение</a></li>
+            
+              <li ><a href='/cs/geometry-basic/segments/'
+                
+                >Прямые и отрезки</a></li>
+            
+              <li ><a href='/cs/geometry-basic/polygons/'
+                
+                >Многоугольники</a></li>
+            
+          </ol>
+        
+      
+        
+        <li class=' '><a href='/cs/convex-hulls/'
+          
+          >Выпуклые оболочки</a></li>
+        
+          <ol>
+            
+              <li ><a href='/cs/convex-hulls/hull-applications/'
+                
+                >Применения выпуклых оболочек</a></li>
+            
+              <li ><a href='/cs/convex-hulls/jarvis/'
+                
+                >Алгоритм Джарвиса</a></li>
+            
+              <li ><a href='/cs/convex-hulls/graham/'
+                
+                >Алгоритм Грэхэма</a></li>
+            
+              <li ><a href='/cs/convex-hulls/chan/'
+                
+                >Алгоритм Чана</a></li>
+            
+              <li ><a href='/cs/convex-hulls/envelope/'
+                
+                >Верхние и нижние огибающие</a></li>
+            
+          </ol>
+        
+      
+        
+          <li class='part'>Строки</li>
+        
+        <li class=' '><a href='/cs/string-searching/'
+          
+          >Поиск подстроки</a></li>
+        
+          <ol>
+            
+              <li ><a href='/cs/string-searching/prefix-function/'
+                
+                >Префикс-функция</a></li>
+            
+              <li ><a href='/cs/string-searching/z-function/'
+                
+                >Z-функция</a></li>
+            
+              <li ><a href='/cs/string-searching/manacher/'
+                
+                >Алгоритм Манакера</a></li>
+            
+          </ol>
+        
+      
+        
+        <li class=' '><a href='/cs/hashing/'
+          
+          >Хеширование</a></li>
+        
+          <ol>
+            
+              <li ><a href='/cs/hashing/polynomial/'
+                
+                >Полиномиальное хеширование</a></li>
+            
+              <li ><a href='/cs/hashing/collision/'
+                
+                >Коллизии хешей</a></li>
+            
+              <li ><a href='/cs/hashing/isomorphism/'
+                
+                >Проверки на изоморфизм</a></li>
+            
+          </ol>
+        
+      
+        
+        <li class=' '><a href='/cs/string-structures/'
+          
+          >Строковые структуры</a></li>
+        
+          <ol>
+            
+              <li ><a href='/cs/string-structures/trie/'
+                
+                >Префиксное дерево</a></li>
+            
+              <li ><a href='/cs/string-structures/aho-corasick/'
+                
+                >Алгоритм Ахо-Корасик</a></li>
+            
+              <li ><a href='/cs/string-structures/palindromic-tree/'
+                
+                >Дерево палиндромов</a></li>
+            
+              <li ><a href='/cs/string-structures/suffix-array/'
+                
+                >Суффиксный массив</a></li>
+            
+          </ol>
+        
+      
+        
+          <li class='part'>Разное</li>
+        
+        <li class=' '><a href='/cs/numerical/'
+          
+          >Численные методы</a></li>
+        
+          <ol>
+            
+              <li ><a href='/cs/numerical/newton/'
+                
+                >Метод Ньютона</a></li>
+            
+              <li ><a href='/cs/numerical/monte-carlo/'
+                
+                >Методы Монте-Карло</a></li>
+            
+          </ol>
+        
+      
+        
+        <li class=' '><a href='/cs/programming/'
+          
+          >Технологии программирования</a></li>
+        
+          <ol>
+            
+              <li ><a href='/cs/programming/stress-test/'
+                
+                >Стресс-тестирование</a></li>
+            
+              <li ><a href='/cs/programming/bayans/'
+                
+                >Просто интересные задачи</a></li>
+            
+          </ol>
+        
+      
+    
+  </ul>
+</nav>
+<div id='wrapper' ><menu id='menu'>
+  
+  
+  <div class='left'>
+    <a>
+      <img src='/icons/bars-solid.svg'
+           onclick='toggleSidebar()'
+           title='open table of contents'>
+    </a>
+    <a>
+      <img src='/icons/adjust-solid.svg'
+           style='position: relative; top: -1px'
+           onclick='switchTheme(localStorage.getItem("theme") == "dark" ? "light" : "dark")'
+           title='dark theme'>
+    </a>
+    <a>
+      <img src='/icons/search-solid.svg'
+           onclick='toggleSearch()'
+           title='search'>
+    </a>
+  </div>
+  <div class='title'>Поиск в ширину</div>
+  <div class='right'>
+    <a onClick='window.print()'>
+      <img src='/icons/print-solid.svg' title='print'>
+    </a>
+    <a href='https://prose.io/#algorithmica-org/algorithmica/edit/master//cs%2fshortest-paths%2fbfs.md'>
+      <img src='/icons/edit-solid.svg'
+           title='edit'
+           style='width: 18px; position: relative; right: -2px; top: -1px'>
+    </a>
+    <a href='https://github.com/algorithmica-org/algorithmica/blob/master//cs/shortest-paths/bfs.md' class='github-main'>
+      <img src='/icons/github-brands.svg' title='view on github'>
+    </a>
+  </div>
+</menu>
+<main>
+        <div id="search">
+    <input id="search-bar" type="search" placeholder='Поиск по сайту…' oninput="search()">
+    <div id="search-count"></div>
+    <div id="search-results">
+    </div>
+</div>
+<header>
+  
+  <h1>Поиск в ширину</h1>
+  
+    <div class='info'><div>
+          <span>авторы</span>
+          
+            <span>Александр Гришутин</span>
+          
+            <span>Станислав Алексеев</span>
+          
+            <span><a href="https://e-maxx.ru/algo/bfs">Максим Иванов</a></span>
+          
+        </div>
+      <div>
+          <span>редактор</span>
+          
+            <span>Сергей Слотин</span>
+          
+        </div>
+      </div>
+  
+</header>
+<article>
+  
+
+
+  
+    
+    
+      
+        <p><em>Поиск в ширину</em> (англ. <em>breadth-first search</em>) — один из основных алгоритмов на графах, позволяющий находить все кратчайшие пути от заданной вершины и решать многие другие задачи.</p>
+<p>Поиск в ширину также называют <em>обходом</em> — так же, как <a href="/cs/graph-traversals/dfs">поиск в глубину</a> и все другие обходы, он посещает все вершины графа по одному разу, только в другом порядке: по увеличению расстояния до начальной вершины.</p>
+<span class='anchor' id="описание-алгоритма"></span>
+<h2><a class="anchor-link" href="https://ru.algorithmica.org/cs/shortest-paths/bfs/#%d0%be%d0%bf%d0%b8%d1%81%d0%b0%d0%bd%d0%b8%d0%b5-%d0%b0%d0%bb%d0%b3%d0%be%d1%80%d0%b8%d1%82%d0%bc%d0%b0">#</a>Описание алгоритма</h2><p>На вход алгоритма подаётся <em>невзвешенный</em> граф и номер стартовой вершины $s$. Граф может быть как ориентированным, так и неориентированным — для алгоритма это не важно.</p>
+<p>Основную идею алгоритма можно понимать как процесс «поджигания» графа: на нулевом шаге мы поджигаем вершину $s$, а на каждом следующем шаге огонь с каждой уже горящей вершины перекидывается на всех её соседей, в конечном счете поджигая весь граф.</p>
+<p>Если моделировать этот процесс, то за каждую итерацию алгоритма будет происходить расширение «кольца огня» в ширину на единицу. Номер шага, на котором вершина $v$ начинает гореть, в точности равен длине её минимального пути из вершины $s$.</p>
+<p><figure>
+  <img src="../img/bfs.svg">
+  <figcaption></figcaption>
+</figure>
+</p>
+<p>Моделировать это можно следующим образом. Создадим очередь, в которую будут помещаться горящие вершины, а также заведём булевый массив, в котором для каждой вершины будем отмечать, горит она или нет — или иными словами, была ли она уже посещена. Изначально в очередь помещается только вершина $s$, которая сразу помечается горящей.</p>
+<p>Затем алгоритм представляет собой такой цикл: пока очередь не пуста, достать из её головы одну вершину $v$, просмотреть все рёбра, исходящие из этой вершины, и если какие-то из смежных вершин $u$ ещё не горят, поджечь их и поместить в конец очереди.</p>
+<p>В итоге, когда очередь опустеет, мы по одному разу обойдём все достижимые из $s$ вершины, причём до каждой дойдём кратчайшим путём. Длины кратчайших путей можно посчитать, если завести для них отдельный массив $d$ и при добавлении в очередь пересчитывать по правилу $d_u = d_v + 1$. Также можно компактно сохранить дополнительную информацию для восстановления самих путей, заведя массив «предков», в котором для каждой вершины хранится номер вершины из которой мы в неё попали.</p>
+<span class='anchor' id="реализация"></span>
+<h3><a class="anchor-link" href="https://ru.algorithmica.org/cs/shortest-paths/bfs/#%d1%80%d0%b5%d0%b0%d0%bb%d0%b8%d0%b7%d0%b0%d1%86%d0%b8%d1%8f">#</a>Реализация</h3><p>Если мы всё равно поддерживаем массив расстояний, то отдельный булевый массив с метками горящих вершин можно не создавать, а вместо этого просто присвоить изначальное расстояние всех вершин некоторым некоторым специальным значением (например, -1), которое будет сигнализировать а том, что эту вершину мы ещё не просмотрели.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="cl"><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">g</span><span class="p">[</span><span class="n">maxn</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kt">void</span> <span class="nf">bfs</span><span class="p">(</span><span class="kt">int</span> <span class="n">s</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">queue</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">q</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">q</span><span class="p">.</span><span class="n">push</span><span class="p">(</span><span class="n">s</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">d</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">),</span> <span class="n">p</span><span class="p">(</span><span class="n">n</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">d</span><span class="p">[</span><span class="n">s</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="k">while</span> <span class="p">(</span><span class="o">!</span><span class="n">q</span><span class="p">.</span><span class="n">empty</span><span class="p">())</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="kt">int</span> <span class="n">v</span> <span class="o">=</span> <span class="n">q</span><span class="p">.</span><span class="n">front</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">        <span class="n">q</span><span class="p">.</span><span class="n">pop</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">        <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="nl">u</span> <span class="p">:</span> <span class="n">g</span><span class="p">[</span><span class="n">v</span><span class="p">])</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="k">if</span> <span class="p">(</span><span class="n">d</span><span class="p">[</span><span class="n">u</span><span class="p">]</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                <span class="n">q</span><span class="p">.</span><span class="n">push</span><span class="p">(</span><span class="n">u</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">                <span class="n">d</span><span class="p">[</span><span class="n">u</span><span class="p">]</span> <span class="o">=</span> <span class="n">d</span><span class="p">[</span><span class="n">v</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">                <span class="n">p</span><span class="p">[</span><span class="n">u</span><span class="p">]</span> <span class="o">=</span> <span class="n">v</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">            <span class="p">}</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span> 
+</span></span></code></pre></div><p>Теперь, чтобы восстановить кратчайший путь до какой-то вершины $v$, это можно сделать через массив <code>p</code>:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="k">while</span> <span class="p">(</span><span class="n">v</span> <span class="o">!=</span> <span class="n">s</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">v</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">v</span> <span class="o">=</span> <span class="n">p</span><span class="p">[</span><span class="n">v</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p>Обратим внимание, что путь выведется в обратном порядке.</p>
+<span class='anchor' id="в-неявных-графах"></span>
+<h3><a class="anchor-link" href="https://ru.algorithmica.org/cs/shortest-paths/bfs/#%d0%b2-%d0%bd%d0%b5%d1%8f%d0%b2%d0%bd%d1%8b%d1%85-%d0%b3%d1%80%d0%b0%d1%84%d0%b0%d1%85">#</a>В неявных графах</h3><p>Поиск в ширину часто применяется для поиска кратчайшего пути в неявно заданных графах.</p>
+<p>В качестве конкретного примера, пусть у нас есть булева матрица размера $n \times n$, в которой помечено, свободна ли клетка с координатами $(x, y)$, и требуется найти кратчайший путь от $(x_s, y_t)$ до $(x_y, y_t)$ при условии, что за один шаг можно перемещаться в свободную соседнюю по вертикали или горизонтали клетку.</p>
+<p><figure>
+  <img src="../img/maze.gif">
+  <figcaption>Поиск в ширину можно использовать для нахождения выхода из лабиринта</figcaption>
+</figure>
+</p>
+<p>Можно сконвертировать граф в явный формат: как-нибудь пронумеровать все ячейки (например по формуле $x \cdot n + y$) и для каждой посмотреть на всех её соседей, добавляя ребро в $(x \pm 1, y \pm 1)$, если соответствующая клетка свободна.</p>
+<p>Такой подход будет работать за оптимальное линейное время, однако с точки зрения реализации проще адаптировать не входные данные, а сам алгоритм обхода в глубину:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="kt">bool</span> <span class="n">a</span><span class="p">[</span><span class="n">N</span><span class="p">][</span><span class="n">N</span><span class="p">];</span> <span class="c1">// свободна ли клетка (x, y)
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kt">int</span> <span class="n">d</span><span class="p">[</span><span class="n">N</span><span class="p">][</span><span class="n">N</span><span class="p">];</span>  <span class="c1">// кратчайшее расстояние до (x, y)
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl"><span class="c1">// чтобы немного упростить код
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">struct</span> <span class="nc">cell</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">int</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">};</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kt">void</span> <span class="nf">bfs</span><span class="p">(</span><span class="n">cell</span> <span class="n">s</span><span class="p">,</span> <span class="n">cell</span> <span class="n">t</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">queue</span><span class="o">&lt;</span><span class="n">cell</span><span class="o">&gt;</span> <span class="n">q</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">q</span><span class="p">.</span><span class="n">push</span><span class="p">(</span><span class="n">s</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">memset</span><span class="p">(</span><span class="n">d</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="k">sizeof</span> <span class="n">d</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">d</span><span class="p">[</span><span class="n">s</span><span class="p">.</span><span class="n">x</span><span class="p">][</span><span class="n">x</span><span class="p">.</span><span class="n">y</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">while</span> <span class="p">(</span><span class="o">!</span><span class="n">q</span><span class="p">.</span><span class="n">empty</span><span class="p">())</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">auto</span> <span class="p">[</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">]</span> <span class="o">=</span> <span class="n">q</span><span class="p">.</span><span class="n">front</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">        <span class="n">q</span><span class="p">.</span><span class="n">pop</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">// просматриваем всех соседей
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="k">for</span> <span class="p">(</span><span class="k">auto</span> <span class="p">[</span><span class="n">dx</span><span class="p">,</span> <span class="n">dy</span><span class="p">]</span> <span class="o">:</span> <span class="p">{{</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">},</span> <span class="p">{</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">},</span> <span class="p">{</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">},</span> <span class="p">{</span><span class="mi">0</span><span class="p">,</span> <span class="o">+</span><span class="mi">1</span><span class="p">}})</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="c1">// считаем координаты соседа
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>            <span class="kt">int</span> <span class="n">_x</span> <span class="o">=</span> <span class="n">x</span> <span class="o">+</span> <span class="n">dx</span><span class="p">,</span> <span class="n">_y</span> <span class="o">=</span> <span class="n">y</span> <span class="o">+</span> <span class="n">dy</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">            <span class="c1">// и проверяем, что он свободен и не был посещен ранее
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>            <span class="k">if</span> <span class="p">(</span><span class="n">a</span><span class="p">[</span><span class="n">_x</span><span class="p">][</span><span class="n">_y</span><span class="p">]</span> <span class="o">&amp;&amp;</span> <span class="n">d</span><span class="p">[</span><span class="n">_x</span><span class="p">][</span><span class="n">_y</span><span class="p">]</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                <span class="n">d</span><span class="p">[</span><span class="n">_x</span><span class="p">][</span><span class="n">_y</span><span class="p">]</span> <span class="o">=</span> <span class="n">d</span><span class="p">[</span><span class="n">x</span><span class="p">][</span><span class="n">y</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">                <span class="n">q</span><span class="p">.</span><span class="n">push_back</span><span class="p">({</span><span class="n">_x</span><span class="p">,</span> <span class="n">_y</span><span class="p">});</span>
+</span></span><span class="line"><span class="cl">            <span class="p">}</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span> 
+</span></span></code></pre></div><p>Перед запуском <code>bfs</code> следует убедиться, что не произойдет выход за пределы границ. Вместо того, чтобы добавлять проверки на <code>_x &lt; 0 || x &gt;= n</code> и т. п. при просмотре возможных соседей, удобно сделать следующий трюк: изначально создать матрицу <code>a</code> с размерностями на 2 больше, чем нужно, и на этапе чтения данных заполнять её в индексации не с нуля, а с единицы. Тогда границы матрицы всегда будут заполнены нулями (то есть помечены непроходимыми) и алгоритм никогда в них не зайдет.</p>
+<span class='anchor' id="применения-и-обобщения"></span>
+<h2><a class="anchor-link" href="https://ru.algorithmica.org/cs/shortest-paths/bfs/#%d0%bf%d1%80%d0%b8%d0%bc%d0%b5%d0%bd%d0%b5%d0%bd%d0%b8%d1%8f-%d0%b8-%d0%be%d0%b1%d0%be%d0%b1%d1%89%d0%b5%d0%bd%d0%b8%d1%8f">#</a>Применения и обобщения</h2><p>Помимо нахождения расстояний в невзвешенном графе, обход в ширину можно использовать для многих задач, в которых работает обход в глубину, например для поиска <a href="/cs/graph-traversals/connectivity">компонент связности</a> или <a href="/cs/graph-traversals/bipartite">проверки на двудольность</a>.</p>
+<p><strong>Множественный BFS.</strong> Добавив в очередь изначально не одну, а несколько вершин, мы найдем для каждой вершины кратчайшее расстояние до одной из них.</p>
+<p>Это полезно для задач, в которых нужно моделировать пожар, наводнение, извержение вулкана или подобные явления, в которых источник «волны» не один. Также так можно чуть быстрее находить кратчайший путь для конкретной пары вершин, запустив параллельно два обхода от каждой и остановив в тот момент, когда они встретятся.</p>
+<p><strong>Игры.</strong> С помощью BFS можно найти решение какой-либо задачи / игры за наименьшее число ходов, если каждое состояние системы можно представить вершиной графа, а переходы из одного состояния в другое — рёбрами графа.</p>
+<p>В качестве (нетривиального) примера: собрать кубик Рубика за наименьшее число ходов.</p>
+<p><strong>Кратчайшие циклы.</strong> Чтобы найти кратчайший цикл в ориентированном невзвешенном графе, можно произвести поиск в ширину из каждой вершины. Как только в процессе обхода мы пытаемся пойти из текущей вершины по какому-то ребру в уже посещённую вершину, то это означает, что мы нашли кратчайший цикл для данной вершины, и останавливаем обход. Среди всех таких найденных циклов (по одному от каждого запуска обхода) выбираем кратчайший.</p>
+<p>Такой алгоритм будет работать за $O(n^2)$: худшим случаем будет один большой цикл, в котором мы для каждой вершины пройдемся по всем остальным.</p>
+<p><strong>Ребра на кратчайшем пути.</strong> Мы можем за линейное время найти все рёбра, лежащие на <em>каком-либо</em> кратчайшем пути между заданной парой вершин $a$ и $b$. Для этого нужно запустить два поиска в ширину: из $a$ и из $b$.</p>
+<p>Обозначим через $d_a$ и $d_b$ массивы кратчайших расстояний, получившиеся в результате этих обходов. Тогда каждое ребро $(u,v)$ можно проверить критерием</p>
+
+      
+    
+  
+
+  
+    $$
+    
+d_a[u] + d_b[v] + 1 = d_a[b]
+
+    $$
+  
+
+  
+    
+    
+      
+        <p>Альтернативно, можно запустить один обход из $a$, и когда он дойдет до $b$, начать рекурсивно проходиться по всем обратным ребрам, ведущим в более близкие к $a$ вершины (то есть те, для которых $d[u] = d[v] - 1$), отдельно помечая их.</p>
+<p>Аналогично можно найти все вершины на каком-либо кратчайшем пути.</p>
+<p><strong>0-1 BFS.</strong> Если веса некоторых ребер могут быть нулевыми, то кратчайшие пути искать не сильно сложнее.</p>
+<p>Ключевое наблюдение: если от вершины $a$ до вершины $b$ можно дойти по пути, состоящему из нулевых рёбер, то кратчайшие расстояния от вершины $s$ до этих вершин совпадают.</p>
+<p>Если в нашем графе оставить только $0$-рёбра, то он распадётся на компоненты связности, в каждой из которых ответ одинаковый. Если теперь вернуть единичные рёбра и сказать, что эти рёбра соединяют не вершины, а компоненты связности, то мы сведём задачу к обычному BFS.</p>
+<p>Получается, запустив обход, мы можем при обработке вершины $v$, у которой есть нулевые ребра в непосещенные вершины, сразу пройтись по ним и добавить все вершины нулевой компоненты, проставив им такое же расстояние, как и у $v$.</p>
+<p>Это можно сделать и напрямую, запустив BFS внутри BFS, однако можно заметить, что достаточно при посещении вершины просто добавлять всех её непосещенных соседей по нулевым ребрам в <em>голову</em> очереди, чтобы обработать их раньше, чем те, которые там уже есть. Это легко сделать, если очередь заменить деком:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">d</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">d</span><span class="p">[</span><span class="n">s</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">deque</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">q</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="n">q</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="n">s</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">while</span> <span class="p">(</span><span class="o">!</span><span class="n">q</span><span class="p">.</span><span class="n">empty</span><span class="p">())</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">int</span> <span class="n">v</span> <span class="o">=</span> <span class="n">q</span><span class="p">.</span><span class="n">front</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">    <span class="n">q</span><span class="p">.</span><span class="n">pop_front</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">    <span class="k">for</span> <span class="p">(</span><span class="k">auto</span> <span class="p">[</span><span class="n">u</span><span class="p">,</span> <span class="n">w</span><span class="p">]</span> <span class="o">:</span> <span class="n">g</span><span class="p">[</span><span class="n">v</span><span class="p">])</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="p">(</span><span class="n">d</span><span class="p">[</span><span class="n">u</span><span class="p">]</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">d</span><span class="p">[</span><span class="n">u</span><span class="p">]</span> <span class="o">=</span> <span class="n">d</span><span class="p">[</span><span class="n">v</span><span class="p">]</span> <span class="o">+</span> <span class="n">w</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">            <span class="k">if</span> <span class="p">(</span><span class="n">w</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">                <span class="n">q</span><span class="p">.</span><span class="n">push_front</span><span class="p">(</span><span class="n">u</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">            <span class="k">else</span>
+</span></span><span class="line"><span class="cl">                <span class="n">q</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="n">u</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p>Также вместо дека можно завести две очереди: одну для нулевых ребер, а другую для единичных, в внутри цикла <code>while</code> сначала просматривать первую, а только потом, когда она станет пустой, вторую. Этот подход уже можно обобщить.</p>
+<p><strong>1-k BFS.</strong> Теперь веса рёбер принимают значения от $1$ до некоторого небольшого $k$, и всё так же требуется найти кратчайшие расстояния от вершины $s$, но уже в плане суммарного веса.</p>
+<p><em>Наблюдение:</em> максимальное кратчайшее расстояние в графе равно $(n - 1) \cdot k$.</p>
+<p>Заведём для каждого расстояния $d$ очередь $q_d$, в которой будут храниться вершины, находящиеся на расстоянии $d$ от $s$ — плюс, возможно, некоторые вершины, до которых мы уже нашли путь длины $d$ от $s$, но для которых возможно существует более короткий путь. Нам потребуется $O((n - 1) \cdot k)$ очередей.</p>
+<p>Положим изначально вершину $s$ в $q_0$, а дальше будем брать вершину из наименьшего непустого списка и класть всех её непосещенных соседей в очередь с номером $d_v + w$ и релаксировать $d_u$, не забывая при этом, что кратчайшее расстояние до неё на самом деле может быть и меньше.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="kt">int</span> <span class="n">d</span><span class="p">[</span><span class="n">maxn</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl"><span class="n">d</span><span class="p">[</span><span class="n">s</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">queue</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">q</span><span class="p">[</span><span class="n">maxd</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl"><span class="n">q</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">push_back</span><span class="p">(</span><span class="n">s</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">dist</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">dist</span> <span class="o">&lt;</span> <span class="n">maxd</span><span class="p">;</span> <span class="n">dist</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">while</span> <span class="p">(</span><span class="o">!</span><span class="n">q</span><span class="p">[</span><span class="n">dist</span><span class="p">].</span><span class="n">empty</span><span class="p">())</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="kt">int</span> <span class="n">v</span> <span class="o">=</span> <span class="n">q</span><span class="p">[</span><span class="n">dist</span><span class="p">].</span><span class="n">front</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">        <span class="n">q</span><span class="p">[</span><span class="n">dist</span><span class="p">].</span><span class="n">pop</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">// если расстояние меньше и мы уже рассмотрели эту вершину,
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="c1">// но она всё ещё лежит в более верхней очереди
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="k">if</span> <span class="p">(</span><span class="n">d</span><span class="p">[</span><span class="n">v</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">dist</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">            <span class="k">continue</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">for</span> <span class="p">(</span><span class="k">auto</span> <span class="p">[</span><span class="n">u</span><span class="p">,</span> <span class="n">w</span><span class="p">]</span> <span class="o">:</span> <span class="n">g</span><span class="p">[</span><span class="n">v</span><span class="p">])</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="k">if</span> <span class="p">(</span><span class="n">d</span><span class="p">[</span><span class="n">u</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">d</span><span class="p">[</span><span class="n">v</span><span class="p">]</span> <span class="o">+</span> <span class="n">w</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                <span class="n">d</span><span class="p">[</span><span class="n">u</span><span class="p">]</span> <span class="o">=</span> <span class="n">d</span><span class="p">[</span><span class="n">v</span><span class="p">]</span> <span class="o">+</span> <span class="n">w</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">                <span class="n">q</span><span class="p">[</span><span class="n">d</span><span class="p">[</span><span class="n">u</span><span class="p">]].</span><span class="n">push</span><span class="p">(</span><span class="n">u</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">            <span class="p">}</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p>Сложность такого алгоритма будет $O(k n + m)$, поскольку каждую вершину мы можем прорелаксировать и добавить в другую очередь не более $k$ раз, а просматривать рёбра, исходящие из вершины мы будем только когда обработаем эту вершину в самый первый раз.</p>
+<p>На самом деле, нам так много списков не нужно. Если каждое ребро имеет вес не более $k$, то в любой момент времени не более $k$ очередей будут непустыми. Мы можем завести только $k$ списков, и вместо добавления в $(d_v + w)$-ый список использовать $(d_v+w) \bmod k$.</p>
+<p>Заметим, что алгоритм также работает когда есть общее ограничение на длину пути, а не только на вес каждого ребра. Для более общего случая, когда веса ребер могут быть любыми неотрицательными, есть <a href="../dijkstra">алгоритм Дейкстры</a>, который мы разберем в следующей статье.</p>
+
+      
+    
+  
+
+
+
+        </article>
+        <div class='nextprev'>
+  
+    
+      
+      
+
+      
+      
+      
+        
+      
+        
+          
+        
+      
+        
+      
+
+      
+        <div class='left'>
+        
+          <a href='https://ru.algorithmica.org/cs/shortest-paths/acyclic-paths/' id='prev-article'>← Пути в ациклических графах</a>
+        
+        </div>
+        <div class='right'>
+        
+          <a href='https://ru.algorithmica.org/cs/shortest-paths/dijkstra/' id='next-article'>Алгоритм Дейкстры →</a>
+        
+        </div>
+      
+    
+  
+</div>
+
+      </main>
+      <footer>
+  Copyleft 2017–2022 Algorithmica.org
+  <br>
+  Материалы распространяются под <a href='https://tldrlegal.com/license/creative-commons-attribution-sharealike-4.0-international-(cc-by-sa-4.0)'>CC BY-SA</a>
+</footer>
+
+    </div>
+  </body>
+</html>

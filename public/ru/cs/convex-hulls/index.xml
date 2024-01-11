@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Выпуклые оболочки on Алгоритмика</title>
+    <link>https://ru.algorithmica.org/cs/convex-hulls/</link>
+    <description>Recent content in Выпуклые оболочки on Алгоритмика</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>ru-ru</language>
+    <lastBuildDate>Fri, 27 Aug 2021 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://ru.algorithmica.org/cs/convex-hulls/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Применения выпуклых оболочек</title>
+      <link>https://ru.algorithmica.org/cs/convex-hulls/hull-applications/</link>
+      <pubDate>Fri, 27 Aug 2021 00:00:00 +0000</pubDate>
+      <guid>https://ru.algorithmica.org/cs/convex-hulls/hull-applications/</guid>
+      <description>Перед тем, как научиться строить выпуклые оболочки, разберем несколько задач, которые можно решать с их помощью.&#xA;В этой статье сильно недостает иллюстраций, но мы надеемся на ваше воображение.&#xA;#Локализация точкиПусть у нас есть выпуклый многоугольник $A_0 A_1 A_2 \ldots A_n$ и поступают запросы определить, находится ли точка $P$ внутри него.&#xA;Рассмотрим его триангуляцию на треугольники $\Delta A_0 A_1 A_2, \Delta A_0 A_2 A_3, \ldots, \Delta A_0 A_{n-1} A_n$ и решим чуть более сложную задачу: определить, к в каком их треугольников она лежит (если она вообще лежит внутри многоугольника).</description>
+    </item>
+    <item>
+      <title>Алгоритм Джарвиса</title>
+      <link>https://ru.algorithmica.org/cs/convex-hulls/jarvis/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://ru.algorithmica.org/cs/convex-hulls/jarvis/</guid>
+      <description>Одним из самых простых алгоритмов построения выпуклой оболочки является алгоритм Джарвиса.&#xA;Выберем какую-нибудь точку $p_0$, которая гарантированно попадёт в выпуклую оболочку. Например, нижнюю, а если таких несколько, то самую левую из них.&#xA;Дальше будем действовать так: найдём самую «правую» точку от последней добавленной (то есть точку с минимальным полярным углом относительно неё) и добавим её в оболочку. Будем так итеративно добавлять точки, пока не «замкнёмся», то есть пока самой правой точкой не станет $p_0$.</description>
+    </item>
+    <item>
+      <title>Алгоритм Грэхэма</title>
+      <link>https://ru.algorithmica.org/cs/convex-hulls/graham/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://ru.algorithmica.org/cs/convex-hulls/graham/</guid>
+      <description>Алгоритм Грэхэма — это оптимизация алгоритма Джарвиса, основанная на следующем наблюдении: если отсортировать все точки по полярному углу относительно точки $p_0$, то выпуклая оболочка будет какой-то подпоследовательностью такого отсортированного массива точек.&#xA;Алгоритм последовательно строит выпуклые оболочки для каждого префикса этого отсортированного массива. Можно заметить, что при добавлении $i$-й точки в оболочку нужно лишь удалить сколько-то последних добавленных точек, которые не будут входить в новую оболочку, а именно тех, которые «покрываются» новой точкой и своей предыдущей.</description>
+    </item>
+    <item>
+      <title>Алгоритм Чана</title>
+      <link>https://ru.algorithmica.org/cs/convex-hulls/chan/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://ru.algorithmica.org/cs/convex-hulls/chan/</guid>
+      <description>Как уже упоминалось ранее, иногда существенную роль играет то, что алгоритм Джарвиса работает за $O(nh)$, а не $O(n^2)$: когда известно, что оболочка небольшая, он лучше алгоритма Грэхэма за $O(n \log n)$.&#xA;Алгоритм Чана пытается получить лучшее из двух и объединить алгоритмы Джарвиса и Грэхэма, чтобы получить асимптотику $O(n \log h)$.&#xA;Алгоритм. Разделим все точки на группы по $m$ точек. В каждой группе построим выпуклую оболочку за $O(m \log m)$ алгоритмом Грэхэма.</description>
+    </item>
+    <item>
+      <title>Верхние и нижние огибающие</title>
+      <link>https://ru.algorithmica.org/cs/convex-hulls/envelope/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://ru.algorithmica.org/cs/convex-hulls/envelope/</guid>
+      <description>Для большого количества применений нам на самом деле нужны не выпуклые оболочки, а только их половины (правые и левые или верхние и нижние), которые называют огибающими (англ. envelope).&#xA;Огибающие строить немного проще: можно отсортировать точки по $x$ и пройтись по ним в таком порядке, поддерживая на стеке верхнюю огибающую для текущего префикса. При добавлении очередной точки нам нужно аналогичным образом проверить и удалить сколько-то верхних точек на стеке:&#xA;vector&amp;lt;r&amp;gt; upper_envelope(vector&amp;lt;r&amp;gt; points) { sort(points.</description>
+    </item>
+  </channel>
+</rss>

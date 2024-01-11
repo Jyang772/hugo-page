@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Вычислительная сложность on Алгоритмика</title>
+    <link>https://ru.algorithmica.org/cs/complexity/</link>
+    <description>Recent content in Вычислительная сложность on Алгоритмика</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>ru-ru</language>
+    <atom:link href="https://ru.algorithmica.org/cs/complexity/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Асимптотический анализ</title>
+      <link>https://ru.algorithmica.org/cs/complexity/asymptotic/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://ru.algorithmica.org/cs/complexity/asymptotic/</guid>
+      <description>Часто бывает полезно оценить, сколько времени работает алгоритм. Конечно, можно его просто реализовать и запустить, но тут возникают проблемы:&#xA;На разных компьютерах время работы всегда будет отличаться. Не всегда заранее доступны именно те данные, на которых он в реальности будет запускаться. Иногда приходится оценивать алгоритмы, требующие часы или даже дни работы. Жизнь коротка, и если есть несколько вариантов алгоритмов, то хочется заранее предсказать, какой из них будет быстрее, чтобы реализовывать только его.</description>
+    </item>
+    <item>
+      <title>Мастер-теорема</title>
+      <link>https://ru.algorithmica.org/cs/complexity/master-theorem/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://ru.algorithmica.org/cs/complexity/master-theorem/</guid>
+      <description>В этой статье мы докажем важную теорему об асимптотике большого класса «разделяек», в которых задача размера $n$ делится на $a$ задач в $b$ раз меньшего размера, с «мерджем» за $\Theta(n^c)$.&#xA;Мастер-теорема. Пусть имеется рекуррента:&#xA;$$ T(n) = \begin{cases} a T(\frac{n}{b}) + \Theta(n^c), &amp;amp; n &amp;gt; n_0 \ \Theta(1), &amp;amp; n \leq n_0 \end{cases} $$&#xA;Тогда:&#xA;A. Если $c &amp;gt; \log_b a$, то $T(n) = \Theta(n^c)$. B. Если $c = \log_b a$, то $T(n) = \Theta(n^c \log n)$.</description>
+    </item>
+  </channel>
+</rss>

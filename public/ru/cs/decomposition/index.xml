@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Декомпозиция задач on Алгоритмика</title>
+    <link>https://ru.algorithmica.org/cs/decomposition/</link>
+    <description>Recent content in Декомпозиция задач on Алгоритмика</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>ru-ru</language>
+    <lastBuildDate>Fri, 10 Sep 2021 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://ru.algorithmica.org/cs/decomposition/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Сканирующая прямая</title>
+      <link>https://ru.algorithmica.org/cs/decomposition/scanline/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://ru.algorithmica.org/cs/decomposition/scanline/</guid>
+      <description>Метод сканирующей прямой (англ. scanline) заключается в сортировке точек на координатной прямой либо каких-то абстрактных «событий» по какому-то признаку и последующему проходу по ним.&#xA;Он часто используется для решения задач на структуры данных, когда все запросы известны заранее, а также в геометрии для нахождения объединений фигур.&#xA;#Точка, покрытая наибольшим количеством отрезковЗадача. Дан набор из $n$ отрезков на прямой, заданных координатами начал и концов $[l_i, r_i]$. Требуется найти любую точку на прямой, покрытую наибольшим количеством отрезков.</description>
+    </item>
+    <item>
+      <title>Откатывание состояний</title>
+      <link>https://ru.algorithmica.org/cs/decomposition/rollback/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://ru.algorithmica.org/cs/decomposition/rollback/</guid>
+      <description>Иногда чтобы решить задачу полной персистентности от структуры не нужно, но нужно уметь хоть как-то откатываться до более ранних состояний.&#xA;В этой статье мы рассмотрим несколько общих подходов и их популярные применения.&#xA;#Корневая эвристика по запросамРассмотрим стандартную задачу: есть массив размера $n$, и требуется выполнять $q$ запросов прибавления на отрезке и суммы на отрезке. (Про существование дерева отрезков и прочих деревьев временно забудем.)&#xA;Если бы запросов обновления не было, мы бы решали эту задачу просто массивом префиксных сумм:</description>
+    </item>
+    <item>
+      <title>Корневые эвристики</title>
+      <link>https://ru.algorithmica.org/cs/decomposition/sqrt-heuristics/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://ru.algorithmica.org/cs/decomposition/sqrt-heuristics/</guid>
+      <description>Корневые эвристики — это обобщённое название различных методов и структур данных, опирающихся на тот факт, что если мы разделим какое-то множество из $n$ элементов на блоки по $\sqrt{n}$ элементов, то самих этих блоков будет не более $\sqrt{n}$.&#xA;Центральное равенство этой статьи: $\sqrt x = \frac{x}{\sqrt x}$.&#xA;#Деление на тяжелые и легкие объектыВсем известный алгоритм факторизации за корень опирается на тот факт, что каждому «большому» делителю $d \geq \sqrt n$ числа $n$ соответствует какой-то «маленький» делитель $\frac{n}{d} \leq n$.</description>
+    </item>
+    <item>
+      <title>Алгоритм Мо</title>
+      <link>https://ru.algorithmica.org/cs/decomposition/mo/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://ru.algorithmica.org/cs/decomposition/mo/</guid>
+      <description>Алгоритм Мо (кит. 莫隊算法) вероятно не был открыт, но точно был популяризован китайским спортивным программистом Мо Тао (莫涛) и его сокомандниками в конце нулевых годов.&#xA;Он позволяет в оффлайн отвечать на самые разные запросы на подотрезках, которые часто невозможно решить даже самыми продвинутыми структурами данных.&#xA;Для примера рассмотрим такую задачу: дан массив размера $n$ целых чисел от $1$ до $n$, и требуется отвечать на $q$ заранее известных запросов «количество различных чисел на отрезке $[l_i, r_i]$».</description>
+    </item>
+    <item>
+      <title>Meet-in-the-middle</title>
+      <link>https://ru.algorithmica.org/cs/decomposition/mitm/</link>
+      <pubDate>Fri, 10 Sep 2021 00:00:00 +0000</pubDate>
+      <guid>https://ru.algorithmica.org/cs/decomposition/mitm/</guid>
+      <description>Рассмотрим какую-нибудь задачу на перебор подмножеств, которую мы умеем решать за $O(2^n \cdot poly(n))$, где $poly(n)$ — какой-то полином от размера задачи $n$. Метод meet-in-the-middle (дословно, «встреча в середине») позволяет соптимизировать перебор до $O(2^{n/2} \cdot poly(n))$ в большом классе таких задач.&#xA;В качестве конкретного примера, рассмотрим задачу о рюкзаке — нужно выбрать подмножество $a_i$ с суммарным весом $w$:&#xA;bool find_subset(int *a, int n, int w) for (int mask = 0; mask &amp;lt; (1 &amp;lt;&amp;lt; n); mask++) { int s = 0; for (int i = 0; i &amp;lt; n; i++) if (mask &amp;gt;&amp;gt; i &amp;amp; 1) s += a[i]; if (s == w) return true; } return false; } Здесь мы перебираем все подмножества и каждое проверяем за $O(n)$, что дает асимптотику $O(2^n \cdot n)$.</description>
+    </item>
+  </channel>
+</rss>

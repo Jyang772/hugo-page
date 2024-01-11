@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Хеширование on Алгоритмика</title>
+    <link>https://ru.algorithmica.org/cs/hashing/</link>
+    <description>Recent content in Хеширование on Алгоритмика</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>ru-ru</language>
+    <lastBuildDate>Wed, 25 Aug 2021 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://ru.algorithmica.org/cs/hashing/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Полиномиальное хеширование</title>
+      <link>https://ru.algorithmica.org/cs/hashing/polynomial/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://ru.algorithmica.org/cs/hashing/polynomial/</guid>
+      <description>Лайфхак: пока вы не выучили все детерминированные строковые алгоритмы, научитесь пользоваться хешами.&#xA;Будем считать, что строка — это последовательность чисел от $1$ до $m$ (размер алфавита). В C/C++ тип char это на самом деле тоже число (8-битное), поэтому можно вычитать из символов минимальный код и кастовать в число:&#xA;int x = (int) (c - &amp;#39;a&amp;#39; + 1); Определим прямой полиномиальный хеш строки как значение следующего многочлена:&#xA;$$ h_f = (s_0 + s_1 k + s_2 k^2 + \ldots + s_n k^n) \bmod p $$</description>
+    </item>
+    <item>
+      <title>Коллизии хешей</title>
+      <link>https://ru.algorithmica.org/cs/hashing/collision/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://ru.algorithmica.org/cs/hashing/collision/</guid>
+      <description>У алгоритмов, использующих хеширование, есть один неприятный недостаток: недетерминированность. Если мы сгенерируем бесконечное количество примеров, то когда-нибудь нам не повезет, и программа отработает неправильно. На CodeForces даже иногда случаются взломы решений, использующих хеширование — можно в оффлайне сгенерировать тест против конкретного решения. Есть даже гайды про то, как это делать.&#xA;Событие, когда два хеша совпали, а не должны, называется коллизией. Пусть мы решаем задачу определения количества различных подстрок — мы добавляем в set $O(n^2)$ различных случайных значений в промежутке $[0, m)$.</description>
+    </item>
+    <item>
+      <title>Проверки на изоморфизм</title>
+      <link>https://ru.algorithmica.org/cs/hashing/isomorphism/</link>
+      <pubDate>Wed, 25 Aug 2021 00:00:00 +0000</pubDate>
+      <guid>https://ru.algorithmica.org/cs/hashing/isomorphism/</guid>
+      <description>Абстрактно, изоморфизмом называют обратимое отображение (биекцию) между двумя множествами, наделенными какой-то структурой, с сохранением этой структуры.&#xA;Например, два графа называются изоморфными, если вершинам одного графа можно сопоставить вершины другого графа, так чтобы соединённым вершинам первого графа соответствовали соединённые вершины второго графа и наоборот. Иными словами, два графа изоморфны, если они «одинаковы» с точностью до переименования вершин.&#xA;Хороший общий способ выполнять проверки на изоморфизм — посчитать от них какую-то хеш-функцию, значение которой не изменяется от переименования объектов, и сравнить её значение.</description>
+    </item>
+  </channel>
+</rss>
