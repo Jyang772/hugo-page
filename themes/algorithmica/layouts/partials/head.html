@@ -52,7 +52,7 @@
 
       if (!index) {
         console.log("Fetching index")
-        const response = await fetch('/hugo-page/searchindex.json')
+        const response = await fetch('/searchindex.json')
         const pages = await response.json()
         index = lunr(function() {
           this.use(lunr.multiLanguage('en', 'ru'))
