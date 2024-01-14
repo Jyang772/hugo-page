@@ -1,33 +1,8 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
-  <channel>
-    <title>Дерево отрезков on Алгоритмика</title>
-    <link>https://ru.algorithmica.org/cs/segment-tree/</link>
-    <description>Recent content in Дерево отрезков on Алгоритмика</description>
-    <generator>Hugo -- gohugo.io</generator>
-    <language>ru-ru</language>
-    <lastBuildDate>Fri, 10 Sep 2021 00:00:00 +0000</lastBuildDate>
-    <atom:link href="https://ru.algorithmica.org/cs/segment-tree/index.xml" rel="self" type="application/rss+xml" />
-    <item>
-      <title>Дерево отрезков на указателях</title>
-      <link>https://ru.algorithmica.org/cs/segment-tree/pointers/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      <guid>https://ru.algorithmica.org/cs/segment-tree/pointers/</guid>
-      <description>В этой статье мы реализуем дерево отрезков для точечных изменений и суммы на отрезке. Наша первая реализация будет на указателях. Она не самая быстрая и компактная, но зато самая общая и понятная.&#xA;Замечание. Почти везде мы будем использовать полуинтервалы — обозначаемые как $[l, r)$ — вместо отрезков. Несмотря на контринтуитивность, это немного упростит код и вообще является хорошей практикой в программировании, подобно нумерации с нуля.&#xA;#Хранение в памятиКаждая вершина дерева отрезков будет структурой, которая содержит ссылки на детей, свои границы $[l, r)$ и дополнительную нужную для задачи информацию — в нашем случае, сумму на отрезке.</description>
-    </item>
-    <item>
-      <title>Отложенные операции</title>
-      <link>https://ru.algorithmica.org/cs/segment-tree/lazy-propagation/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      <guid>https://ru.algorithmica.org/cs/segment-tree/lazy-propagation/</guid>
-      <description>Рассмотрим такую модификацию задачи. Дан массив размера $n$, и требуется отвечать на запросы двух типов:&#xA;Заменить все значения на отрезке $[l, r)$ на $x$ (выполнить a[k] = x для всех $k$ от $l$ до $r$). Вывести сумму элементов $a_i$ на отрезке с $l$ по $r$. То есть теперь наш запрос обновления — это присвоение значения $x$ всем элементам некоторого отрезка $[l, r)$, а не только одному, и при этом мы всё ещё хотим обрабатывать оба запроса за $O(\log n)$.</description>
-    </item>
-    <item>
-      <title>Отложенное построение</title>
-      <link>https://ru.algorithmica.org/cs/segment-tree/lazy-initialization/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      <guid>https://ru.algorithmica.org/cs/segment-tree/lazy-initialization/</guid>
-      <description>Рассмотрим нашу любимую задачу суммы на подотрезках, но теперь все индексы лежат не в пределах $10^5$ или $10^6$, а до $10^9$ или даже $10^{18}$.&#xA;Все асимптотики нас по прежнему более-менее устраивают:&#xA;$$ \log_2 10^6 \approx 20 \ \log_2 10^9 \approx 30 \ \log_2 10^{18} \approx 60 $$&#xA;Единственная проблема — это этап построения, работающий за линейное от $n$ время и память.&#xA;Решить её можно отказавшись от явного создания всех вершин дерева в самом начале.</description>
-    </item>
-  </channel>
-</rss>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Дерево отрезков on Алгоритмика</title><link>https://ru.algorithmica.org/cs/segment-tree/</link><description>Recent content in Дерево отрезков on Алгоритмика</description><generator>Hugo -- gohugo.io</generator><language>ru-ru</language><lastBuildDate>Fri, 10 Sep 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://ru.algorithmica.org/cs/segment-tree/index.xml" rel="self" type="application/rss+xml"/><item><title>Дерево отрезков на указателях</title><link>https://ru.algorithmica.org/cs/segment-tree/pointers/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://ru.algorithmica.org/cs/segment-tree/pointers/</guid><description>В этой статье мы реализуем дерево отрезков для точечных изменений и суммы на отрезке. Наша первая реализация будет на указателях. Она не самая быстрая и компактная, но зато самая общая и понятная.
+Замечание. Почти везде мы будем использовать полуинтервалы — обозначаемые как $[l, r)$ — вместо отрезков. Несмотря на контринтуитивность, это немного упростит код и вообще является хорошей практикой в программировании, подобно нумерации с нуля.
+#Хранение в памятиКаждая вершина дерева отрезков будет структурой, которая содержит ссылки на детей, свои границы $[l, r)$ и дополнительную нужную для задачи информацию — в нашем случае, сумму на отрезке.</description></item><item><title>Отложенные операции</title><link>https://ru.algorithmica.org/cs/segment-tree/lazy-propagation/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://ru.algorithmica.org/cs/segment-tree/lazy-propagation/</guid><description>Рассмотрим такую модификацию задачи. Дан массив размера $n$, и требуется отвечать на запросы двух типов:
+Заменить все значения на отрезке $[l, r)$ на $x$ (выполнить a[k] = x для всех $k$ от $l$ до $r$). Вывести сумму элементов $a_i$ на отрезке с $l$ по $r$. То есть теперь наш запрос обновления — это присвоение значения $x$ всем элементам некоторого отрезка $[l, r)$, а не только одному, и при этом мы всё ещё хотим обрабатывать оба запроса за $O(\log n)$.</description></item><item><title>Отложенное построение</title><link>https://ru.algorithmica.org/cs/segment-tree/lazy-initialization/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://ru.algorithmica.org/cs/segment-tree/lazy-initialization/</guid><description>Рассмотрим нашу любимую задачу суммы на подотрезках, но теперь все индексы лежат не в пределах $10^5$ или $10^6$, а до $10^9$ или даже $10^{18}$.
+Все асимптотики нас по прежнему более-менее устраивают:
+$$ \log_2 10^6 \approx 20 \ \log_2 10^9 \approx 30 \ \log_2 10^{18} \approx 60 $$
+Единственная проблема — это этап построения, работающий за линейное от $n$ время и память.
+Решить её можно отказавшись от явного создания всех вершин дерева в самом начале.</description></item></channel></rss>

@@ -1,47 +1,13 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
-  <channel>
-    <title>Корневые деревья on Алгоритмика</title>
-    <link>https://ru.algorithmica.org/cs/trees/</link>
-    <description>Recent content in Корневые деревья on Алгоритмика</description>
-    <generator>Hugo -- gohugo.io</generator>
-    <language>ru-ru</language>
-    <lastBuildDate>Fri, 27 Aug 2021 00:00:00 +0000</lastBuildDate>
-    <atom:link href="https://ru.algorithmica.org/cs/trees/index.xml" rel="self" type="application/rss+xml" />
-    <item>
-      <title>Запросы на деревьях</title>
-      <link>https://ru.algorithmica.org/cs/trees/tree-queries/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      <guid>https://ru.algorithmica.org/cs/trees/tree-queries/</guid>
-      <description>В этой статье мы рассмотрим различные методы сведения задач на деревьях к задачам на отрезках, которые можно решать уже известными структурами данных.&#xA;Перед прочтением рекомендуется вспомнить свойства массивов $tin$ и $tout$, получаемых обходом в глубину.&#xA;#Запросы на поддеревьяхПервым важным свойством dfs является то, что $tin$-ы вершин любого поддеререва являются каким-то непрерывным отрезком.&#xA;Это свойство можно использовать для обработки разных запросов на поддеревьях, сводя их к запросам на подотрезках, которые уже можно решать стандартными методами — например, через дерево отрезков.</description>
-    </item>
-    <item>
-      <title>Связь задачи LCA и static RMQ</title>
-      <link>https://ru.algorithmica.org/cs/trees/lca-rmq/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      <guid>https://ru.algorithmica.org/cs/trees/lca-rmq/</guid>
-      <description>Для большого класса задач требуется решить следующую вспомогательную задачу.&#xA;Задача. Дано корневое дерево. Требуется отвечать на запросы нахождения наименьшего общего предка вершин $u_i$ и $v_i$, то есть вершины $w$, которая лежит на пути от корня до $u_i$, на пути от корня до $v_i$, и при этом самую глубокую (нижнюю) из всех таких.&#xA;По-английский эта задача называется least common ancestor — наименьший общий предок.&#xA;Вершина $i$ является LCA для вершин $k$ и $n$ Для лучшего понимания — медленно (за линейное время) наименьшего общего предка можно искать так:</description>
-    </item>
-    <item>
-      <title>Метод двоичных подъемов</title>
-      <link>https://ru.algorithmica.org/cs/trees/binary-lifting/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      <guid>https://ru.algorithmica.org/cs/trees/binary-lifting/</guid>
-      <description>В контексте решения задачи LCA и не только популярен следующий метод.&#xA;#ПредподсчетПредподсчитаем для каждой вершины её 1-го предка, 2-го предка, 4-го и так далее. Сохраним их в двумерном массиве up размера $n \times \lceil \log n \rceil$: в up[v][d] будет храниться предок вершины $v$ на расстоянии $2^d$, а если такой вершины не существует, то корень.&#xA;Такой препроцессинг можно выполнить за $O(n \log n)$, используя тот факт, что предок на расстоянии $2^{d+1}$ — это предок на расстоянии $2^d$ предка на расстоянии $2^d$:</description>
-    </item>
-    <item>
-      <title>Центроидная декомпозиция</title>
-      <link>https://ru.algorithmica.org/cs/trees/centroid/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      <guid>https://ru.algorithmica.org/cs/trees/centroid/</guid>
-      <description>Центроидная декомпозиция — обобщение метода «разделяй-и-властвуй» на деревья. Обычно её используют для решения двух типов задач: «сколько есть путей с такими-то свойствами» и «есть ли такое-то свойство у этого пути».&#xA;Иногда вместо неё можно написать heavy-light декомпозицию, что чуть сложнее, или метод переливаний, что чуть проще.&#xA;Определение. Центром или центроидом (англ. centroid) дерева будем называть вершину, при удалении которой размеры оставшихся компонент будут не более $\frac{n}{2}$.&#xA;Центроид всегда существует — это следует из алгоритма его поиска:</description>
-    </item>
-    <item>
-      <title>Heavy-light декомпозиция</title>
-      <link>https://ru.algorithmica.org/cs/trees/heavy-light/</link>
-      <pubDate>Fri, 27 Aug 2021 00:00:00 +0000</pubDate>
-      <guid>https://ru.algorithmica.org/cs/trees/heavy-light/</guid>
-      <description>Heavy-light декомпозиция — это мощный метод решения задач на запросы на путях, когда также есть запросы обновлений. Если запросов обновления нет, то лучше написать что-нибудь попроще.&#xA;Heavy-light декомпозицией корневого дерева называется результат следующего процесса: каждой вершины $v$ посмотрим на всех её непосредственных детей $u$, выберем среди них ребёнка $u_{max}$ с самым большим размером поддерева — если таких больше одного, то любого из них — и назовём ребро $(v, u_{max})$ тяжелым (англ.</description>
-    </item>
-  </channel>
-</rss>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Корневые деревья on Алгоритмика</title><link>https://ru.algorithmica.org/cs/trees/</link><description>Recent content in Корневые деревья on Алгоритмика</description><generator>Hugo -- gohugo.io</generator><language>ru-ru</language><lastBuildDate>Fri, 27 Aug 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://ru.algorithmica.org/cs/trees/index.xml" rel="self" type="application/rss+xml"/><item><title>Запросы на деревьях</title><link>https://ru.algorithmica.org/cs/trees/tree-queries/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://ru.algorithmica.org/cs/trees/tree-queries/</guid><description>В этой статье мы рассмотрим различные методы сведения задач на деревьях к задачам на отрезках, которые можно решать уже известными структурами данных.
+Перед прочтением рекомендуется вспомнить свойства массивов $tin$ и $tout$, получаемых обходом в глубину.
+#Запросы на поддеревьяхПервым важным свойством dfs является то, что $tin$-ы вершин любого поддеререва являются каким-то непрерывным отрезком.
+Это свойство можно использовать для обработки разных запросов на поддеревьях, сводя их к запросам на подотрезках, которые уже можно решать стандартными методами — например, через дерево отрезков.</description></item><item><title>Связь задачи LCA и static RMQ</title><link>https://ru.algorithmica.org/cs/trees/lca-rmq/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://ru.algorithmica.org/cs/trees/lca-rmq/</guid><description>Для большого класса задач требуется решить следующую вспомогательную задачу.
+Задача. Дано корневое дерево. Требуется отвечать на запросы нахождения наименьшего общего предка вершин $u_i$ и $v_i$, то есть вершины $w$, которая лежит на пути от корня до $u_i$, на пути от корня до $v_i$, и при этом самую глубокую (нижнюю) из всех таких.
+По-английский эта задача называется least common ancestor — наименьший общий предок.
+Вершина $i$ является LCA для вершин $k$ и $n$ Для лучшего понимания — медленно (за линейное время) наименьшего общего предка можно искать так:</description></item><item><title>Метод двоичных подъемов</title><link>https://ru.algorithmica.org/cs/trees/binary-lifting/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://ru.algorithmica.org/cs/trees/binary-lifting/</guid><description>В контексте решения задачи LCA и не только популярен следующий метод.
+#ПредподсчетПредподсчитаем для каждой вершины её 1-го предка, 2-го предка, 4-го и так далее. Сохраним их в двумерном массиве up размера $n \times \lceil \log n \rceil$: в up[v][d] будет храниться предок вершины $v$ на расстоянии $2^d$, а если такой вершины не существует, то корень.
+Такой препроцессинг можно выполнить за $O(n \log n)$, используя тот факт, что предок на расстоянии $2^{d+1}$ — это предок на расстоянии $2^d$ предка на расстоянии $2^d$:</description></item><item><title>Центроидная декомпозиция</title><link>https://ru.algorithmica.org/cs/trees/centroid/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://ru.algorithmica.org/cs/trees/centroid/</guid><description>Центроидная декомпозиция — обобщение метода «разделяй-и-властвуй» на деревья. Обычно её используют для решения двух типов задач: «сколько есть путей с такими-то свойствами» и «есть ли такое-то свойство у этого пути».
+Иногда вместо неё можно написать heavy-light декомпозицию, что чуть сложнее, или метод переливаний, что чуть проще.
+Определение. Центром или центроидом (англ. centroid) дерева будем называть вершину, при удалении которой размеры оставшихся компонент будут не более $\frac{n}{2}$.
+Центроид всегда существует — это следует из алгоритма его поиска:</description></item><item><title>Heavy-light декомпозиция</title><link>https://ru.algorithmica.org/cs/trees/heavy-light/</link><pubDate>Fri, 27 Aug 2021 00:00:00 +0000</pubDate><guid>https://ru.algorithmica.org/cs/trees/heavy-light/</guid><description>Heavy-light декомпозиция — это мощный метод решения задач на запросы на путях, когда также есть запросы обновлений. Если запросов обновления нет, то лучше написать что-нибудь попроще.
+Heavy-light декомпозицией корневого дерева называется результат следующего процесса: каждой вершины $v$ посмотрим на всех её непосредственных детей $u$, выберем среди них ребёнка $u_{max}$ с самым большим размером поддерева — если таких больше одного, то любого из них — и назовём ребро $(v, u_{max})$ тяжелым (англ.</description></item></channel></rss>

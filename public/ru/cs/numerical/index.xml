@@ -1,25 +1,5 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
-  <channel>
-    <title>Численные методы on Алгоритмика</title>
-    <link>https://ru.algorithmica.org/cs/numerical/</link>
-    <description>Recent content in Численные методы on Алгоритмика</description>
-    <generator>Hugo -- gohugo.io</generator>
-    <language>ru-ru</language>
-    <atom:link href="https://ru.algorithmica.org/cs/numerical/index.xml" rel="self" type="application/rss+xml" />
-    <item>
-      <title>Метод Ньютона</title>
-      <link>https://ru.algorithmica.org/cs/numerical/newton/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      <guid>https://ru.algorithmica.org/cs/numerical/newton/</guid>
-      <description>Метод Ньютона, также иногда называемый методом Ньютона-Рафсона, это простой и эффективный алгоритм для приближенного нахождения корней действительнозначных функций, то есть решения уравнений вида:&#xA;$$ f(x) = 0 $$&#xA;Единственные требования, накладываемые на функцию $f$ — что у неё есть хотя бы один корень и что она непрерывна и дифференцируема на интервале поиска.&#xA;#Описание алгоритмаАлгоритм начинает с какого-то изначального приближения $x_0$ и затем итеративно строит лучшее решение, строя касательную к графику в точке $x = x_i$ и присваивая в качестве следующего приближения $x_{i+1}$ координату пересечения касательной с осью $x$.</description>
-    </item>
-    <item>
-      <title>Методы Монте-Карло</title>
-      <link>https://ru.algorithmica.org/cs/numerical/monte-carlo/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      <guid>https://ru.algorithmica.org/cs/numerical/monte-carlo/</guid>
-      <description>Рандомизированные алгоритмы делятся на две категории, названные в честь известных игорных центров:&#xA;Алгоритмы Лас-Вегас гарантированно находят правильный ответ, но требуют недетерминированное количество времени для работы. Например, Quicksort является таким алгоритмом. Алгоритмы Монте-Карло требуют детерминированное время для работы, но с какой-то вероятностью могут дать неправильный ответ. Например, тестирование на простоту почти всегда подразумевает какую-то вероятность ошибки. В контексте численных методов, алгоритмы Монте-Карло часто используются для подсчета некоторых величин, где высокая точность не нужна.</description>
-    </item>
-  </channel>
-</rss>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Численные методы on Алгоритмика</title><link>https://ru.algorithmica.org/cs/numerical/</link><description>Recent content in Численные методы on Алгоритмика</description><generator>Hugo -- gohugo.io</generator><language>ru-ru</language><atom:link href="https://ru.algorithmica.org/cs/numerical/index.xml" rel="self" type="application/rss+xml"/><item><title>Метод Ньютона</title><link>https://ru.algorithmica.org/cs/numerical/newton/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://ru.algorithmica.org/cs/numerical/newton/</guid><description>Метод Ньютона, также иногда называемый методом Ньютона-Рафсона, это простой и эффективный алгоритм для приближенного нахождения корней действительнозначных функций, то есть решения уравнений вида:
+$$ f(x) = 0 $$
+Единственные требования, накладываемые на функцию $f$ — что у неё есть хотя бы один корень и что она непрерывна и дифференцируема на интервале поиска.
+#Описание алгоритмаАлгоритм начинает с какого-то изначального приближения $x_0$ и затем итеративно строит лучшее решение, строя касательную к графику в точке $x = x_i$ и присваивая в качестве следующего приближения $x_{i+1}$ координату пересечения касательной с осью $x$.</description></item><item><title>Методы Монте-Карло</title><link>https://ru.algorithmica.org/cs/numerical/monte-carlo/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://ru.algorithmica.org/cs/numerical/monte-carlo/</guid><description>Рандомизированные алгоритмы делятся на две категории, названные в честь известных игорных центров:
+Алгоритмы Лас-Вегас гарантированно находят правильный ответ, но требуют недетерминированное количество времени для работы. Например, Quicksort является таким алгоритмом. Алгоритмы Монте-Карло требуют детерминированное время для работы, но с какой-то вероятностью могут дать неправильный ответ. Например, тестирование на простоту почти всегда подразумевает какую-то вероятность ошибки. В контексте численных методов, алгоритмы Монте-Карло часто используются для подсчета некоторых величин, где высокая точность не нужна.</description></item></channel></rss>

@@ -1,18 +1,3 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
-  <channel>
-    <title>Потоки on Алгоритмика</title>
-    <link>https://ru.algorithmica.org/cs/flows/</link>
-    <description>Recent content in Потоки on Алгоритмика</description>
-    <generator>Hugo -- gohugo.io</generator>
-    <language>ru-ru</language>
-    <atom:link href="https://ru.algorithmica.org/cs/flows/index.xml" rel="self" type="application/rss+xml" />
-    <item>
-      <title>Поток минимальной стоимости</title>
-      <link>https://ru.algorithmica.org/cs/flows/mincost-maxflow/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      <guid>https://ru.algorithmica.org/cs/flows/mincost-maxflow/</guid>
-      <description>Рассмотрим ориентированный граф $G = (V, E)$ с истоком $s$ и стоком $t$, в котором у каждого ребра $(u, v)$ задана целая стоимость $w_{uv}$ и целая положительная пропускная способность $c_{uv}$. Требуется найти максимальный поток, стоимость которого минимальна:&#xA;$$ \sum_{(u, v) \in E} f_{uv} \to \max $$ $$ \sum_{(u, v) \in E} f_{uv} w_{uv} \to \min $$&#xA;Заметим, что рёбра отрицательной стоимости по условию возможны. Мы дополнительно предполагаем, что циклов отрицательного веса нет.</description>
-    </item>
-  </channel>
-</rss>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Потоки on Алгоритмика</title><link>https://ru.algorithmica.org/cs/flows/</link><description>Recent content in Потоки on Алгоритмика</description><generator>Hugo -- gohugo.io</generator><language>ru-ru</language><atom:link href="https://ru.algorithmica.org/cs/flows/index.xml" rel="self" type="application/rss+xml"/><item><title>Поток минимальной стоимости</title><link>https://ru.algorithmica.org/cs/flows/mincost-maxflow/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://ru.algorithmica.org/cs/flows/mincost-maxflow/</guid><description>Рассмотрим ориентированный граф $G = (V, E)$ с истоком $s$ и стоком $t$, в котором у каждого ребра $(u, v)$ задана целая стоимость $w_{uv}$ и целая положительная пропускная способность $c_{uv}$. Требуется найти максимальный поток, стоимость которого минимальна:
+$$ \sum_{(u, v) \in E} f_{uv} \to \max $$ $$ \sum_{(u, v) \in E} f_{uv} w_{uv} \to \min $$
+Заметим, что рёбра отрицательной стоимости по условию возможны. Мы дополнительно предполагаем, что циклов отрицательного веса нет.</description></item></channel></rss>
